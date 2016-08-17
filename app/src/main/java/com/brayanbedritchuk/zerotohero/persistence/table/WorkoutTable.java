@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.dao.table;
+package com.brayanbedritchuk.zerotohero.persistence.table;
 
 import com.brayanbedritchuk.zerotohero.base.BaseSQLiteTable;
 

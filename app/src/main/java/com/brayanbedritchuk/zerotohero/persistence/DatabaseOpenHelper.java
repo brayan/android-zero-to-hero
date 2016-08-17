@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.dao;
+package com.brayanbedritchuk.zerotohero.persistence;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -8,10 +8,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.workout_list.view.WorkoutListFragment;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final int WORKOUT_LIST_FRAGMENT_POSITION = 0;
+    private static final int EXERCISE_LIST_FRAGMENT_POSITION = 1;
 
     private ViewPager viewPager;
     private MainFragmentPagerAdapter pagerAdapter;
@@ -47,7 +52,17 @@ public class MainActivity extends AppCompatActivity {
         btNewWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int currentPosition = tab.getSelectedTabPosition();
 
+                switch (currentPosition) {
+                    case WORKOUT_LIST_FRAGMENT_POSITION:
+                        ((WorkoutListFragment) pagerAdapter.getRegisteredFragment(WORKOUT_LIST_FRAGMENT_POSITION)).onClickFab();
+                        return;
+
+                    case EXERCISE_LIST_FRAGMENT_POSITION:
+                        Toast.makeText(MainActivity.this, "Nothing yet", Toast.LENGTH_SHORT).show();
+                        return;
+                }
             }
         });
 

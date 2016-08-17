@@ -5,8 +5,8 @@
     <style name="Orange500" parent="AppThemeParent">
         <item name="colorPrimary">@color/orange_500</item>
         <item name="colorPrimaryDark">@color/orange_700</item>
-        <item name="colorAccent">@color/indigo_500</item>
-        <item name="actionModeBackground">@color/blue_500</item>
+        <item name="colorAccent">@color/indigo_a_200</item>
+        <item name="actionModeBackground">@color/orange_500</item>
     </style>
 
 

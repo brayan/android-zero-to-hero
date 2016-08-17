@@ -3,9 +3,9 @@ package com.brayanbedritchuk.zerotohero.helper.sqlite;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.brayanbedritchuk.zerotohero.base.BaseSQLiteTable;
-import com.brayanbedritchuk.zerotohero.dao.table.ExerciseTable;
-import com.brayanbedritchuk.zerotohero.dao.table.WorkoutExercise;
-import com.brayanbedritchuk.zerotohero.dao.table.WorkoutTable;
+import com.brayanbedritchuk.zerotohero.persistence.table.ExerciseTable;
+import com.brayanbedritchuk.zerotohero.persistence.table.WorkoutExercise;
+import com.brayanbedritchuk.zerotohero.persistence.table.WorkoutTable;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -112,4 +112,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
         this.presenter = presenter;
     }
 
+    public void onClickFab() {
+        getPresenter().onClickNewWorkout();
+    }
 }
