@@ -1,8 +1,8 @@
 <resources>
 
-    <style name="AppTheme" parent="Indigo500"></style>
+    <style name="AppTheme" parent="Orange500"></style>
 
-    <style name="Indigo500" parent="AppThemeParent">
+    <style name="Orange500" parent="AppThemeParent">
         <item name="colorPrimary">@color/orange_500</item>
         <item name="colorPrimaryDark">@color/orange_700</item>
         <item name="colorAccent">@color/indigo_500</item>
@@ -17,7 +17,7 @@
         <item name="windowActionModeOverlay">true</item>
     </style>
 
-    <style name="NavigationDrawerStyle" parent="Indigo500"></style>
+    <style name="NavigationDrawerStyle" parent="Orange500"></style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
