@@ -1,12 +1,14 @@
-package com.brayanbedritchuk.zerotohero.new_workout.presenter;
+package com.brayanbedritchuk.zerotohero.ui.workout_list.presenter;
 
 import android.content.Context;
 
-public interface NewWorkoutView {
+public interface WorkoutListView {
 
     Context getActivityContext();
 
     void updateContentViews();
 
     void showToast(String message);
+
+    void startNewWorkoutActivity();
 }

@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.main;
+package com.brayanbedritchuk.zerotohero.ui.main;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.workout_list.view.WorkoutListFragment;
+import com.brayanbedritchuk.zerotohero.ui.workout_list.view.WorkoutListFragment;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,16 +1,16 @@
-package com.brayanbedritchuk.zerotohero.new_workout.presenter;
+package com.brayanbedritchuk.zerotohero.ui.workout_list.presenter;
 
 import com.brayanbedritchuk.zerotohero.model.Workout;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewWorkoutViewModel {
+public class MainViewModel {
 
     private boolean firstSession = true;
     private final List<Workout> workoutList;
 
-    public NewWorkoutViewModel() {
+    public MainViewModel() {
         this.workoutList = new ArrayList<>();
     }
 

@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.new_workout.view;
+package com.brayanbedritchuk.zerotohero.ui.new_workout.view;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.new_workout.presenter.NewWorkoutPresenter;
-import com.brayanbedritchuk.zerotohero.new_workout.presenter.NewWorkoutView;
+import com.brayanbedritchuk.zerotohero.ui.new_workout.presenter.NewWorkoutPresenter;
+import com.brayanbedritchuk.zerotohero.ui.new_workout.presenter.NewWorkoutView;
 
 public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
 

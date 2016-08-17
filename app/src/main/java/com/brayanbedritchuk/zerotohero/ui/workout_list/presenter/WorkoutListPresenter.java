@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.new_workout.presenter;
+package com.brayanbedritchuk.zerotohero.ui.workout_list.presenter;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -8,14 +8,14 @@ import com.brayanbedritchuk.zerotohero.model.Workout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewWorkoutPresenter {
+public class WorkoutListPresenter {
 
-    private NewWorkoutView view;
-    private NewWorkoutViewModel viewModel;
+    private WorkoutListView view;
+    private MainViewModel viewModel;
 
-    public NewWorkoutPresenter(NewWorkoutView view) {
+    public WorkoutListPresenter(WorkoutListView view) {
         setView(view);
-        setViewModel(new NewWorkoutViewModel());
+        setViewModel(new MainViewModel());
     }
 
     public void onResume() {
@@ -32,7 +32,7 @@ public class NewWorkoutPresenter {
     }
 
     public void onClickNewWorkout() {
-        // TODO
+        getView().startNewWorkoutActivity();
     }
 
     class WorkoutsLoader extends AsyncTask<Void, Integer, Exception> {
@@ -79,19 +79,19 @@ public class NewWorkoutPresenter {
         }
     }
 
-    public NewWorkoutViewModel getViewModel() {
+    public MainViewModel getViewModel() {
         return viewModel;
     }
 
-    public void setViewModel(NewWorkoutViewModel viewModel) {
+    public void setViewModel(MainViewModel viewModel) {
         this.viewModel = viewModel;
     }
 
-    public NewWorkoutView getView() {
+    public WorkoutListView getView() {
         return view;
     }
 
-    public void setView(NewWorkoutView view) {
+    public void setView(WorkoutListView view) {
         this.view = view;
     }
 

@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.workout_list.view;
+package com.brayanbedritchuk.zerotohero.ui.workout_list.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.new_workout.view.NewWorkoutActivity;
-import com.brayanbedritchuk.zerotohero.workout_list.presenter.WorkoutListPresenter;
-import com.brayanbedritchuk.zerotohero.workout_list.presenter.WorkoutListView;
-import com.brayanbedritchuk.zerotohero.workout_list.view.adapter.WorkoutListAdapter;
+import com.brayanbedritchuk.zerotohero.ui.new_workout.view.NewWorkoutActivity;
+import com.brayanbedritchuk.zerotohero.ui.workout_list.presenter.WorkoutListView;
+import com.brayanbedritchuk.zerotohero.ui.workout_list.presenter.WorkoutListPresenter;
+import com.brayanbedritchuk.zerotohero.ui.workout_list.view.adapter.WorkoutListAdapter;
 
 public class WorkoutListFragment extends Fragment implements WorkoutListView {
 

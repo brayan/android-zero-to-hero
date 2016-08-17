@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.workout_list.view;
+package com.brayanbedritchuk.zerotohero.ui.workout_list.view;
 
 import android.os.Bundle;
 

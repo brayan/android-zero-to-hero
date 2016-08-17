@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.new_workout.view.adapter;
+package com.brayanbedritchuk.zerotohero.ui.new_workout.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
