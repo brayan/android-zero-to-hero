@@ -27,7 +27,7 @@
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
                 android:gravity="center_vertical"
-                android:text="Title"
+                android:text="@string/app_name"
                 android:textColor="@android:color/white"
                 android:textSize="20sp" />
 
@@ -38,8 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
-            app:tabIndicatorHeight="3dp"
-            app:tabIndicatorColor="#FFFFFF"
+            app:tabIndicatorColor="@color/blue_a_200"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed" />
 
@@ -53,7 +52,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fragment_workout_list__bt__new_workout"
+        android:id="@+id/activity_main_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
