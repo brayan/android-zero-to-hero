@@ -27,4 +27,16 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
+    @Override
+    public CharSequence getPageTitle(int position) {
+        if (position == 0) {
+            return "Workouts";
+        } else if (position == 1) {
+            return "Exercises";
+        } else {
+            return super.getPageTitle(position);
+        }
+
+
+    }
 }
