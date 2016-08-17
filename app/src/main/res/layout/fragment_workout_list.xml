@@ -16,8 +16,6 @@
 
     <include layout="@layout/empty_list_workouts"/>
 
-    <include layout="@layout/app_bar"/>
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fragment_workout_list__bt__new_workout"

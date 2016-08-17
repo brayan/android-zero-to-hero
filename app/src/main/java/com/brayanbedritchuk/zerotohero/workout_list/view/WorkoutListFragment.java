@@ -5,15 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
@@ -26,13 +23,9 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
 
     private WorkoutListPresenter presenter;
 
-    private Toolbar toolbar;
-
-    private TextView tvToolbarTitle;
     private FloatingActionButton btNewWorkout;
     private RecyclerView recyclerView;
     private WorkoutListAdapter adapter;
-
     private LinearLayout linlayEmptyList;
 
     @Override
@@ -63,7 +56,6 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
     private void initViews(View view) {
         inflateViews(view);
         initRecyclerView();
-        initToolbar();
         initFab();
     }
 
@@ -90,8 +82,6 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
     }
 
     private void inflateViews(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        tvToolbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_workout_list_recyclerview);
         btNewWorkout = (FloatingActionButton) view.findViewById(R.id.fragment_workout_list__bt__new_workout);
         linlayEmptyList = (LinearLayout) view.findViewById(R.id.empty_list_workouts);
@@ -103,20 +93,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
         recyclerView.setAdapter(adapter);
     }
 
-    private void initToolbar() {
-        initAppCompatActivity();
-        initToolbarTitle();
-    }
 
-    protected void initAppCompatActivity() {
-        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
-        appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-    }
-
-    private void initToolbarTitle() {
-        tvToolbarTitle.setText("Zero to Hero!");
-    }
 
     private void initFab() {
         btNewWorkout.setOnClickListener(new View.OnClickListener() {
