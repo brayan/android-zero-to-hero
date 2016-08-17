@@ -16,15 +16,4 @@
     <include layout="@layout/empty_list_workouts"/>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fragment_workout_list__bt__new_workout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        app:pressedTranslationZ="12dp"
-        app:backgroundTint="?attr/colorAccent"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/ic_add_white_48dp"/>
-
 </FrameLayout>

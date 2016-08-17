@@ -3,7 +3,6 @@ package com.brayanbedritchuk.zerotohero.workout_list.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +22,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
 
     private WorkoutListPresenter presenter;
 
-    private FloatingActionButton btNewWorkout;
+
     private RecyclerView recyclerView;
     private WorkoutListAdapter adapter;
     private LinearLayout linlayEmptyList;
@@ -56,7 +55,6 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
     private void initViews(View view) {
         inflateViews(view);
         initRecyclerView();
-        initFab();
     }
 
     @Override
@@ -83,7 +81,6 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
 
     private void inflateViews(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_workout_list_recyclerview);
-        btNewWorkout = (FloatingActionButton) view.findViewById(R.id.fragment_workout_list__bt__new_workout);
         linlayEmptyList = (LinearLayout) view.findViewById(R.id.empty_list_workouts);
     }
 
@@ -91,17 +88,6 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new WorkoutListAdapter(getPresenter().getWorkouts());
         recyclerView.setAdapter(adapter);
-    }
-
-
-
-    private void initFab() {
-        btNewWorkout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPresenter().onClickNewWorkout();
-            }
-        });
     }
 
     private void updateVisibilityOfViews() {

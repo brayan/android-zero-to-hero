@@ -1,10 +1,12 @@
 package com.brayanbedritchuk.zerotohero.main;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 
 import com.brayanbedritchuk.zerotohero.R;
@@ -19,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView tvToolbarTitle;
     private TabLayout tab;
 
+    private FloatingActionButton btNewWorkout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,23 +31,6 @@ public class MainActivity extends AppCompatActivity {
         tab = (TabLayout) findViewById(R.id.tabs);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.addOnPageChangeListener(
-                new ViewPager.OnPageChangeListener() {
-                    @Override
-                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                        // TODO
-                    }
-
-                    @Override
-                    public void onPageSelected(int position) {
-                        // TODO
-                    }
-
-                    @Override
-                    public void onPageScrollStateChanged(int state) {
-                        // TODO
-                    }
-                });
 
         pagerAdapter =
                 new MainFragmentPagerAdapter(
@@ -54,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tvToolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+
+        btNewWorkout = (FloatingActionButton) findViewById(R.id.fragment_workout_list__bt__new_workout);
+
+        btNewWorkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         initToolbar();
     }
