@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +26,7 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
     private TextView tvToolbarTitle;
     private RecyclerView recyclerView;
 
-    private LinearLayout linlayEmptyList;
+    private View linlayEmptyList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,7 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         tvToolbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_new_workout_list__recycler__exercises);
-        linlayEmptyList = (LinearLayout) view.findViewById(R.id.empty_list_workouts);
+        linlayEmptyList = view.findViewById(R.id.empty_list_workouts);
     }
 
     private void initRecyclerView() {

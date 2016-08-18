@@ -42,18 +42,18 @@ public class WorkoutListPresenter {
         protected Exception doInBackground(Void... urls) {
             try {
 //                this.beers = getBeerDAO().getWorkouts();
-//                Workout workout = new Workout();
-//                workout.setName("Monday Workout");
-//
-//                Workout workout2 = new Workout();
-//                workout2.setName("Wednesday Workout");
-//
-//                Workout workout3 = new Workout();
-//                workout3.setName("Friday Workout");
-//
-//                workoutList.add(workout);
-//                workoutList.add(workout2);
-//                workoutList.add(workout3);
+                Workout workout = new Workout();
+                workout.setName("Monday Workout");
+
+                Workout workout2 = new Workout();
+                workout2.setName("Wednesday Workout");
+
+                Workout workout3 = new Workout();
+                workout3.setName("Friday Workout");
+
+                workoutList.add(workout);
+                workoutList.add(workout2);
+                workoutList.add(workout3);
 
                 return null;
             } catch (Exception e) {
