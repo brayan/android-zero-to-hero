@@ -25,7 +25,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
 
     private RecyclerView recyclerView;
     private WorkoutListAdapter adapter;
-    private LinearLayout linlayEmptyList;
+    private View linlayEmptyList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,7 +81,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView {
 
     private void inflateViews(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_workout_list_recyclerview);
-        linlayEmptyList = (LinearLayout) view.findViewById(R.id.empty_list_workouts);
+        linlayEmptyList = view.findViewById(R.id.empty_list_workouts);
     }
 
     private void initRecyclerView() {

@@ -38,7 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
-            app:tabIndicatorColor="@color/blue_a_200"
+            app:tabIndicatorHeight="3dp"
+            app:tabIndicatorColor="#FFFFFF"
             app:tabMaxWidth="0dp"
             app:tabMode="fixed" />
 
