@@ -1,23 +1,22 @@
-package com.brayanbedritchuk.zerotohero.presenter;
+package com.brayanbedritchuk.zerotohero.view.new_workout.presenter;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.brayanbedritchuk.zerotohero.model.entity.Workout;
-import com.brayanbedritchuk.zerotohero.model.viewmodel.MainViewModel;
-import com.brayanbedritchuk.zerotohero.presenter.view.WorkoutListView;
+import com.brayanbedritchuk.zerotohero.model.viewmodel.NewWorkoutViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WorkoutListPresenter {
+public class NewWorkoutPresenter {
 
-    private WorkoutListView view;
-    private MainViewModel viewModel;
+    private NewWorkoutView view;
+    private NewWorkoutViewModel viewModel;
 
-    public WorkoutListPresenter(WorkoutListView view) {
+    public NewWorkoutPresenter(NewWorkoutView view) {
         setView(view);
-        setViewModel(new MainViewModel());
+        setViewModel(new NewWorkoutViewModel());
     }
 
     public void onResume() {
@@ -34,7 +33,7 @@ public class WorkoutListPresenter {
     }
 
     public void onClickNewWorkout() {
-        getView().startNewWorkoutActivity();
+        // TODO
     }
 
     class WorkoutsLoader extends AsyncTask<Void, Integer, Exception> {
@@ -81,19 +80,19 @@ public class WorkoutListPresenter {
         }
     }
 
-    public MainViewModel getViewModel() {
+    public NewWorkoutViewModel getViewModel() {
         return viewModel;
     }
 
-    public void setViewModel(MainViewModel viewModel) {
+    public void setViewModel(NewWorkoutViewModel viewModel) {
         this.viewModel = viewModel;
     }
 
-    public WorkoutListView getView() {
+    public NewWorkoutView getView() {
         return view;
     }
 
-    public void setView(WorkoutListView view) {
+    public void setView(NewWorkoutView view) {
         this.view = view;
     }
 

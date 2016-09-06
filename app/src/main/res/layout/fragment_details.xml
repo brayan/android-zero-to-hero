@@ -74,16 +74,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_marginTop="16dp"
-                        android:id="@+id/view_holder_beer__img_flag"
-                        android:layout_width="40dp"
-                        android:layout_height="24dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="8dp"
-                        tools:src="@drawable/brazil_flag"
-                        app:srcCompat="@drawable/brazil_flag" />
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

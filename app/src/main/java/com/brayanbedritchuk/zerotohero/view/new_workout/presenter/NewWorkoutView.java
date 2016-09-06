@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.presenter.view;
+package com.brayanbedritchuk.zerotohero.view.new_workout.presenter;
 
 import android.content.Context;
 

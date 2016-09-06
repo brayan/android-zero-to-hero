@@ -13,9 +13,9 @@ import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.view.new_workout.NewWorkoutActivity;
-import com.brayanbedritchuk.zerotohero.presenter.view.WorkoutListView;
-import com.brayanbedritchuk.zerotohero.presenter.WorkoutListPresenter;
 import com.brayanbedritchuk.zerotohero.view.workout_list.adapter.WorkoutListAdapter;
+import com.brayanbedritchuk.zerotohero.view.workout_list.presenter.WorkoutListPresenter;
+import com.brayanbedritchuk.zerotohero.view.workout_list.presenter.WorkoutListView;
 
 public class WorkoutListFragment extends Fragment implements WorkoutListView {
 
