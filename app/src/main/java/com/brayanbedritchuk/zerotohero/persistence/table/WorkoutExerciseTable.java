@@ -2,7 +2,7 @@ package com.brayanbedritchuk.zerotohero.persistence.table;
 
 import com.brayanbedritchuk.zerotohero.base.BaseSQLiteTable;
 
-public class WorkoutExercise extends BaseSQLiteTable {
+public class WorkoutExerciseTable extends BaseSQLiteTable {
 
     @Override
     public String getSqlCreateTable() {

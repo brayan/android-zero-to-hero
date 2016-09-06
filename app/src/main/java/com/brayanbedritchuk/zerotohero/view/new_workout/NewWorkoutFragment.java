@@ -26,7 +26,7 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
     private TextView tvToolbarTitle;
     private RecyclerView recyclerView;
 
-    private View linlayEmptyList;
+    private View emptyList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         tvToolbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_new_workout_list__recycler__exercises);
-        linlayEmptyList = view.findViewById(R.id.empty_list_workouts);
+        emptyList = view.findViewById(R.id.empty_list_workouts);
     }
 
     private void initRecyclerView() {
@@ -112,10 +112,10 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
 
         if (emptyList) {
             recyclerView.setVisibility(View.GONE);
-            linlayEmptyList.setVisibility(View.VISIBLE);
+            this.emptyList.setVisibility(View.VISIBLE);
 
         } else {
-            linlayEmptyList.setVisibility(View.GONE);
+            this.emptyList.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
 

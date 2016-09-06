@@ -4,7 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.brayanbedritchuk.zerotohero.base.BaseSQLiteTable;
 import com.brayanbedritchuk.zerotohero.persistence.table.ExerciseTable;
-import com.brayanbedritchuk.zerotohero.persistence.table.WorkoutExercise;
+import com.brayanbedritchuk.zerotohero.persistence.table.WorkoutExerciseTable;
 import com.brayanbedritchuk.zerotohero.persistence.table.WorkoutTable;
 
 import java.util.ArrayList;
@@ -36,7 +36,7 @@ public class CreateTablesHelper {
         this.tablesList = new ArrayList<>();
         this.tablesList.add(new WorkoutTable());
         this.tablesList.add(new ExerciseTable());
-        this.tablesList.add(new WorkoutExercise());
+        this.tablesList.add(new WorkoutExerciseTable());
     }
 
     public SQLiteDatabase getDatabase() {
