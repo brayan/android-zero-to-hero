@@ -14,9 +14,6 @@ import com.brayanbedritchuk.zerotohero.view.workout_list.WorkoutListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int WORKOUT_LIST_POSITION = 0;
-    private static final int EXERCISE_LIST_POSITION = 1;
-
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -26,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.act_main);
         initViews();
     }
 
@@ -50,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewPager() {
-        pagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager());
+        pagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
@@ -68,12 +65,12 @@ public class MainActivity extends AppCompatActivity {
 
         switch (getCurrentTabPosition()) {
 
-            case WORKOUT_LIST_POSITION: {
+            case MainFragmentPagerAdapter.WORKOUT_LIST_POSITION: {
                 getWorkoutListFragment().onClickFab();
                 return;
             }
 
-            case EXERCISE_LIST_POSITION: {
+            case MainFragmentPagerAdapter.EXERCISE_LIST_POSITION: {
                 Toast.makeText(MainActivity.this, "Nothing yet", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -81,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private WorkoutListFragment getWorkoutListFragment() {
-        return ((WorkoutListFragment) pagerAdapter.getRegisteredFragment(WORKOUT_LIST_POSITION));
+        int position = MainFragmentPagerAdapter.WORKOUT_LIST_POSITION;
+        return ((WorkoutListFragment) pagerAdapter.getRegisteredFragment(position));
     }
 
     private int getCurrentTabPosition() {

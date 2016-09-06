@@ -19,7 +19,7 @@ public class NewWorkoutExercicesAdapter extends RecyclerView.Adapter<ExercisesVi
     }
     @Override
     public ExercisesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflateLayout(parent, R.layout.view_holder_workout);
+        View view = inflateLayout(parent, R.layout.holder_workout);
         return new ExercisesViewHolder(view);
     }
 

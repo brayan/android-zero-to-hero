@@ -1,18 +1,18 @@
-package com.brayanbedritchuk.zerotohero.view.workout_list.adapter;
+package com.brayanbedritchuk.zerotohero.view.workout_details.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.model.entity.Workout;
+import com.brayanbedritchuk.zerotohero.model.entity.Exercise;
 
-public class WorkoutViewHolder extends RecyclerView.ViewHolder {
+public class ExercisesViewHolder extends RecyclerView.ViewHolder {
 
     private TextView tvName;
 //    private TextView tvStyle;
 
-    private WorkoutViewHolder.Callback callback;
+    private ExercisesViewHolder.Callback callback;
 
 
     public interface Callback {
@@ -20,7 +20,7 @@ public class WorkoutViewHolder extends RecyclerView.ViewHolder {
         void onClickWorkout(int position);
     }
 
-    public WorkoutViewHolder(View itemView, WorkoutViewHolder.Callback callback) {
+    public ExercisesViewHolder(View itemView, ExercisesViewHolder.Callback callback) {
         super(itemView);
         setCallback(callback);
         initViews(itemView);
@@ -33,12 +33,12 @@ public class WorkoutViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void initViews(View view) {
-        tvName = (TextView) view.findViewById(R.id.view_holder_workout__tv__name);
+        tvName = (TextView) view.findViewById(R.id.holder_exercise__tv__name);
 //        tvStyle = (TextView) view.findViewById(R.id.view_holder_workout__tv__info);
     }
 
-    public void bindData(Workout workout) {
-        tvName.setText(workout.getName());
+    public void bindData(Exercise exercise) {
+        tvName.setText(exercise.getName());
 //        tvStyle.setText(workout.getStyle());
     }
 

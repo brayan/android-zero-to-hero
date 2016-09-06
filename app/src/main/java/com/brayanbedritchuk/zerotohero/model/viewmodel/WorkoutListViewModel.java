@@ -5,12 +5,12 @@ import com.brayanbedritchuk.zerotohero.model.entity.Workout;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainViewModel {
+public class WorkoutListViewModel {
 
     private boolean firstSession = true;
     private final List<Workout> workoutList;
 
-    public MainViewModel() {
+    public WorkoutListViewModel() {
         this.workoutList = new ArrayList<>();
     }
 

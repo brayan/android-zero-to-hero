@@ -1,6 +1,8 @@
 package com.brayanbedritchuk.zerotohero.model.entity;
 
-public class Workout {
+import java.io.Serializable;
+
+public class Workout implements Serializable {
 
     private String name;
 

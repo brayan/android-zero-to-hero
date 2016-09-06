@@ -1,26 +1,30 @@
 package com.brayanbedritchuk.zerotohero.view.workout_list;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.base.BaseActivity;
 
-public class WorkoutListActivity extends BaseActivity {
-
-    private static final String TAG_WORKOUT_LIST_FRAGMENT = "TAG_WORKOUT_LIST_FRAGMENT";
+public class WorkoutListActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_frame);
-        initFragment();
+        setContentView(R.layout.act_frame);
+        verifyAndAddFragment(savedInstanceState);
     }
 
-    private void initFragment() {
-        WorkoutListFragment fragment = (WorkoutListFragment) getSupportFragmentManager().findFragmentByTag(TAG_WORKOUT_LIST_FRAGMENT);
-        if (fragment == null) {
-            addFragment(new WorkoutListFragment(), TAG_WORKOUT_LIST_FRAGMENT);
+    private void verifyAndAddFragment(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            addWorkoutListFragment();
         }
+    }
+
+    private void addWorkoutListFragment() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.activity_main__fl__fragment, new WorkoutListFragment());
+        ft.commit();
     }
 
 }

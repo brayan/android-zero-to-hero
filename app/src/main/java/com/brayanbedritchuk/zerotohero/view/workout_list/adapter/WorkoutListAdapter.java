@@ -13,14 +13,16 @@ import java.util.List;
 public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutViewHolder> {
 
     private List<Workout> workoutList;
+    private WorkoutListAdapter.Callback callback;
 
-    public WorkoutListAdapter(List<Workout> items) {
+    public WorkoutListAdapter(List<Workout> items, WorkoutListAdapter.Callback callback) {
         setWorkoutList(items);
+        setCallback(callback);
     }
     @Override
     public WorkoutViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflateLayout(parent, R.layout.view_holder_workout);
-        return new WorkoutViewHolder(view);
+        View view = inflateLayout(parent, R.layout.holder_workout);
+        return new WorkoutViewHolder(view, getCallback());
     }
 
     @Override
@@ -46,4 +48,14 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutViewHolder> 
         this.workoutList = workoutList;
     }
 
+    public Callback getCallback() {
+        return callback;
+    }
+
+    public void setCallback(Callback callback) {
+        this.callback = callback;
+    }
+
+    public interface Callback extends WorkoutViewHolder.Callback {
+    }
 }

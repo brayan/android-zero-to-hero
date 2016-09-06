@@ -1,22 +1,18 @@
 package com.brayanbedritchuk.zerotohero.view.workout_list.presenter;
 
-import android.os.AsyncTask;
-import android.util.Log;
-
 import com.brayanbedritchuk.zerotohero.model.entity.Workout;
-import com.brayanbedritchuk.zerotohero.model.viewmodel.MainViewModel;
+import com.brayanbedritchuk.zerotohero.model.viewmodel.WorkoutListViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class WorkoutListPresenter {
 
     private WorkoutListView view;
-    private MainViewModel viewModel;
+    private WorkoutListViewModel viewModel;
 
     public WorkoutListPresenter(WorkoutListView view) {
         setView(view);
-        setViewModel(new MainViewModel());
+        setViewModel(new WorkoutListViewModel());
     }
 
     public void onResume() {
@@ -24,67 +20,28 @@ public class WorkoutListPresenter {
         getViewModel().setFirstSession(false);
     }
 
+    public void onClickNewWorkout() {
+        getView().startNewWorkoutActivity();
+    }
+
+    public void onClickWorkout(int position) {
+        Workout workout = getWorkouts().get(position);
+        getView().startWorkoutDetailsActivity(workout);
+    }
+
     private void verifyAndLoadWorkouts() {
         if (getViewModel().isFirstSession()) {
-            new WorkoutsLoader().execute();
+            new WorkoutsLoader(getView(), getViewModel()).execute();
         } else {
             getView().updateContentViews();
         }
     }
 
-    public void onClickNewWorkout() {
-        getView().startNewWorkoutActivity();
-    }
-
-    class WorkoutsLoader extends AsyncTask<Void, Integer, Exception> {
-
-        private List<Workout> workoutList = new ArrayList<>();
-
-        protected Exception doInBackground(Void... urls) {
-            try {
-//                this.beers = getBeerDAO().getWorkouts();
-                Workout workout = new Workout();
-                workout.setName("Monday Workout");
-
-                Workout workout2 = new Workout();
-                workout2.setName("Wednesday Workout");
-
-                Workout workout3 = new Workout();
-                workout3.setName("Friday Workout");
-
-                workoutList.add(workout);
-                workoutList.add(workout2);
-                workoutList.add(workout3);
-
-                return null;
-            } catch (Exception e) {
-                Log.e("ZERO_TO_HERO_EXCEPTION", "An error occurred while getting the list of workouts", e);
-                return e;
-            }
-        }
-
-        protected void onPostExecute(Exception exeption) {
-            verifyAndHandleException(exeption);
-
-            getViewModel().getWorkoutList().clear();
-            getViewModel().getWorkoutList().addAll(workoutList);
-
-            getView().updateContentViews();
-
-        }
-    }
-
-    private void verifyAndHandleException(Exception exeption) {
-        if (exeption != null) {
-            getView().showToast(exeption.getMessage());
-        }
-    }
-
-    public MainViewModel getViewModel() {
+    public WorkoutListViewModel getViewModel() {
         return viewModel;
     }
 
-    public void setViewModel(MainViewModel viewModel) {
+    public void setViewModel(WorkoutListViewModel viewModel) {
         this.viewModel = viewModel;
     }
 

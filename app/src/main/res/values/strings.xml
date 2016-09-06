@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Zero to Hero!</string>
+    <string name="tab_workouts">Workouts</string>
+    <string name="tab_exercises">Exercises</string>
 </resources>
