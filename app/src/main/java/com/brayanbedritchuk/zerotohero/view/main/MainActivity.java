@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
+        toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void initViewPager() {

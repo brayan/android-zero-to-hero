@@ -13,21 +13,10 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
+        android:textSize="20sp"
+        app:title="Title"
         app:layout_scrollFlags="scroll|enterAlways"
-        app:popupTheme="@style/Theme.AppCompat.Light">
-
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:ellipsize="end"
-            android:ems="10"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="center_vertical"
-            android:text="Title"
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
-
-    </android.support.v7.widget.Toolbar>
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        app:titleTextAppearance="@style/ToolbarTitle" />
 
 </android.support.design.widget.AppBarLayout>

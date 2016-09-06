@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
@@ -22,8 +21,6 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
     private NewWorkoutPresenter presenter;
 
     private Toolbar toolbar;
-
-    private TextView tvToolbarTitle;
     private RecyclerView recyclerView;
 
     private View emptyList;
@@ -78,7 +75,6 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        tvToolbarTitle = (TextView) view.findViewById(R.id.toolbar_title);
         recyclerView = (RecyclerView) view.findViewById(R.id.fragment_new_workout_list__recycler__exercises);
         emptyList = view.findViewById(R.id.empty_list_workouts);
     }
@@ -91,17 +87,11 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
 
     private void initToolbar() {
         initAppCompatActivity();
-        initToolbarTitle();
     }
 
     protected void initAppCompatActivity() {
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
-    }
-
-    private void initToolbarTitle() {
-        tvToolbarTitle.setText("New Workout");
     }
 
     private void initFab() {

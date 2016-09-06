@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     private WorkoutDetailsPresenter presenter;
 
+    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private ExercisesListAdapter adapter;
     private View emptyList;
@@ -60,8 +63,16 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     private void initViews(View view) {
         inflateViews(view);
+        initToolbar();
         initRecyclerView();
         initVisibilityOfViews();
+    }
+
+    private void initToolbar() {
+        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
+        appCompatActivity.setSupportActionBar(toolbar);
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle(R.string.workout_details);
     }
 
     @Override
@@ -101,6 +112,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     }
 
     private void inflateViews(View view) {
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) view.findViewById(R.id.frag_workout_details__recycler__exercises);
         emptyList = view.findViewById(R.id.empty_list_workouts);
     }
