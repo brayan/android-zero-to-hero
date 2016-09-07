@@ -1,7 +1,6 @@
 package com.brayanbedritchuk.zerotohero.view.workout_details.presenter;
 
-import com.brayanbedritchuk.zerotohero.model.entity.Exercise;
-import com.brayanbedritchuk.zerotohero.model.viewmodel.WorkoutDetailsViewModel;
+import com.brayanbedritchuk.zerotohero.model.Exercise;
 
 import java.util.List;
 
@@ -16,6 +15,7 @@ public class WorkoutDetailsPresenter {
     }
 
     public void onResume() {
+        updateTitle();
         verifyAndLoadWorkouts();
         getViewModel().setFirstSession(false);
     }
@@ -33,8 +33,18 @@ public class WorkoutDetailsPresenter {
         if (getViewModel().isFirstSession()) {
             new ExercisesLoader(getView(), getViewModel()).execute();
         } else {
-            getView().updateContentViews();
+            updateContentViews();
         }
+    }
+
+    private void updateContentViews() {
+        updateTitle();
+        getView().updateExerciseListView();
+        getView().updateVisibilityOfViews();
+    }
+
+    private void updateTitle() {
+        getView().updateTitle(getViewModel().getWorkout().getName());
     }
 
     public WorkoutDetailsViewModel getViewModel() {

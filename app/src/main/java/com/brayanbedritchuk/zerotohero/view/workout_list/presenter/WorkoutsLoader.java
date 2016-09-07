@@ -3,8 +3,7 @@ package com.brayanbedritchuk.zerotohero.view.workout_list.presenter;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.brayanbedritchuk.zerotohero.model.entity.Workout;
-import com.brayanbedritchuk.zerotohero.model.viewmodel.WorkoutListViewModel;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 
 import java.util.ArrayList;
 import java.util.List;

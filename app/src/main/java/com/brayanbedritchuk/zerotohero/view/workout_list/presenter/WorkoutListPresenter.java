@@ -1,7 +1,6 @@
 package com.brayanbedritchuk.zerotohero.view.workout_list.presenter;
 
-import com.brayanbedritchuk.zerotohero.model.entity.Workout;
-import com.brayanbedritchuk.zerotohero.model.viewmodel.WorkoutListViewModel;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.model.entity.Workout;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.new_workout.NewWorkoutActivity;
 import com.brayanbedritchuk.zerotohero.view.workout_details.WorkoutDetailsActivity;
 import com.brayanbedritchuk.zerotohero.view.workout_list.adapter.WorkoutListAdapter;

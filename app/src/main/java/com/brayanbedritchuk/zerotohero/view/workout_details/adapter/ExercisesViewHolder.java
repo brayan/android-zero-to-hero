@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.model.entity.Exercise;
+import com.brayanbedritchuk.zerotohero.model.Exercise;
 
 public class ExercisesViewHolder extends RecyclerView.ViewHolder {
 

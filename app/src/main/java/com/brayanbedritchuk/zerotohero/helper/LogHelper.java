@@ -6,9 +6,6 @@ public class LogHelper {
 
     private static final String TAG = "ZERO_TO_HERO_LOG";
 
-    private LogHelper() {
-    }
-
     public static void printExceptionLog(Exception e) {
         Log.e(TAG, e.getMessage(), e);
     }

@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.model.entity.Workout;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 
 public class WorkoutDetailsActivity extends AppCompatActivity {
 

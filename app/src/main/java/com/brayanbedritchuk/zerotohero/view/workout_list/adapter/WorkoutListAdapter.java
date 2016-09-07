@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.model.entity.Workout;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 
 import java.util.List;
 

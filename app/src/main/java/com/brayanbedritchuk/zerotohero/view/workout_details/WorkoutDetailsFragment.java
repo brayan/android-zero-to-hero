@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.model.entity.Exercise;
-import com.brayanbedritchuk.zerotohero.model.entity.Workout;
+import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.new_workout.NewWorkoutActivity;
 import com.brayanbedritchuk.zerotohero.view.workout_details.adapter.ExercisesListAdapter;
 import com.brayanbedritchuk.zerotohero.view.workout_details.presenter.WorkoutDetailsPresenter;
@@ -72,11 +72,16 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle(R.string.workout_details);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     @Override
-    public void updateContentViews() {
+    public void updateExerciseListView() {
         adapter.notifyDataSetChanged();
         updateVisibilityOfViews();
     }
@@ -95,6 +100,26 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     public void startExerciseDetailsActivity(Exercise exercise) {
 //        WorkoutDetailsActivity.start(getActivity(), workout);
         showToast("Starting " + exercise.getName() + "...");
+    }
+
+    @Override
+    public void updateTitle(String title) {
+        toolbar.setTitle(title);
+    }
+
+    @Override
+    public void updateVisibilityOfViews() {
+        boolean isEmpty = getPresenter().getExercises().isEmpty();
+
+        if (isEmpty) {
+            recyclerView.setVisibility(View.GONE);
+            emptyList.setVisibility(View.VISIBLE);
+
+        } else {
+            emptyList.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -125,20 +150,6 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     private void initVisibilityOfViews() {
         emptyList.setVisibility(View.GONE);
-    }
-
-    private void updateVisibilityOfViews() {
-        boolean isEmpty = getPresenter().getExercises().isEmpty();
-
-        if (isEmpty) {
-            recyclerView.setVisibility(View.GONE);
-            emptyList.setVisibility(View.VISIBLE);
-
-        } else {
-            emptyList.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-
     }
 
     public WorkoutDetailsPresenter getPresenter() {

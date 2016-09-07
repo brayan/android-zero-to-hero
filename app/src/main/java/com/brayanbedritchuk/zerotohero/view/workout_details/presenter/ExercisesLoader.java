@@ -3,8 +3,7 @@ package com.brayanbedritchuk.zerotohero.view.workout_details.presenter;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.brayanbedritchuk.zerotohero.model.entity.Exercise;
-import com.brayanbedritchuk.zerotohero.model.viewmodel.WorkoutDetailsViewModel;
+import com.brayanbedritchuk.zerotohero.model.Exercise;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +50,7 @@ class ExercisesLoader extends AsyncTask<Void, Integer, Exception> {
         getViewModel().getExerciseList().clear();
         getViewModel().getExerciseList().addAll(getExerciseList());
 
-        getView().updateContentViews();
+        getView().updateExerciseListView();
 
     }
 

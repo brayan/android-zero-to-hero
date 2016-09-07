@@ -15,7 +15,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public static final int WORKOUT_LIST_POSITION = 0;
     public static final int EXERCISE_LIST_POSITION = 1;
 
-    private static final int FRAGMENTS_COUNT = 2;
+    private static final int NUNBER_OF_FRAGMENTS = 2;
 
     private Context context;
     private SparseArray<Fragment> fragments;
@@ -28,7 +28,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return FRAGMENTS_COUNT;
+        return NUNBER_OF_FRAGMENTS;
     }
 
     @Override

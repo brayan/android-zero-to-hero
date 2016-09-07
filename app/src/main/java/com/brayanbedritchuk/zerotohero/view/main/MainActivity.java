@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private MainFragmentPagerAdapter pagerAdapter;
+    private MainFragmentPagerAdapter adapter;
     private FloatingActionButton fab;
 
     @Override
@@ -47,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewPager() {
-        pagerAdapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), this);
-        viewPager.setAdapter(pagerAdapter);
+        adapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), this);
+        viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
     }
 
@@ -64,12 +64,10 @@ public class MainActivity extends AppCompatActivity {
     private void onClickFab() {
 
         switch (getCurrentTabPosition()) {
-
             case MainFragmentPagerAdapter.WORKOUT_LIST_POSITION: {
                 getWorkoutListFragment().onClickFab();
                 return;
             }
-
             case MainFragmentPagerAdapter.EXERCISE_LIST_POSITION: {
                 Toast.makeText(MainActivity.this, "Nothing yet", Toast.LENGTH_SHORT).show();
                 return;
@@ -79,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
     private WorkoutListFragment getWorkoutListFragment() {
         int position = MainFragmentPagerAdapter.WORKOUT_LIST_POSITION;
-        return ((WorkoutListFragment) pagerAdapter.getRegisteredFragment(position));
+        return ((WorkoutListFragment) adapter.getRegisteredFragment(position));
     }
 
     private int getCurrentTabPosition() {

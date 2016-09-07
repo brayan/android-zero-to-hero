@@ -2,7 +2,7 @@ package com.brayanbedritchuk.zerotohero.view.workout_list.presenter;
 
 import android.content.Context;
 
-import com.brayanbedritchuk.zerotohero.model.entity.Workout;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 
 public interface WorkoutListView {
 
