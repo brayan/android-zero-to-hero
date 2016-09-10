@@ -3,24 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
     android:clickable="true">
 
-    <ImageView
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="16dp"
-        android:id="@+id/holder_exercise__img"
-        android:src="@drawable/fire"
-        android:layout_width="36dp"
-        android:layout_height="36dp" />
-
 
     <LinearLayout
+        android:paddingBottom="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="72dp"
+        android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="8dp">
 
@@ -30,7 +23,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Monday Workout"
+            android:text="Rosca Direta"
             android:textColor="#E1000000"
             android:textSize="16sp" />
 
@@ -40,9 +33,38 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text=""
+            android:text="Bíceps"
             android:textColor="#54000000"
             android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_marginTop="2dp"
+            android:padding="4dp"
+            android:background="@color/green_300"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="3 sets"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:paddingLeft="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="15 reps"
+                android:textColor="@android:color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
