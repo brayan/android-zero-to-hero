@@ -7,20 +7,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.brayanbedritchuk.zerotohero.helper.LogHelper;
 import com.brayanbedritchuk.zerotohero.helper.sqlite.CreateTablesHelper;
 
-public class DatabaseOpenHelper extends SQLiteOpenHelper {
+public class Database extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "database.db";
 
-    private static DatabaseOpenHelper instance;
+    private static Database instance;
 
-    private DatabaseOpenHelper(Context context) {
+    private Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    public static DatabaseOpenHelper getInstance(Context context) {
+    public static Database getInstance(Context context) {
         if (instance == null) {
-            instance = new DatabaseOpenHelper(context.getApplicationContext());
+            instance = new Database(context.getApplicationContext());
         }
         return instance;
     }

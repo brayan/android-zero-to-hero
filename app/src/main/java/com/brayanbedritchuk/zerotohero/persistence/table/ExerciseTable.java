@@ -13,9 +13,8 @@ public class ExerciseTable extends BaseSQLiteTable {
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ");
         sb.append(" name TEXT, ");
         sb.append(" weight REAL, ");
-        sb.append(" set INTEGER, ");
-        sb.append(" repetition INTEGER, ");
-        sb.append(" insertingDate TEXT ");
+        sb.append(" exerciseSet INTEGER, ");
+        sb.append(" repetition INTEGER ");
         sb.append(" ); ");
         return  sb.toString();
     }

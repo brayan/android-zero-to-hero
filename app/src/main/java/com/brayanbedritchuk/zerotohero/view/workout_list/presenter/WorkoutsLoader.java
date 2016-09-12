@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.brayanbedritchuk.zerotohero.model.Workout;
+import com.brayanbedritchuk.zerotohero.persistence.dao.WorkoutDAOSQLite;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,20 +23,7 @@ class WorkoutsLoader extends AsyncTask<Void, Integer, Exception> {
 
     protected Exception doInBackground(Void... urls) {
         try {
-//                this.beers = getBeerDAO().getWorkouts();
-            Workout workout = new Workout();
-            workout.setName("Monday Workout");
-
-            Workout workout2 = new Workout();
-            workout2.setName("Wednesday Workout");
-
-            Workout workout3 = new Workout();
-            workout3.setName("Friday Workout");
-
-            getWorkoutList().add(workout);
-            getWorkoutList().add(workout2);
-            getWorkoutList().add(workout3);
-
+            setWorkoutList(new WorkoutDAOSQLite(getView().getActivityContext().getApplicationContext()).getAll());
             return null;
         } catch (Exception e) {
             Log.e("ZERO_TO_HERO_EXCEPTION", "An error occurred while getting the list of workouts", e);
