@@ -1,7 +1,8 @@
-package com.brayanbedritchuk.zerotohero.view.new_workout;
+package com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,15 +14,17 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.view.new_workout.presenter.NewWorkoutPresenter;
-import com.brayanbedritchuk.zerotohero.view.new_workout.presenter.NewWorkoutView;
+import com.brayanbedritchuk.zerotohero.view.exercise_chooser.ExerciseChooserActivity;
+import com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout.presenter.InsertOrEditWorkoutPresenter;
+import com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout.presenter.InsertOrEditWorkoutView;
 
-public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
+public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEditWorkoutView {
 
-    private NewWorkoutPresenter presenter;
+    private InsertOrEditWorkoutPresenter presenter;
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private FloatingActionButton fabAddExercises;
 
     private View emptyList;
 
@@ -47,7 +50,7 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
     }
 
     private void initPresenter() {
-        setPresenter(new NewWorkoutPresenter(this));
+        setPresenter(new InsertOrEditWorkoutPresenter(this));
     }
 
     private void initViews(View view) {
@@ -69,13 +72,19 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
     }
 
     @Override
+    public void startExercisesChooserActivity() {
+        ExerciseChooserActivity.start(getActivity(), null);
+    }
+
+    @Override
     public Context getActivityContext() {
         return getActivity();
     }
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.fragment_new_workout_list__recycler__exercises);
+        recyclerView = (RecyclerView) view.findViewById(R.id.frag_new_workout_list__recycler__exercises);
+        fabAddExercises = (FloatingActionButton) view.findViewById(R.id.frag_new_workout_fab);
         emptyList = view.findViewById(R.id.empty_list_workouts);
     }
 
@@ -92,13 +101,27 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
     protected void initAppCompatActivity() {
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle(R.string.new_workout);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     private void initFab() {
+        fabAddExercises.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getPresenter().onClickAddExercises();
+            }
+        });
     }
 
     private void updateVisibilityOfViews() {
-        boolean emptyList = getPresenter().getWorkouts().isEmpty();
+        boolean emptyList = getPresenter().getExercises().isEmpty();
 
         if (emptyList) {
             recyclerView.setVisibility(View.GONE);
@@ -111,11 +134,11 @@ public class NewWorkoutFragment extends Fragment implements NewWorkoutView {
 
     }
 
-    public NewWorkoutPresenter getPresenter() {
+    public InsertOrEditWorkoutPresenter getPresenter() {
         return presenter;
     }
 
-    public void setPresenter(NewWorkoutPresenter presenter) {
+    public void setPresenter(InsertOrEditWorkoutPresenter presenter) {
         this.presenter = presenter;
     }
 

@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.brayanbedritchuk.zerotohero.base.BaseDAOSQLite;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.persistence.table.ExerciseTable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,33 +17,25 @@ public class ExerciseDAOSQLite extends BaseDAOSQLite {
     }
 
     public List<Exercise> getAll() {
-        StringBuilder query = new StringBuilder();
-        query.append(" SELECT Exercise.* FROM Exercise ");
-
-        return getExerciseList(query);
+        return getExerciseList(ExerciseTable.createQueryGetAll());
     }
 
-    private List<Exercise> getExerciseList(StringBuilder query) {
-        Cursor cursor = getReadableDatabase().rawQuery(query.toString(), null);
+    public List<Exercise> getFromWorkout(long workoutId) {
+        return getExerciseList(ExerciseTable.createQueryGetFromWorkout(workoutId));
+    }
+
+    private List<Exercise> getExerciseList(String query) {
+        Cursor cursor = getReadableDatabase().rawQuery(query, null);
         List<Exercise> exercises = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            Exercise exercise = getExerciseFromCursor(cursor);
+            Exercise exercise = ExerciseTable.getExerciseFromCursor(cursor);
             exercises.add(exercise);
         }
 
         cursor.close();
 
         return exercises;
-    }
-
-    private Exercise getExerciseFromCursor(Cursor cursor) {
-
-        Exercise exercise = new Exercise();
-        exercise.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
-        exercise.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-
-        return exercise;
     }
 
 }

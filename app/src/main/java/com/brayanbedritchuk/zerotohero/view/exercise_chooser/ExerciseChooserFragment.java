@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.view.workout_details;
+package com.brayanbedritchuk.zerotohero.view.exercise_chooser;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,18 +16,18 @@ import android.widget.Toast;
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.model.Workout;
+import com.brayanbedritchuk.zerotohero.view.exercise_chooser.adapter.ExerciseChooserAdapter;
+import com.brayanbedritchuk.zerotohero.view.exercise_chooser.presenter.ExerciseChooserPresenter;
+import com.brayanbedritchuk.zerotohero.view.exercise_chooser.presenter.ExerciseChooserView;
 import com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout.InsertOrEditWorkoutActivity;
-import com.brayanbedritchuk.zerotohero.view.workout_details.adapter.ExercisesListAdapter;
-import com.brayanbedritchuk.zerotohero.view.workout_details.presenter.WorkoutDetailsPresenter;
-import com.brayanbedritchuk.zerotohero.view.workout_details.presenter.WorkoutDetailsView;
 
-public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsView, ExercisesListAdapter.Callback {
+public class ExerciseChooserFragment extends Fragment implements ExerciseChooserView, ExerciseChooserAdapter.Callback {
 
-    private WorkoutDetailsPresenter presenter;
+    private ExerciseChooserPresenter presenter;
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private ExercisesListAdapter adapter;
+    private ExerciseChooserAdapter adapter;
     private View emptyList;
 
     @Override
@@ -40,7 +40,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_workout_details, container, false);
+        View view = inflater.inflate(R.layout.frag_exercise_chooser, container, false);
         initViews(view);
         return view;
     }
@@ -52,13 +52,12 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     }
 
     private void initPresenter() {
-        setPresenter(new WorkoutDetailsPresenter(this));
+        setPresenter(new ExerciseChooserPresenter(this));
     }
 
     private void getExtrasFromIntent() {
         Intent intent = getActivity().getIntent();
-        Workout workout = (Workout) intent.getSerializableExtra(WorkoutDetailsActivity.EXTRA_WORKOUT);
-        getPresenter().getViewModel().setWorkout(workout);
+        Workout workout = (Workout) intent.getSerializableExtra(ExerciseChooserActivity.EXTRA_WORKOUT);
     }
 
     private void initViews(View view) {
@@ -109,7 +108,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     @Override
     public void updateVisibilityOfViews() {
-        boolean isEmpty = getPresenter().getExercises().isEmpty();
+        boolean isEmpty = getPresenter().getExerciseList().isEmpty();
 
         if (isEmpty) {
             recyclerView.setVisibility(View.GONE);
@@ -123,13 +122,18 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     }
 
     @Override
+    public void updateExerciseView(int position) {
+        adapter.notifyItemChanged(position);
+    }
+
+    @Override
     public Context getActivityContext() {
         return getActivity();
     }
 
     @Override
-    public void onClickWorkout(int position) {
-//        getPresenter().onClickExercise(position);
+    public void onClickExercise(int position) {
+        getPresenter().onClickExercise(position);
     }
 
     public void onClickFab() {
@@ -138,13 +142,13 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.frag_workout_details__recycler__exercises);
+        recyclerView = (RecyclerView) view.findViewById(R.id.frag_exercise_chooser__recycler__exercises);
         emptyList = view.findViewById(R.id.empty_list_workouts);
     }
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ExercisesListAdapter(getPresenter().getExercises(), this);
+        adapter = new ExerciseChooserAdapter(getPresenter().getExerciseList(), getPresenter().getSelectedExercises(), this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -152,11 +156,11 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
         emptyList.setVisibility(View.GONE);
     }
 
-    public WorkoutDetailsPresenter getPresenter() {
+    public ExerciseChooserPresenter getPresenter() {
         return presenter;
     }
 
-    public void setPresenter(WorkoutDetailsPresenter presenter) {
+    public void setPresenter(ExerciseChooserPresenter presenter) {
         this.presenter = presenter;
     }
 

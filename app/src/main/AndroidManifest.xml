@@ -18,9 +18,11 @@
 
         <activity android:name=".view.workout_list.WorkoutListActivity"/>
 
-        <activity android:name=".view.new_workout.NewWorkoutActivity"/>
+        <activity android:name=".view.insert_or_edit_workout.InsertOrEditWorkoutActivity"/>
 
         <activity android:name=".view.workout_details.WorkoutDetailsActivity"/>
+
+        <activity android:name=".view.exercise_chooser.ExerciseChooserActivity"/>
 
     </application>
 

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         viewPager = (ViewPager) findViewById(R.id.pager);
-        fab = (FloatingActionButton) findViewById(R.id.activity_main_fab);
+        fab = (FloatingActionButton) findViewById(R.id.frag_new_workout_fab);
     }
 
     private void initToolbar() {

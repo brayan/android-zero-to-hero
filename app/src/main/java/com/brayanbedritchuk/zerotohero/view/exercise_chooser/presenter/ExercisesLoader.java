@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.view.workout_details.presenter;
+package com.brayanbedritchuk.zerotohero.view.exercise_chooser.presenter;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -11,11 +11,11 @@ import java.util.List;
 
 class ExercisesLoader extends AsyncTask<Void, Integer, Exception> {
 
-    private WorkoutDetailsView view;
-    private WorkoutDetailsViewModel viewModel;
+    private ExerciseChooserView view;
+    private ExerciseChooserViewModel viewModel;
     private List<Exercise> exerciseList;
 
-    public ExercisesLoader(WorkoutDetailsView view, WorkoutDetailsViewModel viewModel) {
+    public ExercisesLoader(ExerciseChooserView view, ExerciseChooserViewModel viewModel) {
         setView(view);
         setViewModel(viewModel);
         setExerciseList(new ArrayList<Exercise>());
@@ -23,7 +23,7 @@ class ExercisesLoader extends AsyncTask<Void, Integer, Exception> {
 
     protected Exception doInBackground(Void... urls) {
         try {
-                this.exerciseList = new ExerciseDAOSQLite(getView().getActivityContext().getApplicationContext()).getFromWorkout(getViewModel().getWorkout().getId());
+            exerciseList = new ExerciseDAOSQLite(getView().getActivityContext().getApplicationContext()).getAll();
 
             return null;
         } catch (Exception e) {
@@ -48,19 +48,19 @@ class ExercisesLoader extends AsyncTask<Void, Integer, Exception> {
         }
     }
 
-    public WorkoutDetailsView getView() {
+    public ExerciseChooserView getView() {
         return view;
     }
 
-    public void setView(WorkoutDetailsView view) {
+    public void setView(ExerciseChooserView view) {
         this.view = view;
     }
 
-    public WorkoutDetailsViewModel getViewModel() {
+    public ExerciseChooserViewModel getViewModel() {
         return viewModel;
     }
 
-    public void setViewModel(WorkoutDetailsViewModel viewModel) {
+    public void setViewModel(ExerciseChooserViewModel viewModel) {
         this.viewModel = viewModel;
     }
 

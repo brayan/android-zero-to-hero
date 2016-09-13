@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.view.new_workout.adapter;
+package com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,11 +10,11 @@ import com.brayanbedritchuk.zerotohero.model.Workout;
 
 import java.util.List;
 
-public class NewWorkoutExercicesAdapter extends RecyclerView.Adapter<ExercisesViewHolder> {
+public class InsertOrEditWorkoutExercicesAdapter extends RecyclerView.Adapter<ExercisesViewHolder> {
 
     private List<Workout> workoutList;
 
-    public NewWorkoutExercicesAdapter(List<Workout> items) {
+    public InsertOrEditWorkoutExercicesAdapter(List<Workout> items) {
         setWorkoutList(items);
     }
     @Override

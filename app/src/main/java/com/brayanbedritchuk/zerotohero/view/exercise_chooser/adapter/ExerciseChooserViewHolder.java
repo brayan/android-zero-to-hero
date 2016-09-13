@@ -1,37 +1,41 @@
-package com.brayanbedritchuk.zerotohero.view.workout_details.adapter;
+package com.brayanbedritchuk.zerotohero.view.exercise_chooser.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 
-public class ExercisesViewHolder extends RecyclerView.ViewHolder {
+public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
 
     private TextView tvName;
     private TextView tvWeight;
     private TextView tvSets;
     private TextView tvReps;
+    private CheckBox cbSelected;
 
-    private ExercisesViewHolder.Callback callback;
+    private ExerciseChooserViewHolder.Callback callback;
 
-
-    public interface Callback {
-
-        void onClickWorkout(int position);
-    }
-
-    public ExercisesViewHolder(View itemView, ExercisesViewHolder.Callback callback) {
+    public ExerciseChooserViewHolder(View itemView, ExerciseChooserViewHolder.Callback callback) {
         super(itemView);
         setCallback(callback);
         initViews(itemView);
-        itemView.setOnClickListener(new View.OnClickListener() {
+        initListeners(itemView);
+    }
+
+    private void initListeners(View itemView) {
+        View.OnClickListener onClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getCallback().onClickWorkout(getAdapterPosition());
+                getCallback().onClickExercise(getAdapterPosition());
             }
-        });
+        };
+
+        itemView.setOnClickListener(onClick);
+        cbSelected.setOnClickListener(onClick);
     }
 
     private void initViews(View view) {
@@ -39,13 +43,15 @@ public class ExercisesViewHolder extends RecyclerView.ViewHolder {
         tvWeight = (TextView) view.findViewById(R.id.holder_exercise__tv__weight);
         tvSets = (TextView) view.findViewById(R.id.holder_exercise__tv__sets);
         tvReps = (TextView) view.findViewById(R.id.holder_exercise__tv__reps);
+        cbSelected = (CheckBox) view.findViewById(R.id.vholder_exercise_chooser__cbox);
     }
 
-    public void bindData(Exercise exercise) {
+    public void bindData(Exercise exercise, SparseArray<Exercise> selectedExercises) {
         tvName.setText(exercise.getName());
         tvWeight.setText(String.valueOf(exercise.getWeight()) + " KG ");
         tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");
         tvReps.setText(String.valueOf(exercise.getRepetition()) + " reps");
+        cbSelected.setChecked(selectedExercises.get(exercise.getId()) != null);
     }
 
     public Callback getCallback() {
@@ -54,5 +60,10 @@ public class ExercisesViewHolder extends RecyclerView.ViewHolder {
 
     public void setCallback(Callback callback) {
         this.callback = callback;
+    }
+
+    public interface Callback {
+
+        void onClickExercise(int position);
     }
 }
