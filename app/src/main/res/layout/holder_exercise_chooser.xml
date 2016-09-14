@@ -6,82 +6,27 @@
     android:clickable="true">
 
     <CheckBox
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_alignParentRight="true"
-        android:id="@+id/vholder_exercise_chooser__cbox"
+        android:id="@+id/holder_exercise_chooser__cbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp" />
 
-    <LinearLayout
-        android:layout_toLeftOf="@id/vholder_exercise_chooser__cbox"
-        android:paddingBottom="16dp"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/holder_exercise_chooser__cbox"
         android:orientation="vertical"
+        android:paddingBottom="16dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="8dp">
 
-        <TextView
-            android:id="@+id/holder_exercise__tv__name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="Rosca Direta"
-            android:textColor="#E1000000"
-            android:textSize="16sp" />
+        <include layout="@layout/exercise" />
 
-        <LinearLayout
-            android:layout_marginTop="2dp"
-            android:padding="4dp"
-            android:background="@color/green_300"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+    </FrameLayout>
 
-            <TextView
-                android:id="@+id/holder_exercise__tv__weight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="15 KGs"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-
-            <TextView
-                android:paddingLeft="8dp"
-                android:id="@+id/holder_exercise__tv__sets"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="3 sets"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/holder_exercise__tv__reps"
-                android:paddingLeft="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:text="15 reps"
-                android:textColor="@android:color/white"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_alignParentBottom="true"
-        android:background="#12000000" />
-
+    <include layout="@layout/divider" />
 
 </RelativeLayout>

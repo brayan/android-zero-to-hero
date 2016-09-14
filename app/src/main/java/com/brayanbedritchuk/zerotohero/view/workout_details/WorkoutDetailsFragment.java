@@ -14,10 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.helper.DialogHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout.InsertOrEditWorkoutActivity;
-import com.brayanbedritchuk.zerotohero.view.workout_details.adapter.ExercisesListAdapter;
+import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
 import com.brayanbedritchuk.zerotohero.view.workout_details.presenter.WorkoutDetailsPresenter;
 import com.brayanbedritchuk.zerotohero.view.workout_details.presenter.WorkoutDetailsView;
 
@@ -40,7 +41,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_workout_details, container, false);
+        View view = inflater.inflate(R.layout.linlay_appbar_card_recycler, container, false);
         initViews(view);
         return view;
     }
@@ -130,6 +131,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     @Override
     public void onClickWorkout(int position) {
 //        getPresenter().onClickExercise(position);
+        DialogHelper.showErrorMessage(getFragmentManager(), "Aeeee");
     }
 
     public void onClickFab() {
@@ -138,8 +140,8 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.frag_workout_details__recycler__exercises);
-        emptyList = view.findViewById(R.id.empty_list_workouts);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        emptyList = view.findViewById(R.id.empty_list);
     }
 
     private void initRecyclerView() {

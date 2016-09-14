@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_main);
+        setContentView(R.layout.coordinator_appbar_tabs_viewpager_fab);
         initViews();
     }
 
@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void inflateViews() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        tabLayout = (TabLayout) findViewById(R.id.tabs);
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        fab = (FloatingActionButton) findViewById(R.id.frag_new_workout_fab);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
     }
 
     private void initToolbar() {

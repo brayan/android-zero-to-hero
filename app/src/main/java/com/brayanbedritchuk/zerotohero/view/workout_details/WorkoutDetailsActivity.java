@@ -26,19 +26,19 @@ public class WorkoutDetailsActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_frame);
+        setContentView(R.layout.frame_layout);
         verifyAndAddFragment(savedInstanceState);
     }
 
     private void verifyAndAddFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            addWorkoutDetailsFragment();
+            addFragment();
         }
     }
 
-    private void addWorkoutDetailsFragment() {
+    private void addFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.activity_main__fl__fragment, new WorkoutDetailsFragment());
+        ft.add(R.id.frame_layout, new WorkoutDetailsFragment());
         ft.commit();
     }
 

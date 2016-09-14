@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.view.workout_list.adapter;
+package com.brayanbedritchuk.zerotohero.view.adapter.view_holder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,6 +8,8 @@ import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 
 public class WorkoutViewHolder extends RecyclerView.ViewHolder {
+
+    public static final int LAYOUT_ID = R.layout.holder_workout;
 
     private TextView tvName;
 //    private TextView tvStyle;
@@ -33,11 +35,11 @@ public class WorkoutViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void initViews(View view) {
-        tvName = (TextView) view.findViewById(R.id.view_holder_workout__tv__name);
+        tvName = (TextView) view.findViewById(R.id.holder_workout__tv__name);
 //        tvStyle = (TextView) view.findViewById(R.id.view_holder_workout__tv__info);
     }
 
-    public void bindData(Workout workout) {
+    public void onBindViewHolder(Workout workout) {
         tvName.setText(workout.getName());
 //        tvStyle.setText(workout.getStyle());
     }

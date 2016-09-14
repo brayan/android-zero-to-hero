@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.view.exercise_chooser.adapter;
+package com.brayanbedritchuk.zerotohero.view.adapter.view_holder;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -10,6 +10,8 @@ import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 
 public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
+
+    public static final int LAYOUT_ID = R.layout.holder_exercise_chooser;
 
     private TextView tvName;
     private TextView tvWeight;
@@ -39,14 +41,14 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void initViews(View view) {
-        tvName = (TextView) view.findViewById(R.id.holder_exercise__tv__name);
-        tvWeight = (TextView) view.findViewById(R.id.holder_exercise__tv__weight);
-        tvSets = (TextView) view.findViewById(R.id.holder_exercise__tv__sets);
-        tvReps = (TextView) view.findViewById(R.id.holder_exercise__tv__reps);
-        cbSelected = (CheckBox) view.findViewById(R.id.vholder_exercise_chooser__cbox);
+        tvName = (TextView) view.findViewById(R.id.exercise__tv__name);
+        tvWeight = (TextView) view.findViewById(R.id.exercise__tv__weight);
+        tvSets = (TextView) view.findViewById(R.id.exercise__tv__sets);
+        tvReps = (TextView) view.findViewById(R.id.exercise__tv__reps);
+        cbSelected = (CheckBox) view.findViewById(R.id.holder_exercise_chooser__cbox);
     }
 
-    public void bindData(Exercise exercise, SparseArray<Exercise> selectedExercises) {
+    public void onBindViewHolder(Exercise exercise, SparseArray<Exercise> selectedExercises) {
         tvName.setText(exercise.getName());
         tvWeight.setText(String.valueOf(exercise.getWeight()) + " KG ");
         tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");

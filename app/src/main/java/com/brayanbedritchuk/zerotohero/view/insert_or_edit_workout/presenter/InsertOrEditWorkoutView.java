@@ -2,6 +2,10 @@ package com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout.presenter;
 
 import android.content.Context;
 
+import com.brayanbedritchuk.zerotohero.model.Exercise;
+
+import java.util.ArrayList;
+
 public interface InsertOrEditWorkoutView {
 
     Context getActivityContext();
@@ -10,5 +14,5 @@ public interface InsertOrEditWorkoutView {
 
     void showToast(String message);
 
-    void startExercisesChooserActivity();
+    void startExercisesChooserActivity(ArrayList<Exercise> exercises);
 }

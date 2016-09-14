@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.view.exercise_chooser.adapter;
+package com.brayanbedritchuk.zerotohero.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.view.adapter.view_holder.ExerciseChooserViewHolder;
 
 import java.util.List;
 
@@ -24,14 +24,14 @@ public class ExerciseChooserAdapter extends RecyclerView.Adapter<ExerciseChooser
     }
     @Override
     public ExerciseChooserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflateLayout(parent, R.layout.holder_exercise_chooser);
+        View view = inflateLayout(parent, ExerciseChooserViewHolder.LAYOUT_ID);
         return new ExerciseChooserViewHolder(view, getCallback());
     }
 
     @Override
     public void onBindViewHolder(ExerciseChooserViewHolder holder, int position) {
         Exercise exercise = getExerciseList().get(position);
-        holder.bindData(exercise, selectedExercises);
+        holder.onBindViewHolder(exercise, selectedExercises);
     }
 
     @Override

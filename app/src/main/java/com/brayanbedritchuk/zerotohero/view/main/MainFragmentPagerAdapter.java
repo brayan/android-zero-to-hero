@@ -8,6 +8,7 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.view.exercise_list.ExerciseListFragment;
 import com.brayanbedritchuk.zerotohero.view.workout_list.WorkoutListFragment;
 
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -39,7 +40,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
                 return new WorkoutListFragment();
             }
             case EXERCISE_LIST_POSITION: {
-                return new WorkoutListFragment();
+                return new ExerciseListFragment();
             }
             default: {
                 return new WorkoutListFragment();

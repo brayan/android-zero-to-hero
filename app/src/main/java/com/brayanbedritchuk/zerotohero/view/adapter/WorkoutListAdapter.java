@@ -1,12 +1,12 @@
-package com.brayanbedritchuk.zerotohero.view.workout_list.adapter;
+package com.brayanbedritchuk.zerotohero.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.model.Workout;
+import com.brayanbedritchuk.zerotohero.view.adapter.view_holder.WorkoutViewHolder;
 
 import java.util.List;
 
@@ -21,14 +21,14 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutViewHolder> 
     }
     @Override
     public WorkoutViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflateLayout(parent, R.layout.holder_workout);
+        View view = inflateLayout(parent, WorkoutViewHolder.LAYOUT_ID);
         return new WorkoutViewHolder(view, getCallback());
     }
 
     @Override
     public void onBindViewHolder(WorkoutViewHolder holder, int position) {
         Workout beer = getWorkoutList().get(position);
-        holder.bindData(beer);
+        holder.onBindViewHolder(beer);
     }
 
     @Override

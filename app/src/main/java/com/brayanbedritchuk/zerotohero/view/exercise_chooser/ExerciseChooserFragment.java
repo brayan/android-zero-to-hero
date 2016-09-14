@@ -1,5 +1,6 @@
 package com.brayanbedritchuk.zerotohero.view.exercise_chooser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,19 +10,25 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
-import com.brayanbedritchuk.zerotohero.model.Workout;
-import com.brayanbedritchuk.zerotohero.view.exercise_chooser.adapter.ExerciseChooserAdapter;
+import com.brayanbedritchuk.zerotohero.view.adapter.ExerciseChooserAdapter;
 import com.brayanbedritchuk.zerotohero.view.exercise_chooser.presenter.ExerciseChooserPresenter;
 import com.brayanbedritchuk.zerotohero.view.exercise_chooser.presenter.ExerciseChooserView;
 import com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout.InsertOrEditWorkoutActivity;
 
+import java.util.ArrayList;
+
 public class ExerciseChooserFragment extends Fragment implements ExerciseChooserView, ExerciseChooserAdapter.Callback {
+
+    public static final String EXTRA_SELECTED_EXERCISES = "EXTRA_SELECTED_EXERCISES";
 
     private ExerciseChooserPresenter presenter;
 
@@ -34,13 +41,14 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
         initPresenter();
         getExtrasFromIntent();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_exercise_chooser, container, false);
+        View view = inflater.inflate(R.layout.linlay_appbar_card_recycler, container, false);
         initViews(view);
         return view;
     }
@@ -51,13 +59,34 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
         getPresenter().onResume();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_exercise_chooser, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_save: {
+                getPresenter().onClickMenuSave();
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+
+    }
+
     private void initPresenter() {
         setPresenter(new ExerciseChooserPresenter(this));
     }
 
     private void getExtrasFromIntent() {
         Intent intent = getActivity().getIntent();
-        Workout workout = (Workout) intent.getSerializableExtra(ExerciseChooserActivity.EXTRA_WORKOUT);
+        ArrayList<Exercise> exercises = (ArrayList<Exercise>) intent.getSerializableExtra(ExerciseChooserActivity.EXTRA_SELECTED_EXERCISES);
+        getPresenter().onReceiveSelectedExercises(exercises);
     }
 
     private void initViews(View view) {
@@ -71,10 +100,11 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                getPresenter().onClickNavigationIcon();
             }
         });
     }
@@ -127,6 +157,25 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
     }
 
     @Override
+    public void closeActivityResultCanceled() {
+        getActivity().setResult(Activity.RESULT_CANCELED);
+        getActivity().finish();
+    }
+
+    @Override
+    public void closeActivityResultOk(ArrayList<Exercise> exercises) {
+        Intent data = new Intent();
+        data.putExtra(EXTRA_SELECTED_EXERCISES, exercises);
+        getActivity().setResult(Activity.RESULT_OK, data);
+        getActivity().finish();
+    }
+
+    @Override
+    public void updateMenu() {
+        getActivity().invalidateOptionsMenu();
+    }
+
+    @Override
     public Context getActivityContext() {
         return getActivity();
     }
@@ -142,8 +191,8 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.frag_exercise_chooser__recycler__exercises);
-        emptyList = view.findViewById(R.id.empty_list_workouts);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        emptyList = view.findViewById(R.id.empty_list);
     }
 
     private void initRecyclerView() {

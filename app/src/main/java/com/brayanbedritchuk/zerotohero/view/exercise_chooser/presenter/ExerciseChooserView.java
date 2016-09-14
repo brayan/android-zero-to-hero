@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 
+import java.util.ArrayList;
+
 public interface ExerciseChooserView {
 
     Context getActivityContext();
@@ -21,4 +23,11 @@ public interface ExerciseChooserView {
     void updateVisibilityOfViews();
 
     void updateExerciseView(int position);
+
+    void closeActivityResultCanceled();
+
+    void closeActivityResultOk(ArrayList<Exercise> exercises);
+
+    void updateMenu();
+
 }

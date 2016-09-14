@@ -1,9 +1,12 @@
 package com.brayanbedritchuk.zerotohero.view.exercise_chooser.presenter;
 
+import android.support.annotation.StringRes;
 import android.util.SparseArray;
 
+import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExerciseChooserPresenter {
@@ -37,18 +40,27 @@ public class ExerciseChooserPresenter {
 
         updateTitle();
         getView().updateExerciseView(position);
+        getView().updateMenu();
     }
 
     private void updateTitle() {
         int size = getViewModel().getSelectedExercises().size();
 
+        String title = null;
+
         if (size == 0) {
-            getView().updateTitle("Select one or more exercises");
+            title = getString(R.string.select_exercise);
         } else if (size == 1) {
-            getView().updateTitle("1 exercise");
+            title = "1 " + getString(R.string.exercise);
         } else {
-            getView().updateTitle(size + " exercises");
+            title = size + " " + getString(R.string.exercises);
         }
+
+        getView().updateTitle(title);
+    }
+
+    private String getString(@StringRes int id) {
+        return getView().getActivityContext().getString(id);
     }
 
     private void verifyAndLoadWorkouts() {
@@ -86,6 +98,33 @@ public class ExerciseChooserPresenter {
 
     public SparseArray<Exercise> getSelectedExercises() {
         return getViewModel().getSelectedExercises();
+    }
+
+    public void onReceiveSelectedExercises(ArrayList<Exercise> exercises) {
+        SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
+
+        for (Exercise e : exercises) {
+            selectedExercises.put(e.getId(), e);
+        }
+    }
+
+    public void onClickMenuSave() {
+        ArrayList<Exercise> exercises = new ArrayList<>();
+        SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
+
+        for (int i = 0; i < selectedExercises.size(); i++) {
+            exercises.add(selectedExercises.valueAt(i));
+        }
+
+        getView().closeActivityResultOk(exercises);
+    }
+
+    public void onClickNavigationIcon() {
+        getView().closeActivityResultCanceled();
+    }
+
+    public boolean hasSelectedExercises() {
+        return getViewModel().getSelectedExercises().size() > 0;
     }
 
 //    public WorkoutDAO getWorkoutDAO() {

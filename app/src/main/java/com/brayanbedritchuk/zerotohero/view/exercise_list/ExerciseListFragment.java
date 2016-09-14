@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.view.workout_list;
+package com.brayanbedritchuk.zerotohero.view.exercise_list;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,19 +11,17 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.model.Workout;
-import com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout.InsertOrEditWorkoutActivity;
-import com.brayanbedritchuk.zerotohero.view.workout_details.WorkoutDetailsActivity;
-import com.brayanbedritchuk.zerotohero.view.adapter.WorkoutListAdapter;
-import com.brayanbedritchuk.zerotohero.view.workout_list.presenter.WorkoutListPresenter;
-import com.brayanbedritchuk.zerotohero.view.workout_list.presenter.WorkoutListView;
+import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
+import com.brayanbedritchuk.zerotohero.view.exercise_list.presenter.ExerciseListPresenter;
+import com.brayanbedritchuk.zerotohero.view.exercise_list.presenter.ExerciseListView;
 
-public class WorkoutListFragment extends Fragment implements WorkoutListView, WorkoutListAdapter.Callback {
+public class ExerciseListFragment extends Fragment implements ExerciseListView, ExercisesListAdapter.Callback {
 
-    private WorkoutListPresenter presenter;
+    private ExerciseListPresenter presenter;
 
     private RecyclerView recyclerView;
-    private WorkoutListAdapter adapter;
+    private ExercisesListAdapter adapter;
     private View emptyList;
 
     @Override
@@ -47,7 +45,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
     }
 
     private void initPresenter() {
-        setPresenter(new WorkoutListPresenter(this));
+        setPresenter(new ExerciseListPresenter(this));
     }
 
     private void initViews(View view) {
@@ -68,13 +66,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
     }
 
     @Override
-    public void startNewWorkoutActivity() {
-        InsertOrEditWorkoutActivity.start(getActivity(), null);
-    }
-
-    @Override
-    public void startWorkoutDetailsActivity(Workout workout) {
-        WorkoutDetailsActivity.start(getActivity(), workout);
+    public void startExerciseDetailsActivity(Exercise exercise) {
     }
 
     @Override
@@ -84,11 +76,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
 
     @Override
     public void onClickWorkout(int position) {
-        getPresenter().onClickWorkout(position);
-    }
-
-    public void onClickFab() {
-        getPresenter().onClickNewWorkout();
+        getPresenter().onClickExercise(position);
     }
 
     private void inflateViews(View view) {
@@ -98,7 +86,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new WorkoutListAdapter(getPresenter().getWorkouts(), this);
+        adapter = new ExercisesListAdapter(getPresenter().getExercises(), this);
         recyclerView.setAdapter(adapter);
     }
 
@@ -107,7 +95,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
     }
 
     private void updateVisibilityOfViews() {
-        boolean emptyList = getPresenter().getWorkouts().isEmpty();
+        boolean emptyList = getPresenter().getExercises().isEmpty();
 
         if (emptyList) {
             recyclerView.setVisibility(View.GONE);
@@ -120,11 +108,11 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
 
     }
 
-    public WorkoutListPresenter getPresenter() {
+    public ExerciseListPresenter getPresenter() {
         return presenter;
     }
 
-    public void setPresenter(WorkoutListPresenter presenter) {
+    public void setPresenter(ExerciseListPresenter presenter) {
         this.presenter = presenter;
     }
 

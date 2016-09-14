@@ -8,13 +8,13 @@ import java.util.List;
 
 public class InsertOrEditWorkoutViewModel extends BaseViewModel {
 
-    private final List<Exercise> exercises;
+    private final List<Exercise> selectedExercises;
 
     public InsertOrEditWorkoutViewModel() {
-        this.exercises = new ArrayList<>();
+        this.selectedExercises = new ArrayList<>();
     }
 
-    public List<Exercise> getExercises() {
-        return exercises;
+    public List<Exercise> getSelectedExercises() {
+        return selectedExercises;
     }
 }

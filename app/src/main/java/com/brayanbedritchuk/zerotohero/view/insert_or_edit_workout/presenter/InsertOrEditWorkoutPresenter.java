@@ -1,7 +1,11 @@
 package com.brayanbedritchuk.zerotohero.view.insert_or_edit_workout.presenter;
 
-import com.brayanbedritchuk.zerotohero.model.Exercise;
+import android.content.Intent;
 
+import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.view.exercise_chooser.ExerciseChooserFragment;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class InsertOrEditWorkoutPresenter {
@@ -15,11 +19,28 @@ public class InsertOrEditWorkoutPresenter {
     }
 
     public void onResume() {
+        getView().updateContentViews();
         getViewModel().setFirstSession(false);
     }
 
     public void onClickAddExercises() {
-        getView().startExercisesChooserActivity();
+        ArrayList array = (ArrayList) getViewModel().getSelectedExercises();
+        getView().startExercisesChooserActivity(array);
+    }
+
+    public void onResultOkExerciseChooser(Intent data) {
+        List<Exercise> exercises = getSelectedExercisesFromIntent(data);
+        clearAndUpdateSelectedExercises(exercises);
+        getView().updateContentViews();
+    }
+
+    private ArrayList<Exercise> getSelectedExercisesFromIntent(Intent data) {
+        return (ArrayList<Exercise>) data.getSerializableExtra(ExerciseChooserFragment.EXTRA_SELECTED_EXERCISES);
+    }
+
+    private void clearAndUpdateSelectedExercises(List<Exercise> selectedExercises) {
+        getViewModel().getSelectedExercises().clear();
+        getViewModel().getSelectedExercises().addAll(selectedExercises);
     }
 
     public InsertOrEditWorkoutViewModel getViewModel() {
@@ -39,7 +60,10 @@ public class InsertOrEditWorkoutPresenter {
     }
 
     public List<Exercise> getExercises() {
-        return getViewModel().getExercises();
+        return getViewModel().getSelectedExercises();
     }
 
+    public void onClickMenuSave() {
+        // TODO
+    }
 }

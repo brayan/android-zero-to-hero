@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.view.workout_list;
+package com.brayanbedritchuk.zerotohero.view.exercise_list;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.brayanbedritchuk.zerotohero.R;
 
-public class WorkoutListActivity extends AppCompatActivity {
+public class ExerciseListActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class WorkoutListActivity extends AppCompatActivity {
 
     private void addFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.frame_layout, new WorkoutListFragment());
+        ft.add(R.id.frame_layout, new ExerciseListFragment());
         ft.commit();
     }
 

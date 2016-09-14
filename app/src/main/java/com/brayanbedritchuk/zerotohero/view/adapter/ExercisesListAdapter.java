@@ -1,16 +1,16 @@
-package com.brayanbedritchuk.zerotohero.view.workout_details.adapter;
+package com.brayanbedritchuk.zerotohero.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.view.adapter.view_holder.ExerciseViewHolder;
 
 import java.util.List;
 
-public class ExercisesListAdapter extends RecyclerView.Adapter<ExercisesViewHolder> {
+public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolder> {
 
     private List<Exercise> exerciseList;
     private ExercisesListAdapter.Callback callback;
@@ -20,15 +20,15 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExercisesViewHold
         setCallback(callback);
     }
     @Override
-    public ExercisesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflateLayout(parent, R.layout.holder_exercise);
-        return new ExercisesViewHolder(view, getCallback());
+    public ExerciseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = inflateLayout(parent, ExerciseViewHolder.LAYOUT_ID);
+        return new ExerciseViewHolder(view, getCallback());
     }
 
     @Override
-    public void onBindViewHolder(ExercisesViewHolder holder, int position) {
+    public void onBindViewHolder(ExerciseViewHolder holder, int position) {
         Exercise exercise = getExerciseList().get(position);
-        holder.bindData(exercise);
+        holder.onBindViewHolder(exercise);
     }
 
     @Override
@@ -56,6 +56,6 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExercisesViewHold
         this.callback = callback;
     }
 
-    public interface Callback extends ExercisesViewHolder.Callback {
+    public interface Callback extends ExerciseViewHolder.Callback {
     }
 }

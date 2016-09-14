@@ -29,19 +29,19 @@ public class InsertOrEditWorkoutActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_frame);
+        setContentView(R.layout.frame_layout);
         verifyAndAddFragment(savedInstanceState);
     }
 
     private void verifyAndAddFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            addInsertOrEditWorkoutFragment();
+            addFragment();
         }
     }
 
-    private void addInsertOrEditWorkoutFragment() {
+    private void addFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.activity_main__fl__fragment, new InsertOrEditWorkoutFragment());
+        ft.add(R.id.frame_layout, new InsertOrEditWorkoutFragment());
         ft.commit();
     }
 
