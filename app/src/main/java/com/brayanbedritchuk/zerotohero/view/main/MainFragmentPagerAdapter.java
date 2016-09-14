@@ -8,8 +8,8 @@ import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.view.exercise_list.ExerciseListFragment;
-import com.brayanbedritchuk.zerotohero.view.workout_list.WorkoutListFragment;
+import com.brayanbedritchuk.zerotohero.view.exercise.list.ExerciseListFragment;
+import com.brayanbedritchuk.zerotohero.view.workout.list.WorkoutListFragment;
 
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 

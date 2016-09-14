@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.view.workout_list.WorkoutListFragment;
+import com.brayanbedritchuk.zerotohero.view.workout.list.WorkoutListFragment;
 
 public class MainActivity extends AppCompatActivity {
 
