@@ -2,8 +2,8 @@ package com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.presenter;
 
 import android.content.Intent;
 
+import com.brayanbedritchuk.zerotohero.helper.Extras;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
-import com.brayanbedritchuk.zerotohero.view.exercise.chooser.ExerciseChooserFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class InsertOrEditWorkoutPresenter {
     }
 
     private ArrayList<Exercise> getSelectedExercisesFromIntent(Intent data) {
-        return (ArrayList<Exercise>) data.getSerializableExtra(ExerciseChooserFragment.EXTRA_SELECTED_EXERCISES);
+        return (ArrayList<Exercise>) data.getSerializableExtra(Extras.SELECTED_EXERCISES);
     }
 
     private void clearAndUpdateSelectedExercises(List<Exercise> selectedExercises) {

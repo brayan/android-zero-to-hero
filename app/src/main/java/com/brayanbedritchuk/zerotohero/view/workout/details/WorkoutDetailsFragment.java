@@ -15,12 +15,13 @@ import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.helper.DialogHelper;
+import com.brayanbedritchuk.zerotohero.helper.Extras;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.model.Workout;
-import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
 import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDetailsPresenter;
 import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDetailsView;
+import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 
 public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsView, ExercisesListAdapter.Callback {
 
@@ -58,7 +59,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     private void getExtrasFromIntent() {
         Intent intent = getActivity().getIntent();
-        Workout workout = (Workout) intent.getSerializableExtra(WorkoutDetailsActivity.EXTRA_WORKOUT);
+        Workout workout = (Workout) intent.getSerializableExtra(Extras.WORKOUT);
         getPresenter().getViewModel().setWorkout(workout);
     }
 

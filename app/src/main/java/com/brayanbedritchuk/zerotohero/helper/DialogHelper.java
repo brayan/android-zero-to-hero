@@ -23,6 +23,7 @@ public class DialogHelper extends DialogFragment {
         DialogHelper dialog = new DialogHelper();
         dialog.setTitle(title);
         dialog.setMessage(msg);
+
         dialog.show(manager, TAG);
     }
 

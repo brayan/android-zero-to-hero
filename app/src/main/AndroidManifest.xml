@@ -16,8 +16,6 @@
         </intent-filter>
     </activity>
 
-        <activity android:name=".view.workout.list.WorkoutListActivity"/>
-
         <activity android:name=".view.workout.insert_or_edit.InsertOrEditWorkoutActivity"/>
 
         <activity android:name=".view.workout.details.WorkoutDetailsActivity"/>

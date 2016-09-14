@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.helper.Extras;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExerciseChooserAdapter;
 import com.brayanbedritchuk.zerotohero.view.exercise.chooser.presenter.ExerciseChooserPresenter;
@@ -27,8 +28,6 @@ import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditW
 import java.util.ArrayList;
 
 public class ExerciseChooserFragment extends Fragment implements ExerciseChooserView, ExerciseChooserAdapter.Callback {
-
-    public static final String EXTRA_SELECTED_EXERCISES = "EXTRA_SELECTED_EXERCISES";
 
     private ExerciseChooserPresenter presenter;
 
@@ -85,7 +84,7 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
 
     private void getExtrasFromIntent() {
         Intent intent = getActivity().getIntent();
-        ArrayList<Exercise> exercises = (ArrayList<Exercise>) intent.getSerializableExtra(ExerciseChooserActivity.EXTRA_SELECTED_EXERCISES);
+        ArrayList<Exercise> exercises = (ArrayList<Exercise>) intent.getSerializableExtra(Extras.SELECTED_EXERCISES);
         getPresenter().onReceiveSelectedExercises(exercises);
     }
 
@@ -165,7 +164,7 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
     @Override
     public void closeActivityResultOk(ArrayList<Exercise> exercises) {
         Intent data = new Intent();
-        data.putExtra(EXTRA_SELECTED_EXERCISES, exercises);
+        data.putExtra(Extras.SELECTED_EXERCISES, exercises);
         getActivity().setResult(Activity.RESULT_OK, data);
         getActivity().finish();
     }

@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
     private void onClickFab() {
 
         switch (getCurrentTabPosition()) {
-            case MainFragmentPagerAdapter.WORKOUT_LIST_POSITION: {
+            case MainFragmentPagerAdapter.POSITION_WORKOUT: {
                 getWorkoutListFragment().onClickFab();
                 return;
             }
-            case MainFragmentPagerAdapter.EXERCISE_LIST_POSITION: {
+            case MainFragmentPagerAdapter.POSITION_EXERCISE: {
                 Toast.makeText(MainActivity.this, "Nothing yet", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private WorkoutListFragment getWorkoutListFragment() {
-        int position = MainFragmentPagerAdapter.WORKOUT_LIST_POSITION;
+        int position = MainFragmentPagerAdapter.POSITION_WORKOUT;
         return ((WorkoutListFragment) adapter.getRegisteredFragment(position));
     }
 

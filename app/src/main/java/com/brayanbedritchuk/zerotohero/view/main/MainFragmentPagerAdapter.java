@@ -13,8 +13,8 @@ import com.brayanbedritchuk.zerotohero.view.workout.list.WorkoutListFragment;
 
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    public static final int WORKOUT_LIST_POSITION = 0;
-    public static final int EXERCISE_LIST_POSITION = 1;
+    public static final int POSITION_WORKOUT = 0;
+    public static final int POSITION_EXERCISE = 1;
 
     private static final int NUNBER_OF_FRAGMENTS = 2;
 
@@ -36,10 +36,10 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
         switch (position) {
-            case WORKOUT_LIST_POSITION: {
+            case POSITION_WORKOUT: {
                 return new WorkoutListFragment();
             }
-            case EXERCISE_LIST_POSITION: {
+            case POSITION_EXERCISE: {
                 return new ExerciseListFragment();
             }
             default: {
@@ -52,10 +52,10 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
 
         switch (position) {
-            case WORKOUT_LIST_POSITION: {
+            case POSITION_WORKOUT: {
                 return getContext().getString(R.string.tab_workouts);
             }
-            case EXERCISE_LIST_POSITION: {
+            case POSITION_EXERCISE: {
                 return getContext().getString(R.string.tab_exercises);
             }
             default: {
