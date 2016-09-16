@@ -1,6 +1,7 @@
 package com.brayanbedritchuk.zerotohero.view.workout.list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,8 @@ import com.brayanbedritchuk.zerotohero.view.workout.list.presenter.WorkoutListVi
 import com.brayanbedritchuk.zerotohero.view.adapter.WorkoutListAdapter;
 
 public class WorkoutListFragment extends Fragment implements WorkoutListView, WorkoutListAdapter.Callback {
+
+    private static final int REQUEST_NEW_WORKOUT = 0;
 
     private WorkoutListPresenter presenter;
 
@@ -46,6 +49,12 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
         getPresenter().onResume();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getPresenter().onActivityResult();
+    }
+
     private void initPresenter() {
         setPresenter(new WorkoutListPresenter(this));
     }
@@ -69,7 +78,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
 
     @Override
     public void startNewWorkoutActivity() {
-        InsertOrEditWorkoutActivity.start(getActivity(), null);
+        InsertOrEditWorkoutActivity.start(this, null, REQUEST_NEW_WORKOUT);
     }
 
     @Override

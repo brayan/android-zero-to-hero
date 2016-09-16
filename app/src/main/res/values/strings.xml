@@ -7,4 +7,6 @@
     <string name="select_exercise">Select one or more exercises</string>
     <string name="exercise">exercise</string>
     <string name="exercises">exercises</string>
+    <string name="exeption_workout_name">You must enter a workout name</string>
+    <string name="exeption_selected_exercises">You must add at least one exercise</string>
 </resources>

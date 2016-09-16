@@ -21,7 +21,6 @@ import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
 import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDetailsPresenter;
 import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDetailsView;
-import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 
 public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsView, ExercisesListAdapter.Callback {
 
@@ -95,7 +94,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     @Override
     public void startNewWorkoutActivity() {
-        InsertOrEditWorkoutActivity.start(getActivity(), null);
+//        InsertOrEditWorkoutActivity.start(getActivity(), null);
     }
 
     @Override

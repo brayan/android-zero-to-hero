@@ -23,7 +23,6 @@ import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExerciseChooserAdapter;
 import com.brayanbedritchuk.zerotohero.view.exercise.chooser.presenter.ExerciseChooserPresenter;
 import com.brayanbedritchuk.zerotohero.view.exercise.chooser.presenter.ExerciseChooserView;
-import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 
 import java.util.ArrayList;
 
@@ -121,7 +120,7 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
 
     @Override
     public void startNewWorkoutActivity() {
-        InsertOrEditWorkoutActivity.start(getActivity(), null);
+//        InsertOrEditWorkoutActivity.start(getActivity(), null);
     }
 
     @Override

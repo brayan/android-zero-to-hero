@@ -64,6 +64,7 @@ public class InsertOrEditWorkoutPresenter {
     }
 
     public void onClickMenuSave() {
-        // TODO
+        new SaveWorkoutAsyncTask(getView(), getViewModel()).execute();
     }
+
 }

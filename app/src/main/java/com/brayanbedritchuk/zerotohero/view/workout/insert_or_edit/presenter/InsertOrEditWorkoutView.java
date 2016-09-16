@@ -15,4 +15,10 @@ public interface InsertOrEditWorkoutView {
     void showToast(String message);
 
     void startExercisesChooserActivity(ArrayList<Exercise> exercises);
+
+    String getTextFromWorkoutName();
+
+    void showDialog(String message);
+
+    void closeActivity();
 }

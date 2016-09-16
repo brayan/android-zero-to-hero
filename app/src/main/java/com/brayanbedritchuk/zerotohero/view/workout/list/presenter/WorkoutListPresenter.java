@@ -30,10 +30,14 @@ public class WorkoutListPresenter {
 
     private void verifyAndLoadWorkouts() {
         if (getViewModel().isFirstSession()) {
-            new WorkoutsLoader(getView(), getViewModel()).execute();
+            loadWorkouts();
         } else {
             getView().updateContentViews();
         }
+    }
+
+    private void loadWorkouts() {
+        new WorkoutsLoader(getView(), getViewModel()).execute();
     }
 
     public WorkoutListViewModel getViewModel() {
@@ -56,7 +60,11 @@ public class WorkoutListPresenter {
         return getViewModel().getWorkoutList();
     }
 
-//    public WorkoutDAO getWorkoutDAO() {
+    public void onActivityResult() {
+        loadWorkouts();
+    }
+
+    //    public WorkoutDAO getWorkoutDAO() {
 //        return WorkoutDAOSQLite.getInstance(getView().getActivityContext());
 //    }
 

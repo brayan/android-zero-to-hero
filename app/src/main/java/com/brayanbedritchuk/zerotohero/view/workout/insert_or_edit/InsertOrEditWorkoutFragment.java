@@ -16,9 +16,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.helper.DialogHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
 import com.brayanbedritchuk.zerotohero.view.exercise.chooser.ExerciseChooserActivity;
@@ -36,6 +38,7 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private FloatingActionButton fabAddExercises;
+    private EditText etWorkoutName;
 
     private View emptyList;
 
@@ -73,7 +76,6 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
                 return super.onOptionsItemSelected(item);
             }
         }
-
     }
 
     @Override
@@ -133,6 +135,21 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
     }
 
     @Override
+    public String getTextFromWorkoutName() {
+        return etWorkoutName.getText().toString();
+    }
+
+    @Override
+    public void showDialog(String message) {
+        DialogHelper.showErrorMessage(getFragmentManager(), message);
+    }
+
+    @Override
+    public void closeActivity() {
+        getActivity().finish();
+    }
+
+    @Override
     public Context getActivityContext() {
         return getActivity();
     }
@@ -141,6 +158,7 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         fabAddExercises = (FloatingActionButton) view.findViewById(R.id.fab);
+        etWorkoutName = (EditText) view.findViewById(R.id.frag_insert_or_edit_workout__et__name);
         emptyList = view.findViewById(R.id.empty_list);
     }
 

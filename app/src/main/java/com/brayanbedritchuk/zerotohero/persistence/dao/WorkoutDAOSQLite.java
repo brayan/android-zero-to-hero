@@ -2,6 +2,7 @@ package com.brayanbedritchuk.zerotohero.persistence.dao;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteStatement;
 
 import com.brayanbedritchuk.zerotohero.base.BaseDAOSQLite;
 import com.brayanbedritchuk.zerotohero.model.Workout;
@@ -43,6 +44,30 @@ public class WorkoutDAOSQLite extends BaseDAOSQLite {
         workout.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
 
         return workout;
+    }
+
+    public long saveAndGetId(Workout workout) throws Exception {
+        getWritableDatabase().beginTransactionNonExclusive();
+        try {
+            StringBuilder sql = new StringBuilder();
+
+            sql.append(" INSERT INTO Workout ");
+            sql.append(" (name) ");
+            sql.append(" VALUES (?); ");
+
+            SQLiteStatement stmt = getWritableDatabase().compileStatement(sql.toString());
+            stmt.bindString(1, workout.getName());
+
+            long id = stmt.executeInsert();
+
+            stmt.clearBindings();
+
+            getWritableDatabase().setTransactionSuccessful();
+
+            return id;
+        } finally {
+            getWritableDatabase().endTransaction();
+        }
     }
 
 }
