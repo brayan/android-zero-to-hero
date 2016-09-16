@@ -83,7 +83,7 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
 
     private void getExtrasFromIntent() {
         Intent intent = getActivity().getIntent();
-        ArrayList<Exercise> exercises = (ArrayList<Exercise>) intent.getSerializableExtra(Extras.SELECTED_EXERCISES);
+        ArrayList<Exercise> exercises = (ArrayList<Exercise>) intent.getSerializableExtra(Extras.ARRAY_LIST_EXERCISES);
         getPresenter().onReceiveSelectedExercises(exercises);
     }
 
@@ -163,7 +163,7 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
     @Override
     public void closeActivityResultOk(ArrayList<Exercise> exercises) {
         Intent data = new Intent();
-        data.putExtra(Extras.SELECTED_EXERCISES, exercises);
+        data.putExtra(Extras.ARRAY_LIST_EXERCISES, exercises);
         getActivity().setResult(Activity.RESULT_OK, data);
         getActivity().finish();
     }

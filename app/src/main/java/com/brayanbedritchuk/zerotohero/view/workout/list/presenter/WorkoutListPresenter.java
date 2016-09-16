@@ -60,7 +60,7 @@ public class WorkoutListPresenter {
         return getViewModel().getWorkoutList();
     }
 
-    public void onActivityResult() {
+    public void onActivityResultOk() {
         loadWorkouts();
     }
 

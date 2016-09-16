@@ -3,6 +3,7 @@ package com.brayanbedritchuk.zerotohero.view.workout.details.presenter;
 import android.content.Context;
 
 import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 
 public interface WorkoutDetailsView {
 
@@ -19,4 +20,6 @@ public interface WorkoutDetailsView {
     void updateTitle(String title);
 
     void updateVisibilityOfViews();
+
+    void startEditWorkoutActivity(Workout workout);
 }

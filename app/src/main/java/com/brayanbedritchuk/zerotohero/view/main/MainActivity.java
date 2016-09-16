@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.helper.AnimationHelper;
 import com.brayanbedritchuk.zerotohero.view.workout.list.WorkoutListFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -57,6 +58,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onClickFab();
+            }
+        });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    AnimationHelper.performScaleUpAnimation(fab);
+
+                } else if (state == ViewPager.SCROLL_STATE_DRAGGING) {
+                    AnimationHelper.performScaleDownAnimation(fab);
+                }
             }
         });
     }

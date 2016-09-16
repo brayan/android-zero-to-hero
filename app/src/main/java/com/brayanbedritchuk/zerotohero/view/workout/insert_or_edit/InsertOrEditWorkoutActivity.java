@@ -1,5 +1,6 @@
 package com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +15,14 @@ import com.brayanbedritchuk.zerotohero.model.Workout;
 
 public class InsertOrEditWorkoutActivity extends BaseActivity {
 
+    public static void start(Fragment fragment, int requestCode) {
+        Intent starter = getStartIntent(fragment.getActivity(), null);
+        fragment.startActivityForResult(starter, requestCode, getOptions(fragment.getActivity()));
+    }
+
     public static void start(Fragment fragment, Workout workout, int requestCode) {
         Intent starter = getStartIntent(fragment.getActivity(), workout);
-        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragment.getActivity()).toBundle();
-        fragment.startActivityForResult(starter, requestCode, options);
+        fragment.startActivityForResult(starter, requestCode, getOptions(fragment.getActivity()));
     }
 
     @NonNull
@@ -29,6 +34,10 @@ public class InsertOrEditWorkoutActivity extends BaseActivity {
         }
 
         return starter;
+    }
+
+    private static Bundle getOptions(Activity activity) {
+        return ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle();
     }
 
     @Override

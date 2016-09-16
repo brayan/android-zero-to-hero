@@ -3,6 +3,7 @@ package com.brayanbedritchuk.zerotohero.view.workout.details;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,8 +22,11 @@ import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
 import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDetailsPresenter;
 import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDetailsView;
+import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 
 public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsView, ExercisesListAdapter.Callback {
+
+    private static final int REQUEST_EDIT_WORKOUT = 0;
 
     private WorkoutDetailsPresenter presenter;
 
@@ -30,6 +34,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     private RecyclerView recyclerView;
     private ExercisesListAdapter adapter;
     private View emptyList;
+    private FloatingActionButton fab;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +46,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.linlay_appbar_card_recycler, container, false);
+        View view = inflater.inflate(R.layout.frame_linlay_appbar_card_recycler_fab, container, false);
         initViews(view);
         return view;
     }
@@ -66,6 +71,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
         inflateViews(view);
         initToolbar();
         initRecyclerView();
+        initFab();
         initVisibilityOfViews();
     }
 
@@ -124,6 +130,11 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     }
 
     @Override
+    public void startEditWorkoutActivity(Workout workout) {
+        InsertOrEditWorkoutActivity.start(this, workout, REQUEST_EDIT_WORKOUT);
+    }
+
+    @Override
     public Context getActivityContext() {
         return getActivity();
     }
@@ -142,6 +153,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         emptyList = view.findViewById(R.id.empty_list);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
     }
 
     private void initRecyclerView() {
@@ -152,6 +164,16 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     private void initVisibilityOfViews() {
         emptyList.setVisibility(View.GONE);
+    }
+
+    private void initFab() {
+        fab.setImageResource(R.drawable.ic_edit_white_24dp);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getPresenter().onClickEditWorkout();
+            }
+        });
     }
 
     public WorkoutDetailsPresenter getPresenter() {

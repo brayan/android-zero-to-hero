@@ -4,6 +4,7 @@ import android.content.Intent;
 
 import com.brayanbedritchuk.zerotohero.helper.Extras;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +20,18 @@ public class InsertOrEditWorkoutPresenter {
     }
 
     public void onResume() {
-        getView().updateContentViews();
+        if (getViewModel().isFirstSession() && getViewModel().getWorkout() != null) {
+            // LOAD ARRAY_LIST_EXERCISES FOR THIS FUCKING WORKOUT!
+
+        } else {
+            getView().updateContentViews();
+        }
+
         getViewModel().setFirstSession(false);
     }
 
     public void onClickAddExercises() {
-        ArrayList array = (ArrayList) getViewModel().getSelectedExercises();
+        ArrayList array = (ArrayList) getViewModel().getExercises();
         getView().startExercisesChooserActivity(array);
     }
 
@@ -35,12 +42,12 @@ public class InsertOrEditWorkoutPresenter {
     }
 
     private ArrayList<Exercise> getSelectedExercisesFromIntent(Intent data) {
-        return (ArrayList<Exercise>) data.getSerializableExtra(Extras.SELECTED_EXERCISES);
+        return (ArrayList<Exercise>) data.getSerializableExtra(Extras.ARRAY_LIST_EXERCISES);
     }
 
     private void clearAndUpdateSelectedExercises(List<Exercise> selectedExercises) {
-        getViewModel().getSelectedExercises().clear();
-        getViewModel().getSelectedExercises().addAll(selectedExercises);
+        getViewModel().getExercises().clear();
+        getViewModel().getExercises().addAll(selectedExercises);
     }
 
     public InsertOrEditWorkoutViewModel getViewModel() {
@@ -60,11 +67,14 @@ public class InsertOrEditWorkoutPresenter {
     }
 
     public List<Exercise> getExercises() {
-        return getViewModel().getSelectedExercises();
+        return getViewModel().getExercises();
     }
 
     public void onClickMenuSave() {
         new SaveWorkoutAsyncTask(getView(), getViewModel()).execute();
     }
 
+    public void onReceiveWorkout(Workout workout) {
+        getViewModel().setWorkout(workout);
+    }
 }

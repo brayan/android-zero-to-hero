@@ -1,6 +1,7 @@
 package com.brayanbedritchuk.zerotohero.view.workout.details.presenter;
 
 import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 
 import java.util.List;
 
@@ -65,6 +66,11 @@ public class WorkoutDetailsPresenter {
 
     public List<Exercise> getExercises() {
         return getViewModel().getExerciseList();
+    }
+
+    public void onClickEditWorkout() {
+        Workout workout = getViewModel().getWorkout();
+        getView().startEditWorkoutActivity(workout);
     }
 
 //    public WorkoutDAO getWorkoutDAO() {

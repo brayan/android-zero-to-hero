@@ -21,7 +21,9 @@ import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.helper.DialogHelper;
+import com.brayanbedritchuk.zerotohero.helper.Extras;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
 import com.brayanbedritchuk.zerotohero.view.exercise.chooser.ExerciseChooserActivity;
 import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.presenter.InsertOrEditWorkoutPresenter;
@@ -50,6 +52,7 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
         setRetainInstance(true);
         setHasOptionsMenu(true);
         initPresenter();
+        getExtrasFromIntent();
     }
 
     @Override
@@ -86,6 +89,12 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
 
     private void initPresenter() {
         setPresenter(new InsertOrEditWorkoutPresenter(this));
+    }
+
+    private void getExtrasFromIntent() {
+        Intent intent = getActivity().getIntent();
+        Workout workout = (Workout) intent.getSerializableExtra(Extras.WORKOUT);
+        getPresenter().onReceiveWorkout(workout);
     }
 
     @Override

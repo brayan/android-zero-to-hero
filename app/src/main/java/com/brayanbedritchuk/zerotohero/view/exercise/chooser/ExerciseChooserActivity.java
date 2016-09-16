@@ -16,7 +16,7 @@ public class ExerciseChooserActivity extends BaseActivity {
 
     public static void start(Fragment fragment, ArrayList<Exercise> exercises, int requestCode) {
         Intent starter = new Intent(fragment.getActivity(), ExerciseChooserActivity.class);
-        starter.putExtra(Extras.SELECTED_EXERCISES, exercises);
+        starter.putExtra(Extras.ARRAY_LIST_EXERCISES, exercises);
 
         Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragment.getActivity()).toBundle();
         fragment.startActivityForResult(starter, requestCode, options);

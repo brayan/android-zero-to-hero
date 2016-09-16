@@ -3,7 +3,6 @@ package com.brayanbedritchuk.zerotohero.view.workout.list;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,14 +11,15 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.base.BaseFragment;
 import com.brayanbedritchuk.zerotohero.model.Workout;
-import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
+import com.brayanbedritchuk.zerotohero.view.adapter.WorkoutListAdapter;
 import com.brayanbedritchuk.zerotohero.view.workout.details.WorkoutDetailsActivity;
+import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 import com.brayanbedritchuk.zerotohero.view.workout.list.presenter.WorkoutListPresenter;
 import com.brayanbedritchuk.zerotohero.view.workout.list.presenter.WorkoutListView;
-import com.brayanbedritchuk.zerotohero.view.adapter.WorkoutListAdapter;
 
-public class WorkoutListFragment extends Fragment implements WorkoutListView, WorkoutListAdapter.Callback {
+public class WorkoutListFragment extends BaseFragment implements WorkoutListView, WorkoutListAdapter.Callback {
 
     private static final int REQUEST_NEW_WORKOUT = 0;
 
@@ -50,9 +50,9 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        getPresenter().onActivityResult();
+    protected void onActivityResultOk(int requestCode, Intent data) {
+        // TODO: IMPLEMENT SWITCH
+        getPresenter().onActivityResultOk();
     }
 
     private void initPresenter() {
@@ -78,7 +78,7 @@ public class WorkoutListFragment extends Fragment implements WorkoutListView, Wo
 
     @Override
     public void startNewWorkoutActivity() {
-        InsertOrEditWorkoutActivity.start(this, null, REQUEST_NEW_WORKOUT);
+        InsertOrEditWorkoutActivity.start(this, REQUEST_NEW_WORKOUT);
     }
 
     @Override
