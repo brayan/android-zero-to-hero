@@ -15,4 +15,6 @@ public interface WorkoutListView {
     void startNewWorkoutActivity();
 
     void startWorkoutDetailsActivity(Workout workout);
+
+    void updateWorkoutRemoved(int position);
 }

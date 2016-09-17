@@ -22,4 +22,8 @@ public interface WorkoutDetailsView {
     void updateVisibilityOfViews();
 
     void startEditWorkoutActivity(Workout workout);
+
+    void closeActivityWithResultCanceled();
+
+    void closeActivityWithResultOkAndDeleteWorkout(Workout workout);
 }

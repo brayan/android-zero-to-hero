@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,8 +19,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.base.BaseFragment;
 import com.brayanbedritchuk.zerotohero.helper.DialogHelper;
-import com.brayanbedritchuk.zerotohero.helper.Extras;
+import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
+import com.brayanbedritchuk.zerotohero.helper.UIHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
@@ -30,8 +31,9 @@ import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.presenter.Ins
 import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.presenter.InsertOrEditWorkoutView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEditWorkoutView {
+public class InsertOrEditWorkoutFragment extends BaseFragment implements InsertOrEditWorkoutView {
 
     private static final int REQUEST_EXERCISE_CHOOSER = 0;
 
@@ -93,22 +95,11 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
 
     private void getExtrasFromIntent() {
         Intent intent = getActivity().getIntent();
-        Workout workout = (Workout) intent.getSerializableExtra(Extras.WORKOUT);
-        getPresenter().onReceiveWorkout(workout);
+        getPresenter().onReceiveWorkout(ExtrasHelper.getWorkout(intent));
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == Activity.RESULT_OK) {
-            onActivityResultOk(requestCode, data);
-        } else {
-            onActivityResultCanceled(requestCode, data);
-        }
-    }
-
-    private void onActivityResultOk(int requestCode, Intent data) {
+    protected void onActivityResultOk(int requestCode, Intent data) {
         switch (requestCode) {
             case REQUEST_EXERCISE_CHOOSER: {
                 getPresenter().onResultOkExerciseChooser(data);
@@ -116,7 +107,8 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
         }
     }
 
-    private void onActivityResultCanceled(int requestCode, Intent data) {
+    @Override
+    protected void onActivityResultCanceled(int requestCode, Intent data) {
         // TODO
     }
 
@@ -128,7 +120,7 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
     }
 
     @Override
-    public void updateContentViews() {
+    public void updateExercisesListAndVisibility() {
         adapter.notifyDataSetChanged();
         updateVisibilityOfViews();
     }
@@ -154,8 +146,35 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
     }
 
     @Override
-    public void closeActivity() {
+    public void closeActivityWithResultCanceled() {
+        getActivity().setResult(Activity.RESULT_CANCELED);
         getActivity().finish();
+    }
+
+    @Override
+    public void closeActivityWithResultOk(Workout workout, List<Exercise> exercises) {
+        Intent intent = new Intent();
+        ExtrasHelper.putWorkout(workout, intent);
+        ExtrasHelper.putExercises(exercises, intent);
+
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().finish();
+    }
+
+    @Override
+    public void updateWorkoutNameView(String name) {
+        etWorkoutName.setText(name);
+        etWorkoutName.setSelection(etWorkoutName.getText().length());
+    }
+
+    @Override
+    public void hideKeyboard() {
+        UIHelper.hideKeyboard(getActivity());
+    }
+
+    @Override
+    public void updateToolbarTitle(String title) {
+        toolbar.setTitle(title);
     }
 
     @Override
@@ -185,7 +204,6 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle(R.string.new_workout);
         toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,7 +222,8 @@ public class InsertOrEditWorkoutFragment extends Fragment implements InsertOrEdi
         });
     }
 
-    private void updateVisibilityOfViews() {
+    @Override
+    public void updateVisibilityOfViews() {
         boolean emptyList = getPresenter().getExercises().isEmpty();
 
         if (emptyList) {

@@ -1,22 +1,26 @@
 package com.brayanbedritchuk.zerotohero.view.workout.details;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.base.BaseFragment;
 import com.brayanbedritchuk.zerotohero.helper.DialogHelper;
-import com.brayanbedritchuk.zerotohero.helper.Extras;
+import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
@@ -24,7 +28,7 @@ import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDet
 import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDetailsView;
 import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 
-public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsView, ExercisesListAdapter.Callback {
+public class WorkoutDetailsFragment extends BaseFragment implements WorkoutDetailsView, ExercisesListAdapter.Callback {
 
     private static final int REQUEST_EDIT_WORKOUT = 0;
 
@@ -40,6 +44,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
+        setHasOptionsMenu(true);
         initPresenter();
         getExtrasFromIntent();
     }
@@ -52,9 +57,38 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_workout_details, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu__item__delete: {
+                getPresenter().onClickMenuDelete();
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         getPresenter().onResume();
+    }
+
+    @Override
+    protected void onActivityResultOk(int requestCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_EDIT_WORKOUT: {
+                getPresenter().onResultOkEditWorkout(data);
+                return;
+            }
+        }
     }
 
     private void initPresenter() {
@@ -63,7 +97,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
 
     private void getExtrasFromIntent() {
         Intent intent = getActivity().getIntent();
-        Workout workout = (Workout) intent.getSerializableExtra(Extras.WORKOUT);
+        Workout workout = ExtrasHelper.getWorkout(intent);
         getPresenter().getViewModel().setWorkout(workout);
     }
 
@@ -82,7 +116,7 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().onBackPressed();
+                getPresenter().onClickNavigation();
             }
         });
     }
@@ -132,6 +166,22 @@ public class WorkoutDetailsFragment extends Fragment implements WorkoutDetailsVi
     @Override
     public void startEditWorkoutActivity(Workout workout) {
         InsertOrEditWorkoutActivity.start(this, workout, REQUEST_EDIT_WORKOUT);
+    }
+
+    @Override
+    public void closeActivityWithResultCanceled() {
+        getActivity().setResult(Activity.RESULT_CANCELED);
+        getActivity().finish();
+    }
+
+    @Override
+    public void closeActivityWithResultOkAndDeleteWorkout(Workout workout) {
+        Intent intent = new Intent();
+        ExtrasHelper.putWorkout(workout, intent);
+        ExtrasHelper.deleteWorkout(intent);
+
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().finish();
     }
 
     @Override

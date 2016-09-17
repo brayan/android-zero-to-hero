@@ -10,10 +10,10 @@ public class BaseFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             onActivityResultOk(requestCode, data);
 
-        } else if (requestCode == Activity.RESULT_CANCELED) {
+        } else if (resultCode == Activity.RESULT_CANCELED) {
             onActivityResultCanceled(requestCode, data);
         }
     }

@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment;
 
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.base.BaseActivity;
-import com.brayanbedritchuk.zerotohero.helper.Extras;
+import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 
 public class InsertOrEditWorkoutActivity extends BaseActivity {
@@ -30,7 +30,7 @@ public class InsertOrEditWorkoutActivity extends BaseActivity {
         Intent starter = new Intent(context, InsertOrEditWorkoutActivity.class);
 
         if (workout != null) {
-            starter.putExtra(Extras.WORKOUT, workout);
+            ExtrasHelper.putWorkout(workout, starter);
         }
 
         return starter;

@@ -30,7 +30,11 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Void, Exception> {
     }
 
     protected abstract void onRunningInBackground() throws Exception;
-    protected abstract void onSuccess();
-    protected abstract void onFail(Exception e);
+
+    protected  void onSuccess() {
+    }
+
+    protected void onFail(Exception e){
+    }
 
 }

@@ -1,10 +1,14 @@
 package com.brayanbedritchuk.zerotohero.view.exercise.chooser.presenter;
 
+import android.content.Context;
 import android.support.annotation.StringRes;
 import android.util.SparseArray;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.helper.ListHelper;
+import com.brayanbedritchuk.zerotohero.helper.LogHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.view.async_tasks.LoadExercisesAsyncTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,10 +69,27 @@ public class ExerciseChooserPresenter {
 
     private void verifyAndLoadWorkouts() {
         if (getViewModel().isFirstSession()) {
-            new ExercisesLoader(getView(), getViewModel()).execute();
+            loadExercises();
         } else {
             updateContentViews();
         }
+    }
+
+    private void loadExercises() {
+        Context context = getView().getActivityContext().getApplicationContext();
+        new LoadExercisesAsyncTask(context, new LoadExercisesAsyncTask.Callback() {
+            @Override
+            public void onSuccess(List<Exercise> exercises) {
+                ListHelper.clearAndAdd(exercises, getViewModel().getExerciseList());
+                getView().updateExerciseListView();
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                LogHelper.printExceptionLog(e);
+                getView().showToast(e.getMessage());
+            }
+        }).execute();
     }
 
     private void updateContentViews() {
@@ -100,7 +121,7 @@ public class ExerciseChooserPresenter {
         return getViewModel().getSelectedExercises();
     }
 
-    public void onReceiveSelectedExercises(ArrayList<Exercise> exercises) {
+    public void onReceiveSelectedExercises(List<Exercise> exercises) {
         SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
 
         for (Exercise e : exercises) {

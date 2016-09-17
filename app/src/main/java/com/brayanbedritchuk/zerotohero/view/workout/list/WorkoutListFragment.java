@@ -22,6 +22,7 @@ import com.brayanbedritchuk.zerotohero.view.workout.list.presenter.WorkoutListVi
 public class WorkoutListFragment extends BaseFragment implements WorkoutListView, WorkoutListAdapter.Callback {
 
     private static final int REQUEST_NEW_WORKOUT = 0;
+    private static final int REQUEST_DETAILS = 1;
 
     private WorkoutListPresenter presenter;
 
@@ -51,8 +52,27 @@ public class WorkoutListFragment extends BaseFragment implements WorkoutListView
 
     @Override
     protected void onActivityResultOk(int requestCode, Intent data) {
-        // TODO: IMPLEMENT SWITCH
-        getPresenter().onActivityResultOk();
+        switch (requestCode) {
+            case REQUEST_NEW_WORKOUT: {
+                getPresenter().onActivityResultOkInsertOrEditWorkout(data);
+                return;
+            }
+            case REQUEST_DETAILS: {
+                getPresenter().onActivityResultOkWorkoutDetails(data);
+                return;
+            }
+        }
+
+    }
+
+    @Override
+    protected void onActivityResultCanceled(int requestCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_DETAILS: {
+                getPresenter().onResultCanceledWorkoutDetails();
+                return;
+            }
+        }
     }
 
     private void initPresenter() {
@@ -83,7 +103,12 @@ public class WorkoutListFragment extends BaseFragment implements WorkoutListView
 
     @Override
     public void startWorkoutDetailsActivity(Workout workout) {
-        WorkoutDetailsActivity.start(getActivity(), workout);
+        WorkoutDetailsActivity.start(this, workout, REQUEST_DETAILS);
+    }
+
+    @Override
+    public void updateWorkoutRemoved(int position) {
+        adapter.notifyItemRemoved(position);
     }
 
     @Override

@@ -1,24 +1,30 @@
 package com.brayanbedritchuk.zerotohero.view.workout.details;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
 
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.base.BaseActivity;
-import com.brayanbedritchuk.zerotohero.helper.Extras;
+import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 
 public class WorkoutDetailsActivity extends BaseActivity {
 
-    public static void start(Activity activity, Workout workout) {
-        Intent starter = new Intent(activity, WorkoutDetailsActivity.class);
-        starter.putExtra(Extras.WORKOUT, workout);
+    public static void start(Fragment fragment, Workout workout, int requestCode) {
+        Intent starter = getStartIntent(fragment.getActivity(), workout);
+        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(fragment.getActivity()).toBundle();
+        fragment.startActivityForResult(starter, requestCode, options);
+    }
 
-        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle();
-        ActivityCompat.startActivity(activity, starter, options);
+    @NonNull
+    private static Intent getStartIntent(Context context, Workout workout) {
+        Intent starter = new Intent(context, WorkoutDetailsActivity.class);
+        ExtrasHelper.putWorkout(workout, starter);
+        return starter;
     }
 
     @Override

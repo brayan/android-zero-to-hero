@@ -3,14 +3,18 @@ package com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.presenter;
 import android.content.Context;
 
 import com.brayanbedritchuk.zerotohero.model.Exercise;
+import com.brayanbedritchuk.zerotohero.model.Workout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public interface InsertOrEditWorkoutView {
 
     Context getActivityContext();
 
-    void updateContentViews();
+    void updateVisibilityOfViews();
+
+    void updateExercisesListAndVisibility();
 
     void showToast(String message);
 
@@ -20,5 +24,13 @@ public interface InsertOrEditWorkoutView {
 
     void showDialog(String message);
 
-    void closeActivity();
+    void closeActivityWithResultCanceled();
+
+    void closeActivityWithResultOk(Workout workout, List<Exercise> exercises);
+
+    void updateWorkoutNameView(String name);
+
+    void hideKeyboard();
+
+    void updateToolbarTitle(String title);
 }

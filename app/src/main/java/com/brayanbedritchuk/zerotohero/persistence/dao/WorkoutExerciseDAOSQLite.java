@@ -35,4 +35,19 @@ public class WorkoutExerciseDAOSQLite extends BaseDAOSQLite {
             getWritableDatabase().endTransaction();
         }
     }
+
+    public void deleteFromWorkout(long workoutId) throws Exception {
+        getWritableDatabase().beginTransactionNonExclusive();
+        try {
+            String sql = "DELETE FROM WorkoutExercise WHERE WorkoutExercise.workoutId = ?";
+            SQLiteStatement stmt = getWritableDatabase().compileStatement(sql);
+            stmt.bindLong(1, workoutId);
+            stmt.executeUpdateDelete();
+            stmt.clearBindings();
+
+            getWritableDatabase().setTransactionSuccessful();
+        } finally {
+            getWritableDatabase().endTransaction();
+        }
+    }
 }
