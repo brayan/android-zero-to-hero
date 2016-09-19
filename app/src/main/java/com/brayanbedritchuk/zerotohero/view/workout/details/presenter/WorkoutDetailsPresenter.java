@@ -3,6 +3,7 @@ package com.brayanbedritchuk.zerotohero.view.workout.details.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.brayanbedritchuk.zerotohero.base.BasePresenter;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.helper.ListHelper;
 import com.brayanbedritchuk.zerotohero.helper.LogHelper;
@@ -13,7 +14,7 @@ import com.brayanbedritchuk.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
 
 import java.util.List;
 
-public class WorkoutDetailsPresenter {
+public class WorkoutDetailsPresenter extends BasePresenter {
 
     private WorkoutDetailsView view;
     private WorkoutDetailsViewModel viewModel;
@@ -23,10 +24,14 @@ public class WorkoutDetailsPresenter {
         setViewModel(new WorkoutDetailsViewModel());
     }
 
-    public void onResume() {
-        updateTitle();
-        verifyAndLoadWorkouts();
-        getViewModel().setFirstSession(false);
+    @Override
+    protected void onResumeFirstSession() {
+        loadExercises();
+    }
+
+    @Override
+    protected void postResume() {
+        updateContentViews();
     }
 
     public void onClickNewWorkout() {
@@ -38,12 +43,25 @@ public class WorkoutDetailsPresenter {
         getView().startExerciseDetailsActivity(exercise);
     }
 
-    private void verifyAndLoadWorkouts() {
-        if (getViewModel().isFirstSession()) {
-            loadExercises();
-        } else {
-            updateContentViews();
-        }
+    public void onClickEditWorkout() {
+        Workout workout = getViewModel().getWorkout();
+        getView().startEditWorkoutActivity(workout);
+    }
+
+    public void onClickNavigation() {
+        getView().closeActivityWithResultCanceled();
+    }
+
+    public void onResultOkEditWorkout(Intent data) {
+        getViewModel().setWorkout(ExtrasHelper.getWorkout(data));
+        ListHelper.clearAndAdd(ExtrasHelper.getExercises(data), getViewModel().getExerciseList());
+        updateContentViews();
+        saveWorkout();
+    }
+
+    public void onClickMenuDelete() {
+        Workout workout = getViewModel().getWorkout();
+        getView().closeActivityWithResultOkAndDeleteWorkout(workout);
     }
 
     private void loadExercises() {
@@ -94,22 +112,6 @@ public class WorkoutDetailsPresenter {
         return getViewModel().getExerciseList();
     }
 
-    public void onClickEditWorkout() {
-        Workout workout = getViewModel().getWorkout();
-        getView().startEditWorkoutActivity(workout);
-    }
-
-    public void onClickNavigation() {
-        getView().closeActivityWithResultCanceled();
-    }
-
-    public void onResultOkEditWorkout(Intent data) {
-        getViewModel().setWorkout(ExtrasHelper.getWorkout(data));
-        ListHelper.clearAndAdd(ExtrasHelper.getExercises(data), getViewModel().getExerciseList());
-        updateContentViews();
-        saveWorkout();
-    }
-
     private void saveWorkout() {
         Context context = getView().getActivityContext().getApplicationContext();
         Workout workout = getViewModel().getWorkout();
@@ -128,8 +130,4 @@ public class WorkoutDetailsPresenter {
         }).execute();
     }
 
-    public void onClickMenuDelete() {
-        Workout workout = getViewModel().getWorkout();
-        getView().closeActivityWithResultOkAndDeleteWorkout(workout);
-    }
 }

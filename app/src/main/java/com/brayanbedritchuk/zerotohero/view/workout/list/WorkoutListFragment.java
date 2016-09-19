@@ -19,23 +19,14 @@ import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditW
 import com.brayanbedritchuk.zerotohero.view.workout.list.presenter.WorkoutListPresenter;
 import com.brayanbedritchuk.zerotohero.view.workout.list.presenter.WorkoutListView;
 
-public class WorkoutListFragment extends BaseFragment implements WorkoutListView, WorkoutListAdapter.Callback {
+public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> implements WorkoutListView, WorkoutListAdapter.Callback {
 
     private static final int REQUEST_NEW_WORKOUT = 0;
     private static final int REQUEST_DETAILS = 1;
 
-    private WorkoutListPresenter presenter;
-
     private RecyclerView recyclerView;
     private WorkoutListAdapter adapter;
     private View emptyList;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        initPresenter();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,9 +36,8 @@ public class WorkoutListFragment extends BaseFragment implements WorkoutListView
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getPresenter().onResume();
+    protected WorkoutListPresenter newPresenterInstance() {
+        return new WorkoutListPresenter(this);
     }
 
     @Override
@@ -73,10 +63,6 @@ public class WorkoutListFragment extends BaseFragment implements WorkoutListView
                 return;
             }
         }
-    }
-
-    private void initPresenter() {
-        setPresenter(new WorkoutListPresenter(this));
     }
 
     private void initViews(View view) {
@@ -152,14 +138,6 @@ public class WorkoutListFragment extends BaseFragment implements WorkoutListView
             recyclerView.setVisibility(View.VISIBLE);
         }
 
-    }
-
-    public WorkoutListPresenter getPresenter() {
-        return presenter;
-    }
-
-    public void setPresenter(WorkoutListPresenter presenter) {
-        this.presenter = presenter;
     }
 
 }

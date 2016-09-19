@@ -3,6 +3,7 @@ package com.brayanbedritchuk.zerotohero.view.workout.list.presenter;
 import android.content.Context;
 import android.content.Intent;
 
+import com.brayanbedritchuk.zerotohero.base.BasePresenter;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.helper.ListHelper;
 import com.brayanbedritchuk.zerotohero.helper.LogHelper;
@@ -14,7 +15,7 @@ import com.brayanbedritchuk.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
 
 import java.util.List;
 
-public class WorkoutListPresenter {
+public class WorkoutListPresenter extends BasePresenter {
 
     private WorkoutListView view;
     private WorkoutListViewModel viewModel;
@@ -24,9 +25,14 @@ public class WorkoutListPresenter {
         setViewModel(new WorkoutListViewModel());
     }
 
-    public void onResume() {
-        verifyAndLoadWorkouts();
-        getViewModel().setFirstSession(false);
+    @Override
+    protected void onResumeFirstSession() {
+        loadWorkouts();
+    }
+
+    @Override
+    protected void postResume() {
+        getView().updateContentViews();
     }
 
     public void onClickNewWorkout() {
@@ -38,11 +44,44 @@ public class WorkoutListPresenter {
         getView().startWorkoutDetailsActivity(workout);
     }
 
-    private void verifyAndLoadWorkouts() {
-        if (getViewModel().isFirstSession()) {
-            loadWorkouts();
+    public void onResultCanceledWorkoutDetails() {
+        loadWorkouts();
+    }
+
+    public void onActivityResultOkInsertOrEditWorkout(Intent data) {
+        Workout workout = ExtrasHelper.getWorkout(data);
+        List<Exercise> exercises = ExtrasHelper.getExercises(data);
+
+        getViewModel().getWorkoutList().add(workout);
+        getView().updateContentViews();
+        saveWorkout(workout, exercises);
+    }
+
+    public void onActivityResultOkWorkoutDetails(Intent data) {
+        if (ExtrasHelper.hasWorkoutToDelete(data)) {
+            Workout workoutToDelete = ExtrasHelper.getWorkout(data);
+            removeWorkoutFromListAndDeleteFromDatabase(workoutToDelete);
+        }
+    }
+
+    private void removeWorkoutFromListAndDeleteFromDatabase(Workout workoutToDelete) {
+        List<Workout> workoutList = getViewModel().getWorkoutList();
+
+        int position = -1;
+
+        for (int i = 0; i < workoutList.size(); i++) {
+            if (workoutList.get(i).getId() == workoutToDelete.getId()) {
+                position = i;
+                break;
+            }
+        }
+
+        if (position != -1) {
+            workoutList.remove(position);
+            getView().updateWorkoutRemoved(position);
+            deleteWorkout(workoutToDelete);
         } else {
-            getView().updateContentViews();
+            getView().showToast("Workout not found to delete");
         }
     }
 
@@ -62,68 +101,11 @@ public class WorkoutListPresenter {
         }).execute();
     }
 
-    public WorkoutListViewModel getViewModel() {
-        return viewModel;
-    }
-
-    public void setViewModel(WorkoutListViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public WorkoutListView getView() {
-        return view;
-    }
-
-    public void setView(WorkoutListView view) {
-        this.view = view;
-    }
-
-    public List<Workout> getWorkouts() {
-        return getViewModel().getWorkoutList();
-    }
-
-    public void onActivityResultOkInsertOrEditWorkout(Intent data) {
-        Workout workout = ExtrasHelper.getWorkout(data);
-        List<Exercise> exercises = ExtrasHelper.getExercises(data);
-
-        getViewModel().getWorkoutList().add(workout);
-        // TODO: SORT THE LIST
-        getView().updateContentViews();
-        saveWorkout(workout, exercises);
-    }
-
-    public void onActivityResultOkWorkoutDetails(Intent data) {
-        if (ExtrasHelper.hasWorkoutToDelete(data)) {
-            Workout workoutToDelete = ExtrasHelper.getWorkout(data);
-
-            List<Workout> workoutList = getViewModel().getWorkoutList();
-
-            int position = -1;
-
-            for (int i = 0; i < workoutList.size(); i++) {
-                if (workoutList.get(i).getId() == workoutToDelete.getId()) {
-                    position = i;
-                    break;
-                }
-            }
-
-            if (position != -1) {
-                workoutList.remove(position);
-                getView().updateWorkoutRemoved(position);
-                deleteWorkout(workoutToDelete);
-            } else {
-                getView().showToast("Workout not found to delete");
-            }
-
-        }
-    }
-
     private void deleteWorkout(Workout workoutToDelete) {
         Context context = getView().getActivityContext().getApplicationContext();
         new DeleteWorkoutAsyncTask(context, workoutToDelete, new DeleteWorkoutAsyncTask.Callback() {
             @Override
             public void onSuccess() {
-                // TODO
             }
 
             @Override
@@ -154,14 +136,24 @@ public class WorkoutListPresenter {
         getView().showToast("");
     }
 
-    public void onResultCanceledWorkoutDetails() {
-        loadWorkouts();
+    public WorkoutListViewModel getViewModel() {
+        return viewModel;
     }
 
+    public void setViewModel(WorkoutListViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
 
+    public WorkoutListView getView() {
+        return view;
+    }
 
-    //    public WorkoutDAO getWorkoutDAO() {
-    //        return WorkoutDAOSQLite.getInstance(getView().getActivityContext());
-    //    }
+    public void setView(WorkoutListView view) {
+        this.view = view;
+    }
+
+    public List<Workout> getWorkouts() {
+        return getViewModel().getWorkoutList();
+    }
 
 }

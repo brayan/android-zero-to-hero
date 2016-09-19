@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.StringRes;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.base.BasePresenter;
 import com.brayanbedritchuk.zerotohero.exception.RequiredComponentException;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.helper.ListHelper;
@@ -17,7 +18,7 @@ import com.brayanbedritchuk.zerotohero.view.async_tasks.LoadExercisesFromWorkout
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsertOrEditWorkoutPresenter {
+public class InsertOrEditWorkoutPresenter extends BasePresenter {
 
     private InsertOrEditWorkoutView view;
     private InsertOrEditWorkoutViewModel viewModel;
@@ -27,16 +28,42 @@ public class InsertOrEditWorkoutPresenter {
         setViewModel(new InsertOrEditWorkoutViewModel());
     }
 
-    public void onResume() {
-        if (getViewModel().isFirstSession() && getViewModel().getWorkout() != null) {
+    @Override
+    protected void onResumeFirstSession() {
+        if (hasWorkoutToEdit()) {
             getView().updateWorkoutNameView(getViewModel().getWorkout().getName());
             getView().hideKeyboard();
             loadExercises();
         }
+    }
 
+    @Override
+    protected void postResume() {
         updateContentViews();
+    }
 
-        getViewModel().setFirstSession(false);
+    public void onClickAddExercises() {
+        ArrayList array = (ArrayList) getViewModel().getExercises();
+        getView().startExercisesChooserActivity(array);
+    }
+
+    public void onResultOkExerciseChooser(Intent data) {
+        List<Exercise> exercises = ExtrasHelper.getExercises(data);
+        ListHelper.clearAndAdd(exercises, getViewModel().getExercises());
+        getView().updateExercisesListAndVisibility();
+    }
+
+    public void onClickMenuSave() {
+        try {
+            checkRequiredComponents();
+            buildAndReturnEntities();
+        } catch (Exception e) {
+            getView().showDialog(e.getMessage());
+        }
+    }
+
+    public void onReceiveWorkout(Workout workout) {
+        getViewModel().setWorkout(workout);
     }
 
     private void loadExercises() {
@@ -65,7 +92,7 @@ public class InsertOrEditWorkoutPresenter {
     private void updateToolbarTitle() {
         String title = null;
 
-        if (getViewModel().getWorkout() != null) {
+        if (hasWorkoutToEdit()) {
             title = getString(R.string.edit_workout);
         } else {
             title = getString(R.string.new_workout);
@@ -74,20 +101,8 @@ public class InsertOrEditWorkoutPresenter {
         getView().updateToolbarTitle(title);
     }
 
-    public void onClickAddExercises() {
-        ArrayList array = (ArrayList) getViewModel().getExercises();
-        getView().startExercisesChooserActivity(array);
-    }
-
-    public void onResultOkExerciseChooser(Intent data) {
-        List<Exercise> exercises = ExtrasHelper.getExercises(data);
-        clearAndUpdateSelectedExercises(exercises);
-        getView().updateExercisesListAndVisibility();
-    }
-
-    private void clearAndUpdateSelectedExercises(List<Exercise> selectedExercises) {
-        getViewModel().getExercises().clear();
-        getViewModel().getExercises().addAll(selectedExercises);
+    private boolean hasWorkoutToEdit() {
+        return getViewModel().getWorkout() != null;
     }
 
     public InsertOrEditWorkoutViewModel getViewModel() {
@@ -108,16 +123,6 @@ public class InsertOrEditWorkoutPresenter {
 
     public List<Exercise> getExercises() {
         return getViewModel().getExercises();
-    }
-
-    public void onClickMenuSave() {
-        try {
-            checkRequiredComponents();
-            buildAndReturnEntities();
-        } catch (Exception e) {
-            getView().showDialog(e.getMessage());
-        }
-        //        new SaveWorkoutAsyncTask(getView(), getViewModel()).execute();
     }
 
     private void buildAndReturnEntities() {
@@ -143,10 +148,6 @@ public class InsertOrEditWorkoutPresenter {
         if (getViewModel().getExercises().size() == 0) {
             throw new RequiredComponentException(getString(R.string.exeption_selected_exercises));
         }
-    }
-
-    public void onReceiveWorkout(Workout workout) {
-        getViewModel().setWorkout(workout);
     }
 
     private String getString(@StringRes int id) {

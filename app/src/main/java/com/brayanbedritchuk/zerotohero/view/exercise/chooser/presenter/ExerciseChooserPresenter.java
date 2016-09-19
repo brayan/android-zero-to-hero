@@ -5,6 +5,7 @@ import android.support.annotation.StringRes;
 import android.util.SparseArray;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.base.BasePresenter;
 import com.brayanbedritchuk.zerotohero.helper.ListHelper;
 import com.brayanbedritchuk.zerotohero.helper.LogHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
@@ -13,7 +14,7 @@ import com.brayanbedritchuk.zerotohero.view.async_tasks.LoadExercisesAsyncTask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExerciseChooserPresenter {
+public class ExerciseChooserPresenter extends BasePresenter {
 
     private ExerciseChooserView view;
     private ExerciseChooserViewModel viewModel;
@@ -23,10 +24,37 @@ public class ExerciseChooserPresenter {
         setViewModel(new ExerciseChooserViewModel());
     }
 
-    public void onResume() {
-        updateTitle();
-        verifyAndLoadWorkouts();
-        getViewModel().setFirstSession(false);
+    @Override
+    protected void onResumeFirstSession() {
+        loadExercises();
+    }
+
+    @Override
+    protected void postResume() {
+        updateContentViews();
+    }
+
+    public void onReceiveSelectedExercises(List<Exercise> exercises) {
+        SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
+
+        for (Exercise e : exercises) {
+            selectedExercises.put(e.getId(), e);
+        }
+    }
+
+    public void onClickMenuSave() {
+        ArrayList<Exercise> exercises = new ArrayList<>();
+        SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
+
+        for (int i = 0; i < selectedExercises.size(); i++) {
+            exercises.add(selectedExercises.valueAt(i));
+        }
+
+        getView().closeActivityResultOk(exercises);
+    }
+
+    public void onClickNavigationIcon() {
+        getView().closeActivityResultCanceled();
     }
 
     public void onClickNewWorkout() {
@@ -65,14 +93,6 @@ public class ExerciseChooserPresenter {
 
     private String getString(@StringRes int id) {
         return getView().getActivityContext().getString(id);
-    }
-
-    private void verifyAndLoadWorkouts() {
-        if (getViewModel().isFirstSession()) {
-            loadExercises();
-        } else {
-            updateContentViews();
-        }
     }
 
     private void loadExercises() {
@@ -121,35 +141,8 @@ public class ExerciseChooserPresenter {
         return getViewModel().getSelectedExercises();
     }
 
-    public void onReceiveSelectedExercises(List<Exercise> exercises) {
-        SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
-
-        for (Exercise e : exercises) {
-            selectedExercises.put(e.getId(), e);
-        }
-    }
-
-    public void onClickMenuSave() {
-        ArrayList<Exercise> exercises = new ArrayList<>();
-        SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
-
-        for (int i = 0; i < selectedExercises.size(); i++) {
-            exercises.add(selectedExercises.valueAt(i));
-        }
-
-        getView().closeActivityResultOk(exercises);
-    }
-
-    public void onClickNavigationIcon() {
-        getView().closeActivityResultCanceled();
-    }
-
     public boolean hasSelectedExercises() {
         return getViewModel().getSelectedExercises().size() > 0;
     }
-
-//    public WorkoutDAO getWorkoutDAO() {
-//        return WorkoutDAOSQLite.getInstance(getView().getActivityContext());
-//    }
 
 }

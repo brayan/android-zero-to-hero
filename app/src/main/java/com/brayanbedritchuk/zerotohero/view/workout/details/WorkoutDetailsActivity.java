@@ -7,12 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 
-import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.base.BaseActivity;
+import com.brayanbedritchuk.zerotohero.base.BaseActivitySingleFragment;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 
-public class WorkoutDetailsActivity extends BaseActivity {
+public class WorkoutDetailsActivity extends BaseActivitySingleFragment<WorkoutDetailsFragment> {
 
     public static void start(Fragment fragment, Workout workout, int requestCode) {
         Intent starter = getStartIntent(fragment.getActivity(), workout);
@@ -28,13 +27,7 @@ public class WorkoutDetailsActivity extends BaseActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.frame_layout);
-
-        if (savedInstanceState == null) {
-            addFragment(R.id.frame_layout, new WorkoutDetailsFragment());
-        }
+    protected WorkoutDetailsFragment newFragmentInstance() {
+        return new WorkoutDetailsFragment();
     }
-
 }

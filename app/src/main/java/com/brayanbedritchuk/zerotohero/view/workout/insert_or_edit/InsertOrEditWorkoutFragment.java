@@ -33,11 +33,9 @@ import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.presenter.Ins
 import java.util.ArrayList;
 import java.util.List;
 
-public class InsertOrEditWorkoutFragment extends BaseFragment implements InsertOrEditWorkoutView {
+public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkoutPresenter> implements InsertOrEditWorkoutView {
 
     private static final int REQUEST_EXERCISE_CHOOSER = 0;
-
-    private InsertOrEditWorkoutPresenter presenter;
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -47,15 +45,6 @@ public class InsertOrEditWorkoutFragment extends BaseFragment implements InsertO
     private View emptyList;
 
     private ExercisesListAdapter adapter;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-        initPresenter();
-        getExtrasFromIntent();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,18 +73,18 @@ public class InsertOrEditWorkoutFragment extends BaseFragment implements InsertO
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getPresenter().onResume();
+    protected boolean hasMenu() {
+        return true;
     }
 
-    private void initPresenter() {
-        setPresenter(new InsertOrEditWorkoutPresenter(this));
-    }
-
-    private void getExtrasFromIntent() {
-        Intent intent = getActivity().getIntent();
+    @Override
+    protected void getExtrasFromIntent(Intent intent) {
         getPresenter().onReceiveWorkout(ExtrasHelper.getWorkout(intent));
+    }
+
+    @Override
+    protected InsertOrEditWorkoutPresenter newPresenterInstance() {
+        return new InsertOrEditWorkoutPresenter(this);
     }
 
     @Override
@@ -105,11 +94,6 @@ public class InsertOrEditWorkoutFragment extends BaseFragment implements InsertO
                 getPresenter().onResultOkExerciseChooser(data);
             }
         }
-    }
-
-    @Override
-    protected void onActivityResultCanceled(int requestCode, Intent data) {
-        // TODO
     }
 
     private void initViews(View view) {
@@ -235,14 +219,6 @@ public class InsertOrEditWorkoutFragment extends BaseFragment implements InsertO
             recyclerView.setVisibility(View.VISIBLE);
         }
 
-    }
-
-    public InsertOrEditWorkoutPresenter getPresenter() {
-        return presenter;
-    }
-
-    public void setPresenter(InsertOrEditWorkoutPresenter presenter) {
-        this.presenter = presenter;
     }
 
 }

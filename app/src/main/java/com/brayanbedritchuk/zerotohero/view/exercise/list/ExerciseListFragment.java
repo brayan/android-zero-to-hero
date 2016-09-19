@@ -2,7 +2,6 @@ package com.brayanbedritchuk.zerotohero.view.exercise.list;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,24 +10,21 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.base.BaseFragment;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
-import com.brayanbedritchuk.zerotohero.view.exercise.list.presenter.ExerciseListView;
 import com.brayanbedritchuk.zerotohero.view.exercise.list.presenter.ExerciseListPresenter;
+import com.brayanbedritchuk.zerotohero.view.exercise.list.presenter.ExerciseListView;
 
-public class ExerciseListFragment extends Fragment implements ExerciseListView, ExercisesListAdapter.Callback {
-
-    private ExerciseListPresenter presenter;
+public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> implements ExerciseListView, ExercisesListAdapter.Callback {
 
     private RecyclerView recyclerView;
     private ExercisesListAdapter adapter;
     private View emptyList;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        initPresenter();
+    protected ExerciseListPresenter newPresenterInstance() {
+        return new ExerciseListPresenter(this);
     }
 
     @Override
@@ -36,16 +32,6 @@ public class ExerciseListFragment extends Fragment implements ExerciseListView, 
         View view = inflater.inflate(R.layout.frame_recycler, container, false);
         initViews(view);
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getPresenter().onResume();
-    }
-
-    private void initPresenter() {
-        setPresenter(new ExerciseListPresenter(this));
     }
 
     private void initViews(View view) {
@@ -106,14 +92,6 @@ public class ExerciseListFragment extends Fragment implements ExerciseListView, 
             recyclerView.setVisibility(View.VISIBLE);
         }
 
-    }
-
-    public ExerciseListPresenter getPresenter() {
-        return presenter;
-    }
-
-    public void setPresenter(ExerciseListPresenter presenter) {
-        this.presenter = presenter;
     }
 
 }

@@ -2,6 +2,7 @@ package com.brayanbedritchuk.zerotohero.view.exercise.list.presenter;
 
 import android.content.Context;
 
+import com.brayanbedritchuk.zerotohero.base.BasePresenter;
 import com.brayanbedritchuk.zerotohero.helper.ListHelper;
 import com.brayanbedritchuk.zerotohero.helper.LogHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
@@ -9,7 +10,7 @@ import com.brayanbedritchuk.zerotohero.view.async_tasks.LoadExercisesAsyncTask;
 
 import java.util.List;
 
-public class ExerciseListPresenter {
+public class ExerciseListPresenter extends BasePresenter {
 
     private ExerciseListView view;
     private ExerciseListViewModel viewModel;
@@ -19,22 +20,19 @@ public class ExerciseListPresenter {
         setViewModel(new ExerciseListViewModel());
     }
 
-    public void onResume() {
-        verifyAndLoadData();
-        getViewModel().setFirstSession(false);
+    @Override
+    protected void onResumeFirstSession() {
+        loadExercises();
+    }
+
+    @Override
+    protected void postResume() {
+        getView().updateContentViews();
     }
 
     public void onClickExercise(int position) {
         Exercise exercise = getExercises().get(position);
         getView().startExerciseDetailsActivity(exercise);
-    }
-
-    private void verifyAndLoadData() {
-        if (getViewModel().isFirstSession()) {
-            loadExercises();
-        } else {
-            getView().updateContentViews();
-        }
     }
 
     private void loadExercises() {
@@ -73,9 +71,4 @@ public class ExerciseListPresenter {
     public List<Exercise> getExercises() {
         return getViewModel().getExercises();
     }
-
-//    public WorkoutDAO getWorkoutDAO() {
-//        return WorkoutDAOSQLite.getInstance(getView().getActivityContext());
-//    }
-
 }

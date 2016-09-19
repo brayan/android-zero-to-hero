@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
+import com.brayanbedritchuk.zerotohero.base.BaseFragment;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExerciseChooserAdapter;
@@ -27,23 +27,12 @@ import com.brayanbedritchuk.zerotohero.view.exercise.chooser.presenter.ExerciseC
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExerciseChooserFragment extends Fragment implements ExerciseChooserView, ExerciseChooserAdapter.Callback {
-
-    private ExerciseChooserPresenter presenter;
+public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresenter> implements ExerciseChooserView, ExerciseChooserAdapter.Callback {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private ExerciseChooserAdapter adapter;
     private View emptyList;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-        initPresenter();
-        getExtrasFromIntent();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,9 +42,13 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getPresenter().onResume();
+    protected ExerciseChooserPresenter newPresenterInstance() {
+        return new ExerciseChooserPresenter(this);
+    }
+
+    @Override
+    protected boolean hasMenu() {
+        return true;
     }
 
     @Override
@@ -78,12 +71,8 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
 
     }
 
-    private void initPresenter() {
-        setPresenter(new ExerciseChooserPresenter(this));
-    }
-
-    private void getExtrasFromIntent() {
-        Intent intent = getActivity().getIntent();
+    @Override
+    protected void getExtrasFromIntent(Intent intent) {
         List<Exercise> exercises = ExtrasHelper.getExercises(intent);
         getPresenter().onReceiveSelectedExercises(exercises);
     }
@@ -202,14 +191,6 @@ public class ExerciseChooserFragment extends Fragment implements ExerciseChooser
 
     private void initVisibilityOfViews() {
         emptyList.setVisibility(View.GONE);
-    }
-
-    public ExerciseChooserPresenter getPresenter() {
-        return presenter;
-    }
-
-    public void setPresenter(ExerciseChooserPresenter presenter) {
-        this.presenter = presenter;
     }
 
 }

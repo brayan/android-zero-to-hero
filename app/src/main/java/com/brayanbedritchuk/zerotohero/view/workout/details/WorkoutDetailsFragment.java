@@ -28,26 +28,15 @@ import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDet
 import com.brayanbedritchuk.zerotohero.view.workout.details.presenter.WorkoutDetailsView;
 import com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 
-public class WorkoutDetailsFragment extends BaseFragment implements WorkoutDetailsView, ExercisesListAdapter.Callback {
+public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsView, ExercisesListAdapter.Callback {
 
     private static final int REQUEST_EDIT_WORKOUT = 0;
-
-    private WorkoutDetailsPresenter presenter;
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private ExercisesListAdapter adapter;
     private View emptyList;
     private FloatingActionButton fab;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-        setHasOptionsMenu(true);
-        initPresenter();
-        getExtrasFromIntent();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,9 +65,13 @@ public class WorkoutDetailsFragment extends BaseFragment implements WorkoutDetai
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        getPresenter().onResume();
+    protected WorkoutDetailsPresenter newPresenterInstance() {
+        return new WorkoutDetailsPresenter(this);
+    }
+
+    @Override
+    protected boolean hasMenu() {
+        return true;
     }
 
     @Override
@@ -91,12 +84,8 @@ public class WorkoutDetailsFragment extends BaseFragment implements WorkoutDetai
         }
     }
 
-    private void initPresenter() {
-        setPresenter(new WorkoutDetailsPresenter(this));
-    }
-
-    private void getExtrasFromIntent() {
-        Intent intent = getActivity().getIntent();
+    @Override
+    protected void getExtrasFromIntent(Intent intent) {
         Workout workout = ExtrasHelper.getWorkout(intent);
         getPresenter().getViewModel().setWorkout(workout);
     }
@@ -224,14 +213,6 @@ public class WorkoutDetailsFragment extends BaseFragment implements WorkoutDetai
                 getPresenter().onClickEditWorkout();
             }
         });
-    }
-
-    public WorkoutDetailsPresenter getPresenter() {
-        return presenter;
-    }
-
-    public void setPresenter(WorkoutDetailsPresenter presenter) {
-        this.presenter = presenter;
     }
 
 }

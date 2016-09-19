@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 
-import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.base.BaseActivity;
+import com.brayanbedritchuk.zerotohero.base.BaseActivitySingleFragment;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 
 import java.util.ArrayList;
 
-public class ExerciseChooserActivity extends BaseActivity {
+public class ExerciseChooserActivity extends BaseActivitySingleFragment<ExerciseChooserFragment> {
 
     public static void start(Fragment fragment, ArrayList<Exercise> exercises, int requestCode) {
         Intent starter = new Intent(fragment.getActivity(), ExerciseChooserActivity.class);
@@ -23,13 +22,7 @@ public class ExerciseChooserActivity extends BaseActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.frame_layout);
-
-        if (savedInstanceState == null) {
-            addFragment(R.id.frame_layout, new ExerciseChooserFragment());
-        }
+    protected ExerciseChooserFragment newFragmentInstance() {
+        return new ExerciseChooserFragment();
     }
-
 }

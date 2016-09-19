@@ -8,16 +8,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 
-import com.brayanbedritchuk.zerotohero.R;
-import com.brayanbedritchuk.zerotohero.base.BaseActivity;
+import com.brayanbedritchuk.zerotohero.base.BaseActivitySingleFragment;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 
-public class InsertOrEditWorkoutActivity extends BaseActivity {
+public class InsertOrEditWorkoutActivity extends BaseActivitySingleFragment<InsertOrEditWorkoutFragment> {
 
     public static void start(Fragment fragment, int requestCode) {
-        Intent starter = getStartIntent(fragment.getActivity(), null);
-        fragment.startActivityForResult(starter, requestCode, getOptions(fragment.getActivity()));
+        start(fragment, null, requestCode);
     }
 
     public static void start(Fragment fragment, Workout workout, int requestCode) {
@@ -41,13 +39,7 @@ public class InsertOrEditWorkoutActivity extends BaseActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.frame_layout);
-
-        if (savedInstanceState == null) {
-            addFragment(R.id.frame_layout, new InsertOrEditWorkoutFragment());
-        }
+    protected InsertOrEditWorkoutFragment newFragmentInstance() {
+        return new InsertOrEditWorkoutFragment();
     }
-
 }
