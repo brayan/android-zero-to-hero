@@ -2,11 +2,13 @@ package com.brayanbedritchuk.zerotohero.view.workout.list.presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import com.brayanbedritchuk.zerotohero.base.BasePresenter;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.helper.ListHelper;
 import com.brayanbedritchuk.zerotohero.helper.LogHelper;
+import com.brayanbedritchuk.zerotohero.helper.sqlite.ApiLevelHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.async_tasks.DeleteWorkoutAsyncTask;
@@ -41,7 +43,13 @@ public class WorkoutListPresenter extends BasePresenter {
 
     public void onClickWorkout(int position) {
         Workout workout = getWorkouts().get(position);
-        getView().startWorkoutDetailsActivity(workout);
+
+        if (ApiLevelHelper.isLowerThan(Build.VERSION_CODES.LOLLIPOP)) {
+            getView().startWorkoutDetailsActivity(workout);
+        } else {
+            getView().startWorkoutDetailsActivityWithAnimation(workout);
+        }
+
     }
 
     public void onResultCanceledWorkoutDetails() {

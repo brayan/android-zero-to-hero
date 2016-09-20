@@ -93,6 +93,11 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     @Override
+    public void startWorkoutDetailsActivityWithAnimation(Workout workout) {
+        startWorkoutDetailsActivity(workout);
+    }
+
+    @Override
     public void updateWorkoutRemoved(int position) {
         adapter.notifyItemRemoved(position);
     }
