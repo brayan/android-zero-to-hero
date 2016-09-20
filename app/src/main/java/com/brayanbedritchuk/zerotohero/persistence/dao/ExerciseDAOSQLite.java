@@ -2,6 +2,7 @@ package com.brayanbedritchuk.zerotohero.persistence.dao;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteStatement;
 
 import com.brayanbedritchuk.zerotohero.base.BaseDAOSQLite;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
@@ -38,4 +39,60 @@ public class ExerciseDAOSQLite extends BaseDAOSQLite {
         return exercises;
     }
 
+    public long saveAndGetId(Exercise exercise) {
+        getWritableDatabase().beginTransactionNonExclusive();
+        try {
+            StringBuilder sql = new StringBuilder();
+
+            sql.append(" INSERT INTO Workout ");
+            sql.append(" (name, weight, exerciseSet, repetition) ");
+            sql.append(" VALUES (?, ?, ?, ?); ");
+
+            SQLiteStatement stmt = getWritableDatabase().compileStatement(sql.toString());
+            stmt.bindString(1, exercise.getName());
+            stmt.bindDouble(2, exercise.getWeight());
+            stmt.bindLong(3, exercise.getSet());
+            stmt.bindLong(4, exercise.getRepetition());
+
+            long id = stmt.executeInsert();
+
+            stmt.clearBindings();
+
+            getWritableDatabase().setTransactionSuccessful();
+
+            return id;
+        } finally {
+            getWritableDatabase().endTransaction();
+        }
+    }
+
+    public void update(Exercise exercise) {
+        getWritableDatabase().beginTransactionNonExclusive();
+        try {
+            StringBuilder sql = new StringBuilder();
+
+            sql.append(" UPDATE Exercise SET ");
+            sql.append(" name = ?, ");
+            sql.append(" weight = ?, ");
+            sql.append(" exerciseSet = ?, ");
+            sql.append(" repetition = ? ");
+            sql.append(" WHERE id = ? ");
+
+            SQLiteStatement stmt = getWritableDatabase().compileStatement(sql.toString());
+            stmt.bindString(1, exercise.getName());
+            stmt.bindDouble(2, exercise.getWeight());
+            stmt.bindLong(3, exercise.getSet());
+            stmt.bindLong(4, exercise.getRepetition());
+            stmt.bindLong(5, exercise.getId());
+
+            stmt.executeInsert();
+
+            stmt.clearBindings();
+
+            getWritableDatabase().setTransactionSuccessful();
+
+        } finally {
+            getWritableDatabase().endTransaction();
+        }
+    }
 }

@@ -1,0 +1,34 @@
+package com.brayanbedritchuk.zerotohero.view.exercise.insert_or_edit.presenter;
+
+import android.content.Context;
+
+import com.brayanbedritchuk.zerotohero.model.Exercise;
+
+public interface InsertOrEditExerciseView {
+
+    Context getActivityContext();
+
+    void showToast(String message);
+
+    String getName();
+
+    void showDialog(String message);
+
+    void closeActivityWithResultCanceled();
+
+    void updateExerciseNameView(String name);
+
+    void hideKeyboard();
+
+    void updateToolbarTitle(String title);
+
+    void closeActivityWithResultOk(Exercise exercise);
+
+    void openKeyboard();
+
+    String getWeight();
+
+    String getSets();
+
+    String getReps();
+}

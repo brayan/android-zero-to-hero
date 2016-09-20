@@ -83,7 +83,7 @@ public class WorkoutDAOSQLite extends BaseDAOSQLite {
             stmt.bindString(1, workout.getName());
             stmt.bindLong(2, workout.getId());
 
-            long id = stmt.executeInsert();
+            stmt.executeInsert();
 
             stmt.clearBindings();
 

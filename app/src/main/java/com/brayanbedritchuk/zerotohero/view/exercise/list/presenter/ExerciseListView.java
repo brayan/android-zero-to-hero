@@ -13,4 +13,8 @@ public interface ExerciseListView {
     void showToast(String message);
 
     void startExerciseDetailsActivity(Exercise exercise);
+
+    void startNewExerciseActivity();
+
+    void showDialog(String message);
 }

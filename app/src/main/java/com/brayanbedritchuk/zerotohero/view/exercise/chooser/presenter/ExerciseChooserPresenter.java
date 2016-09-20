@@ -38,7 +38,7 @@ public class ExerciseChooserPresenter extends BasePresenter {
         SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
 
         for (Exercise e : exercises) {
-            selectedExercises.put(e.getId(), e);
+            selectedExercises.put((int) e.getId(), e);
         }
     }
 
@@ -64,10 +64,10 @@ public class ExerciseChooserPresenter extends BasePresenter {
     public void onClickExercise(int position) {
         Exercise exercise = getExerciseList().get(position);
 
-        if (getViewModel().getSelectedExercises().get(exercise.getId()) == null) {
-            getViewModel().getSelectedExercises().put(exercise.getId(), exercise);
+        if (getViewModel().getSelectedExercises().get((int) exercise.getId()) == null) {
+            getViewModel().getSelectedExercises().put((int) exercise.getId(), exercise);
         } else {
-            getViewModel().getSelectedExercises().remove(exercise.getId());
+            getViewModel().getSelectedExercises().remove((int) exercise.getId());
         }
 
         updateTitle();

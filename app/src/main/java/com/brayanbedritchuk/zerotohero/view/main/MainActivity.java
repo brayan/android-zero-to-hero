@@ -7,10 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.helper.AnimationHelper;
+import com.brayanbedritchuk.zerotohero.view.exercise.list.ExerciseListFragment;
 import com.brayanbedritchuk.zerotohero.view.workout.list.WorkoutListFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -91,10 +91,15 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             case MainFragmentPagerAdapter.POSITION_EXERCISE: {
-                Toast.makeText(MainActivity.this, "Nothing yet", Toast.LENGTH_SHORT).show();
+                getExerciseListFragment().onClickFab();
                 return;
             }
         }
+    }
+
+    private ExerciseListFragment getExerciseListFragment() {
+        int position = MainFragmentPagerAdapter.POSITION_EXERCISE;
+        return ((ExerciseListFragment) adapter.getRegisteredFragment(position));
     }
 
     private WorkoutListFragment getWorkoutListFragment() {

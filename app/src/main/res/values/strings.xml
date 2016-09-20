@@ -8,7 +8,13 @@
     <string name="exercise">exercise</string>
     <string name="exercises">exercises</string>
     <string name="exeption_workout_name">You must enter a workout name</string>
+    <string name="exeption_exercise_name">You must enter a exercise name</string>
+    <string name="exeption_exercise_weight">You must enter a exercise weight</string>
+    <string name="exeption_exercise_sets">You must enter the number of sets</string>
+    <string name="exeption_exercise_reps">You must enter the number of repetitions</string>
     <string name="exeption_selected_exercises">You must add at least one exercise</string>
     <string name="edit_workout">Edit Workout</string>
     <string name="delete">Delete</string>
+    <string name="edit_exercise">Edit Exercise</string>
+    <string name="new_exercise">New Exercise</string>
 </resources>

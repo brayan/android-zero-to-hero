@@ -53,7 +53,7 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
         tvWeight.setText(String.valueOf(exercise.getWeight()) + " KG ");
         tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");
         tvReps.setText(String.valueOf(exercise.getRepetition()) + " reps");
-        cbSelected.setChecked(selectedExercises.get(exercise.getId()) != null);
+        cbSelected.setChecked(selectedExercises.get((int) exercise.getId()) != null);
     }
 
     public Callback getCallback() {

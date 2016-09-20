@@ -1,6 +1,7 @@
 package com.brayanbedritchuk.zerotohero.view.exercise.list;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,12 +12,16 @@ import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.base.BaseFragment;
+import com.brayanbedritchuk.zerotohero.helper.DialogHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
+import com.brayanbedritchuk.zerotohero.view.exercise.insert_or_edit.InsertOrEditExerciseActivity;
 import com.brayanbedritchuk.zerotohero.view.exercise.list.presenter.ExerciseListPresenter;
 import com.brayanbedritchuk.zerotohero.view.exercise.list.presenter.ExerciseListView;
 
 public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> implements ExerciseListView, ExercisesListAdapter.Callback {
+
+    private static final int REQUEST_NEW_EXERCISE = 0;
 
     private RecyclerView recyclerView;
     private ExercisesListAdapter adapter;
@@ -25,6 +30,21 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     @Override
     protected ExerciseListPresenter newPresenterInstance() {
         return new ExerciseListPresenter(this);
+    }
+
+    @Override
+    protected void onActivityResultOk(int requestCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_NEW_EXERCISE: {
+                getPresenter().onActivityResultOkInsertOrEditExercise(data);
+                return;
+            }
+//            case REQUEST_DETAILS: {
+//                getPresenter().onActivityResultOkWorkoutDetails(data);
+//                return;
+//            }
+        }
+
     }
 
     @Override
@@ -53,6 +73,16 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     public void startExerciseDetailsActivity(Exercise exercise) {
+    }
+
+    @Override
+    public void startNewExerciseActivity() {
+        InsertOrEditExerciseActivity.start(this, REQUEST_NEW_EXERCISE);
+    }
+
+    @Override
+    public void showDialog(String message) {
+        DialogHelper.showErrorMessage(getFragmentManager(), message);
     }
 
     @Override
@@ -94,4 +124,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     }
 
+    public void onClickFab() {
+        getPresenter().onClickNewExercise();
+    }
 }

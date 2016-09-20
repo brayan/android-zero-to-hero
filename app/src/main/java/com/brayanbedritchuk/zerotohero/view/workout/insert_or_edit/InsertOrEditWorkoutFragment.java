@@ -55,14 +55,14 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_insert_edit_workout, menu);
+        inflater.inflate(R.menu.menu_insert_edit, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_insert_edit_workout_save: {
+            case R.id.menu_insert_edit_save: {
                 getPresenter().onClickMenuSave();
                 return true;
             }
