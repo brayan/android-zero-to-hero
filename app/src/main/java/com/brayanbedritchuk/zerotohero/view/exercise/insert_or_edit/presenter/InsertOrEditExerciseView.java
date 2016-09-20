@@ -16,7 +16,7 @@ public interface InsertOrEditExerciseView {
 
     void closeActivityWithResultCanceled();
 
-    void updateExerciseNameView(String name);
+    void setName(String name);
 
     void hideKeyboard();
 
@@ -31,4 +31,10 @@ public interface InsertOrEditExerciseView {
     String getSets();
 
     String getReps();
+
+    void setWeight(String weight);
+
+    void setSet(String set);
+
+    void setRepetition(String repetition);
 }

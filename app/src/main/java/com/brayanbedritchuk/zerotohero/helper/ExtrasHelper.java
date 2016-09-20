@@ -52,4 +52,7 @@ public class ExtrasHelper {
         return intent.hasExtra(DELETE_EXERCISE);
     }
 
+    public static void deleteExercise(Intent intent) {
+        intent.putExtra(DELETE_EXERCISE, true);
+    }
 }

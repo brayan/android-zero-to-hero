@@ -115,7 +115,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
 
     @Override
     public void startExerciseDetailsActivity(Exercise exercise) {
-//        WorkoutDetailsActivity.start(getActivity(), workout);
+//        ExerciseDetailsActivity.start(getActivity(), workout);
         showToast("Starting " + exercise.getName() + "...");
     }
 

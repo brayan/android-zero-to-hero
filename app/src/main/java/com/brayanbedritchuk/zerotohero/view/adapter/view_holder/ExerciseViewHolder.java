@@ -44,7 +44,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    getCallback().onClickWorkout(getAdapterPosition());
+                    getCallback().onClickExercise(getAdapterPosition());
                 }
             });
         }
@@ -61,6 +61,6 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
     public interface Callback {
 
-        void onClickWorkout(int position);
+        void onClickExercise(int position);
     }
 }

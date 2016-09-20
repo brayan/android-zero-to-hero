@@ -47,14 +47,14 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_workout_details, menu);
+        inflater.inflate(R.menu.menu_details, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu__item__delete: {
+            case R.id.menu_item_delete: {
                 getPresenter().onClickMenuDelete();
                 return true;
             }
@@ -128,7 +128,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     @Override
     public void startExerciseDetailsActivity(Exercise exercise) {
-//        WorkoutDetailsActivity.start(getActivity(), workout);
+//        ExerciseDetailsActivity.start(getActivity(), workout);
         showToast("Starting " + exercise.getName() + "...");
     }
 
@@ -179,7 +179,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     }
 
     @Override
-    public void onClickWorkout(int position) {
+    public void onClickExercise(int position) {
 //        getPresenter().onClickExercise(position);
         DialogHelper.showErrorMessage(getFragmentManager(), "Aeeee");
     }

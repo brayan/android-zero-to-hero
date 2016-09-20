@@ -130,7 +130,22 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
     }
 
     @Override
-    public void updateExerciseNameView(String name) {
+    public void setWeight(String weight) {
+        etWeight.setText(weight);
+    }
+
+    @Override
+    public void setSet(String set) {
+        etSets.setText(set);
+    }
+
+    @Override
+    public void setRepetition(String repetition) {
+        etReps.setText(repetition);
+    }
+
+    @Override
+    public void setName(String name) {
         etName.setText(name);
         etName.setSelection(etName.getText().length());
     }

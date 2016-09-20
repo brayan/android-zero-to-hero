@@ -17,4 +17,6 @@ public interface ExerciseListView {
     void startNewExerciseActivity();
 
     void showDialog(String message);
+
+    void updateExerciseRemoved(int position);
 }

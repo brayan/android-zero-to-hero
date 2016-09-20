@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero;
+package com.brayanbedritchuk.zerotohero.view;
 
 import android.app.Application;
 

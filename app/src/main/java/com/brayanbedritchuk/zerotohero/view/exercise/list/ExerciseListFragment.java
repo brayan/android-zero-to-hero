@@ -15,6 +15,7 @@ import com.brayanbedritchuk.zerotohero.base.BaseFragment;
 import com.brayanbedritchuk.zerotohero.helper.DialogHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
+import com.brayanbedritchuk.zerotohero.view.exercise.details.ExerciseDetailsActivity;
 import com.brayanbedritchuk.zerotohero.view.exercise.insert_or_edit.InsertOrEditExerciseActivity;
 import com.brayanbedritchuk.zerotohero.view.exercise.list.presenter.ExerciseListPresenter;
 import com.brayanbedritchuk.zerotohero.view.exercise.list.presenter.ExerciseListView;
@@ -22,6 +23,7 @@ import com.brayanbedritchuk.zerotohero.view.exercise.list.presenter.ExerciseList
 public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> implements ExerciseListView, ExercisesListAdapter.Callback {
 
     private static final int REQUEST_NEW_EXERCISE = 0;
+    private static final int REQUEST_DETAILS = 1;
 
     private RecyclerView recyclerView;
     private ExercisesListAdapter adapter;
@@ -39,12 +41,22 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
                 getPresenter().onActivityResultOkInsertOrEditExercise(data);
                 return;
             }
-//            case REQUEST_DETAILS: {
-//                getPresenter().onActivityResultOkWorkoutDetails(data);
-//                return;
-//            }
+            case REQUEST_DETAILS: {
+                getPresenter().onActivityResultExerciseDetails(data);
+                return;
+            }
         }
 
+    }
+
+    @Override
+    protected void onActivityResultCanceled(int requestCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_DETAILS: {
+                getPresenter().onResultCanceledExerciseDetails();
+                return;
+            }
+        }
     }
 
     @Override
@@ -73,6 +85,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     public void startExerciseDetailsActivity(Exercise exercise) {
+        ExerciseDetailsActivity.start(this, exercise, REQUEST_DETAILS);
     }
 
     @Override
@@ -86,12 +99,17 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     }
 
     @Override
+    public void updateExerciseRemoved(int position) {
+        adapter.notifyItemRemoved(position);
+    }
+
+    @Override
     public Context getActivityContext() {
         return getActivity();
     }
 
     @Override
-    public void onClickWorkout(int position) {
+    public void onClickExercise(int position) {
         getPresenter().onClickExercise(position);
     }
 

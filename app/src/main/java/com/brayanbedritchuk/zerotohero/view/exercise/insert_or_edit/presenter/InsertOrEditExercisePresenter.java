@@ -21,7 +21,10 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
     @Override
     protected void onResumeFirstSession() {
         if (hasExerciseToEdit()) {
-            getView().updateExerciseNameView(getViewModel().getExercise().getName());
+            getView().setName(getViewModel().getExercise().getName());
+            getView().setWeight(String.valueOf(getViewModel().getExercise().getWeight()));
+            getView().setSet(String.valueOf(getViewModel().getExercise().getSet()));
+            getView().setRepetition(String.valueOf(getViewModel().getExercise().getRepetition()));
             getView().hideKeyboard();
         }
 
@@ -93,7 +96,7 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
         exercise.setSet(Integer.valueOf(getView().getSets()));
         exercise.setRepetition(Integer.valueOf(getView().getReps()));
 
-        getView().closeActivityWithResultOk(getViewModel().getExercise());
+        getView().closeActivityWithResultOk(exercise);
     }
 
     private void checkRequiredComponents() throws Exception {
@@ -127,6 +130,6 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
     }
 
     public void onReceiveExercise(Exercise exercise) {
-        // TODO
+        getViewModel().setExercise(exercise);
     }
 }
