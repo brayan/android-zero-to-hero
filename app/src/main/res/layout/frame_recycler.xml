@@ -4,6 +4,7 @@
 
     <include layout="@layout/recyclerview" />
 
-    <include layout="@layout/empty_list" />
+    <include
+        layout="@layout/empty_list" />
 
 </FrameLayout>

@@ -35,6 +35,13 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.frame_recycler, container, false);
+        initViews(view);
+        return view;
+    }
+
+    @Override
     protected void onActivityResultOk(int requestCode, Intent data) {
         switch (requestCode) {
             case REQUEST_NEW_EXERCISE: {
@@ -46,7 +53,6 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
                 return;
             }
         }
-
     }
 
     @Override
@@ -57,19 +63,6 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
                 return;
             }
         }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frame_recycler, container, false);
-        initViews(view);
-        return view;
-    }
-
-    private void initViews(View view) {
-        inflateViews(view);
-        initRecyclerView();
-        initVisibilityOfViews();
     }
 
     @Override
@@ -111,6 +104,12 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     @Override
     public void onClickExercise(int position) {
         getPresenter().onClickExercise(position);
+    }
+
+    private void initViews(View view) {
+        inflateViews(view);
+        initRecyclerView();
+        initVisibilityOfViews();
     }
 
     private void inflateViews(View view) {
