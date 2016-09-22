@@ -5,6 +5,7 @@ import android.content.Context;
 import com.brayanbedritchuk.zerotohero.base.BaseAsyncTask;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.persistence.dao.ExerciseDAOSQLite;
+import com.brayanbedritchuk.zerotohero.persistence.dao.WorkoutExerciseDAOSQLite;
 
 public class DeleteExerciseAsyncTask extends BaseAsyncTask {
 
@@ -20,6 +21,7 @@ public class DeleteExerciseAsyncTask extends BaseAsyncTask {
 
     protected void onRunningInBackground() throws Exception {
         new ExerciseDAOSQLite(getContext()).delete(getExercise().getId());
+        new WorkoutExerciseDAOSQLite(getContext()).deleteFromExercise(getExercise().getId());
     }
 
     @Override

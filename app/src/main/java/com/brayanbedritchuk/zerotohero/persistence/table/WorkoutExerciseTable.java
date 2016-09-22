@@ -8,9 +8,9 @@ public class WorkoutExerciseTable extends BaseSQLiteTable {
     public String getSqlCreateTable() {
         StringBuilder sb = new StringBuilder();
         sb.append(" CREATE TABLE WorkoutExercise ( ");
-        sb.append(" workoutId INTEGER PRIMARY KEY, ");
-        sb.append(" exerciseId INTEGER PRIMARY KEY, ");
-        sb.append(" insertingDate TEXT, ");
+        sb.append(" workoutId INTEGER, ");
+        sb.append(" exerciseId INTEGER, ");
+        sb.append(" PRIMARY KEY(workoutId, exerciseId), ");
         sb.append(" FOREIGN KEY(workoutId) REFERENCES Workout(id),");
         sb.append(" FOREIGN KEY(exerciseId) REFERENCES Exercise(id) ");
         sb.append(" ); ");

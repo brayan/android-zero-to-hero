@@ -9,8 +9,7 @@ public class WorkoutTable extends BaseSQLiteTable {
         StringBuilder sb = new StringBuilder();
         sb.append(" CREATE TABLE Workout ( ");
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ");
-        sb.append(" name TEXT NOT NULL, ");
-        sb.append(" insertingDate TEXT ");
+        sb.append(" name TEXT NOT NULL ");
         sb.append(" ); ");
 
         return sb.toString();

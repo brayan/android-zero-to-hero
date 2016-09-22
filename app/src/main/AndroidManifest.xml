@@ -1,5 +1,5 @@
-<manifest package="com.brayanbedritchuk.zerotohero"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.brayanbedritchuk.zerotohero">
 
     <application
         android:name=".view.MyApplication"
@@ -10,22 +10,22 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".view.main.MainActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
-        <activity android:name=".view.workout.insert_or_edit.InsertOrEditWorkoutActivity"/>
+        <activity android:name=".view.workout.insert_or_edit.InsertOrEditWorkoutActivity" />
 
-        <activity android:name=".view.workout.details.WorkoutDetailsActivity"/>
+        <activity android:name=".view.workout.details.WorkoutDetailsActivity" />
 
-        <activity android:name=".view.exercise.chooser.ExerciseChooserActivity"/>
+        <activity android:name=".view.exercise.chooser.ExerciseChooserActivity" />
 
-        <activity android:name=".view.exercise.insert_or_edit.InsertOrEditExerciseActivity"/>
+        <activity android:name=".view.exercise.insert_or_edit.InsertOrEditExerciseActivity" />
 
-        <activity android:name=".view.exercise.details.ExerciseDetailsActivity"/>
+        <activity android:name=".view.exercise.details.ExerciseDetailsActivity" />
 
     </application>
 
