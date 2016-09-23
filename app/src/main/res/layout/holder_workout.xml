@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:background="?selectableItemBackground"
     android:clickable="true">
 
@@ -11,13 +12,14 @@
         android:layout_height="36dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/fire" />
+        android:src="@drawable/fire"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:orientation="vertical"
-        android:paddingLeft="72dp"
+        android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="8dp">
 
@@ -45,4 +47,4 @@
 
     <include layout="@layout/divider" />
 
-</RelativeLayout>
+</LinearLayout>
