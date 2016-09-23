@@ -20,12 +20,11 @@ import com.brayanbedritchuk.zerotohero.R;
 import com.brayanbedritchuk.zerotohero.base.BaseFragment;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
-import com.brayanbedritchuk.zerotohero.view.adapter.ExercisesListAdapter;
 import com.brayanbedritchuk.zerotohero.view.exercise.details.presenter.ExerciseDetailsPresenter;
 import com.brayanbedritchuk.zerotohero.view.exercise.details.presenter.ExerciseDetailsView;
 import com.brayanbedritchuk.zerotohero.view.exercise.insert_or_edit.InsertOrEditExerciseActivity;
 
-public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresenter> implements ExerciseDetailsView, ExercisesListAdapter.Callback {
+public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresenter> implements ExerciseDetailsView {
 
     private static final int REQUEST_EDIT_EXERCISE = 0;
 
@@ -156,10 +155,6 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     @Override
     public Context getActivityContext() {
         return getActivity();
-    }
-
-    @Override
-    public void onClickExercise(int position) {
     }
 
     private void inflateViews(View view) {

@@ -33,7 +33,7 @@ public class WorkoutListPresenter extends BasePresenter {
     }
 
     @Override
-    protected void postResume() {
+    protected void onResumeAfterRestart() {
         getView().updateContentViews();
     }
 

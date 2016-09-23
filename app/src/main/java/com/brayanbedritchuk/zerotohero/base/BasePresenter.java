@@ -7,6 +7,8 @@ public abstract class BasePresenter {
     public void onResume() {
         if (isFirstSession()) {
             onResumeFirstSession();
+        } else {
+            onResumeAfterRestart();
         }
 
         setFirstSession(false);
@@ -15,6 +17,9 @@ public abstract class BasePresenter {
     }
 
     protected void onResumeFirstSession() {
+    }
+
+    protected void onResumeAfterRestart() {
     }
 
     protected void postResume() {

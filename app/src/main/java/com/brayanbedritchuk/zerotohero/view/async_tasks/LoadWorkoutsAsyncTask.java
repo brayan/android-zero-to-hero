@@ -64,6 +64,7 @@ public class LoadWorkoutsAsyncTask extends BaseAsyncTask {
     public interface Callback {
 
         void onSuccess(List<Workout> workoutList);
+
         void onFail(Exception e);
 
     }

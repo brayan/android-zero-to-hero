@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.view.adapter.view_holder.ExerciseViewHolder;
-import com.brayanbedritchuk.zerotohero.view.adapter.view_holder.ItemTouchHelperAdapter;
 
 import java.util.List;
 
@@ -57,6 +56,6 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
         this.callback = callback;
     }
 
-    public interface Callback extends ExerciseViewHolder.Callback, ItemTouchHelperAdapter {
+    public interface Callback extends ExerciseViewHolder.Callback {
     }
 }
