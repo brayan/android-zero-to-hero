@@ -16,7 +16,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     public static final int POSITION_WORKOUT = 0;
     public static final int POSITION_EXERCISE = 1;
 
-    private static final int NUNBER_OF_FRAGMENTS = 2;
+    private static final int NUMBER_OF_FRAGMENTS = 2;
 
     private Context context;
     private SparseArray<Fragment> fragments;
@@ -29,7 +29,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return NUNBER_OF_FRAGMENTS;
+        return NUMBER_OF_FRAGMENTS;
     }
 
     @Override
@@ -39,11 +39,8 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
             case POSITION_WORKOUT: {
                 return new WorkoutListFragment();
             }
-            case POSITION_EXERCISE: {
-                return new ExerciseListFragment();
-            }
             default: {
-                return new WorkoutListFragment();
+                return new ExerciseListFragment();
             }
         }
     }
@@ -55,11 +52,8 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
             case POSITION_WORKOUT: {
                 return getContext().getString(R.string.tab_workouts);
             }
-            case POSITION_EXERCISE: {
-                return getContext().getString(R.string.tab_exercises);
-            }
             default: {
-                return super.getPageTitle(position);
+                return getContext().getString(R.string.tab_exercises);
             }
         }
     }
