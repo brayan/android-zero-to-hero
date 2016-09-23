@@ -197,7 +197,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ExercisesListAdapter(getPresenter().getExercises(), this);
+        adapter = new ExercisesListAdapter(getPresenter().getExercises(), null);
         recyclerView.setAdapter(adapter);
     }
 
