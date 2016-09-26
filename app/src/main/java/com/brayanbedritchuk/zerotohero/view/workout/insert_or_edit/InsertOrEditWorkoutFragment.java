@@ -3,8 +3,10 @@ package com.brayanbedritchuk.zerotohero.view.workout.insert_or_edit;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
@@ -98,9 +102,10 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
 
     private void initViews(View view) {
         inflateViews(view);
-        initRecyclerView();
         initToolbar();
+        initRecyclerView();
         initFab();
+        initEmptyView();
     }
 
     @Override
@@ -204,6 +209,19 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
                 getPresenter().onClickAddExercises();
             }
         });
+    }
+
+    private void initEmptyView() {
+        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.empty_list_image);
+        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.teal_300), PorterDuff.Mode.SRC_ATOP);
+
+        TextView tvTitle = (TextView) emptyList.findViewById(R.id.empty_list_title);
+        tvTitle.setText("No exercises");
+
+        TextView tvMessage = (TextView) emptyList.findViewById(R.id.empty_list_message);
+        tvMessage.setText("Add exercises by tapping the + button");
+
+        emptyList.setVisibility(View.GONE);
     }
 
     @Override

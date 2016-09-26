@@ -3,7 +3,9 @@ package com.brayanbedritchuk.zerotohero.view.exercise.chooser;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
@@ -81,7 +85,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         inflateViews(view);
         initToolbar();
         initRecyclerView();
-        initVisibilityOfViews();
+        initEmptyView();
     }
 
     private void initToolbar() {
@@ -189,7 +193,16 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         recyclerView.setAdapter(adapter);
     }
 
-    private void initVisibilityOfViews() {
+    private void initEmptyView() {
+        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.empty_list_image);
+        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.blue_300), PorterDuff.Mode.SRC_ATOP);
+
+        TextView tvTitle = (TextView) emptyList.findViewById(R.id.empty_list_title);
+        tvTitle.setText("No exercises");
+
+        TextView tvMessage = (TextView) emptyList.findViewById(R.id.empty_list_message);
+        tvMessage.setText("Adde exercises by tapping the + button");
+
         emptyList.setVisibility(View.GONE);
     }
 
