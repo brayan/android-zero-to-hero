@@ -92,7 +92,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     public void showDialog(String message) {
-        DialogHelper.showErrorMessage(getFragmentManager(), message);
+        DialogHelper.showMessage(getFragmentManager(), message);
     }
 
     @Override

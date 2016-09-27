@@ -99,6 +99,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
                 getPresenter().onClickNavigationIcon();
             }
         });
+        toolbar.setTitle(R.string.app_name);
     }
 
     @Override
@@ -201,7 +202,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         tvTitle.setText("No exercises");
 
         TextView tvMessage = (TextView) emptyList.findViewById(R.id.empty_list_message);
-        tvMessage.setText("Adde exercises by tapping the + button");
+        tvMessage.setVisibility(View.GONE);
 
         emptyList.setVisibility(View.GONE);
     }

@@ -10,16 +10,15 @@ import android.support.v7.app.AlertDialog;
 public class DialogHelper extends DialogFragment {
 
     private static final String TAG = "TAG_DIALOG_HELPER";
-    private static final String ERROR_TITLE = "Oopss";
 
     private String message;
     private String title;
 
-    public static void showErrorMessage(FragmentManager manager, String message) {
-        showMessage(manager, ERROR_TITLE, message);
+    public static void showMessage(FragmentManager manager, String message) {
+        showMessage(manager, message, null);
     }
 
-    public static void showMessage(FragmentManager manager, String title, String msg) {
+    public static void showMessage(FragmentManager manager, String msg, String title) {
         DialogHelper dialog = new DialogHelper();
         dialog.setTitle(title);
         dialog.setMessage(msg);

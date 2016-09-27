@@ -181,7 +181,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     @Override
     public void onClickExercise(int position) {
 //        getPresenter().onClickExercise(position);
-        DialogHelper.showErrorMessage(getFragmentManager(), "Aeeee");
+        DialogHelper.showMessage(getFragmentManager(), "Aeeee");
     }
 
     public void onClickFab() {

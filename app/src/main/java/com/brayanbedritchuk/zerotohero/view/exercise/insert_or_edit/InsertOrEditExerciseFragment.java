@@ -91,7 +91,7 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
 
     @Override
     public void showDialog(String message) {
-        DialogHelper.showErrorMessage(getFragmentManager(), message);
+        DialogHelper.showMessage(getFragmentManager(), message);
     }
 
     @Override
