@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.helper.sqlite;
+package com.brayanbedritchuk.zerotohero.helper;
 
 import android.os.Build;
 

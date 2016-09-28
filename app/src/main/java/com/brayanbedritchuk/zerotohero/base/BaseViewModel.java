@@ -1,5 +1,7 @@
 package com.brayanbedritchuk.zerotohero.base;
 
-public abstract class BaseViewModel {
+import java.io.Serializable;
+
+public abstract class BaseViewModel implements Serializable {
 
 }

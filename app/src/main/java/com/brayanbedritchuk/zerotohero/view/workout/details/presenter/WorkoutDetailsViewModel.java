@@ -9,12 +9,10 @@ import java.util.List;
 
 public class WorkoutDetailsViewModel extends BaseViewModel {
 
-    private Workout workout;
-    private final List<Exercise> exerciseList;
+    public static final String TAG = WorkoutDetailsViewModel.class.getName();
 
-    public WorkoutDetailsViewModel() {
-        this.exerciseList = new ArrayList<>();
-    }
+    private Workout workout;
+    private transient List<Exercise> exerciseList = new ArrayList<>();
 
     public Workout getWorkout() {
         return workout;
@@ -28,4 +26,7 @@ public class WorkoutDetailsViewModel extends BaseViewModel {
         return exerciseList;
     }
 
+    public void setExerciseList(List<Exercise> exerciseList) {
+        this.exerciseList = exerciseList;
+    }
 }

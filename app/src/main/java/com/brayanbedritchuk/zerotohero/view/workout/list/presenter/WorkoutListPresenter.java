@@ -8,7 +8,7 @@ import com.brayanbedritchuk.zerotohero.base.BasePresenter;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.helper.ListHelper;
 import com.brayanbedritchuk.zerotohero.helper.LogHelper;
-import com.brayanbedritchuk.zerotohero.helper.sqlite.ApiLevelHelper;
+import com.brayanbedritchuk.zerotohero.helper.ApiLevelHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 import com.brayanbedritchuk.zerotohero.view.async_tasks.DeleteWorkoutAsyncTask;

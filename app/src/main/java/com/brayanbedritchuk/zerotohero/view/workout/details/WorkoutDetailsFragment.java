@@ -39,6 +39,11 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     private FloatingActionButton fab;
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState); // TODO
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frame_linlay_appbar_card_recycler_fab, container, false);
         initViews(view);

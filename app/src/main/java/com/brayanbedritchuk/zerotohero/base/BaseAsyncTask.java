@@ -4,12 +4,7 @@ import android.os.AsyncTask;
 
 public abstract class BaseAsyncTask extends AsyncTask<Void, Void, Exception> {
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
+       @Override
     protected Exception doInBackground(Void... params) {
         try {
             onRunningInBackground();

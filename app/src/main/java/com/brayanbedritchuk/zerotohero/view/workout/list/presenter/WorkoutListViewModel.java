@@ -8,7 +8,7 @@ import java.util.List;
 
 public class WorkoutListViewModel extends BaseViewModel {
 
-    private final List<Workout> workoutList;
+    private transient final List<Workout> workoutList;
 
     public WorkoutListViewModel() {
         this.workoutList = new ArrayList<>();

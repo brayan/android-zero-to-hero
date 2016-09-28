@@ -24,6 +24,17 @@ public class WorkoutDetailsPresenter extends BasePresenter {
         setViewModel(new WorkoutDetailsViewModel());
     }
 
+//    @Override
+//    protected void saveViewModel(Bundle outState) {
+//        outState.putSerializable(WorkoutDetailsViewModel.TAG, getViewModel());
+//    }
+//
+//    @Override
+//    protected void restoreViewModel(Bundle savedInstanceState) {
+//        setViewModel((WorkoutDetailsViewModel) savedInstanceState.getSerializable(WorkoutDetailsViewModel.TAG));
+//        getViewModel().setExerciseList(new ArrayList<Exercise>());
+//    }
+
     @Override
     protected void onResumeFirstSession() {
         loadExercises();

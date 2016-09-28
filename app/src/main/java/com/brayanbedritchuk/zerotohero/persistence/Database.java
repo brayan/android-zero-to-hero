@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.brayanbedritchuk.zerotohero.helper.LogHelper;
-import com.brayanbedritchuk.zerotohero.helper.sqlite.CreateTablesHelper;
 
 public class Database extends SQLiteOpenHelper {
 

@@ -16,11 +16,24 @@ public abstract class BaseFragment<T extends BasePresenter> extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(hasMenu());
         initPresenter();
+        checkAndRestoreViewModel(savedInstanceState);
         getExtrasFromIntent(getActivity().getIntent());
     }
 
     private void initPresenter() {
         setPresenter(newPresenterInstance());
+    }
+
+    private void checkAndRestoreViewModel(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            getPresenter().restoreViewModel(savedInstanceState);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getPresenter().saveViewModel(outState);
     }
 
     protected void getExtrasFromIntent(Intent intent) {

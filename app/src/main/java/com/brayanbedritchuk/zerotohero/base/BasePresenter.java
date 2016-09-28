@@ -1,5 +1,7 @@
 package com.brayanbedritchuk.zerotohero.base;
 
+import android.os.Bundle;
+
 public abstract class BasePresenter {
 
     private boolean firstSession = true;
@@ -25,6 +27,12 @@ public abstract class BasePresenter {
     protected void postResume() {
     }
 
+    protected void saveViewModel(Bundle outState) {
+    }
+
+    protected void restoreViewModel(Bundle savedInstanceState) {
+    }
+
     public boolean isFirstSession() {
         return firstSession;
     }
@@ -32,4 +40,5 @@ public abstract class BasePresenter {
     public void setFirstSession(boolean firstSession) {
         this.firstSession = firstSession;
     }
+
 }
