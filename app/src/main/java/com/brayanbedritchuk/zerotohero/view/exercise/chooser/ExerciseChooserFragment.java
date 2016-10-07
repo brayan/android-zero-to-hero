@@ -4,18 +4,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +36,8 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     private View emptyList;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.linlay_appbar_card_recycler, container, false);
-        initViews(view);
-        return view;
+    protected int getLayoutId() {
+        return R.layout.linlay_appbar_card_recycler;
     }
 
     @Override
@@ -81,7 +76,8 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         getPresenter().onReceiveSelectedExercises(exercises);
     }
 
-    private void initViews(View view) {
+    @Override
+    protected void initViews(View view) {
         inflateViews(view);
         initToolbar();
         initRecyclerView();

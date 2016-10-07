@@ -4,19 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,10 +48,8 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     private ExercisesListAdapter adapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_insert_or_edit_workout, container, false);
-        initViews(view);
-        return view;
+    protected int getLayoutId() {
+        return R.layout.frag_insert_or_edit_workout;
     }
 
     @Override
@@ -100,7 +95,8 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
         }
     }
 
-    private void initViews(View view) {
+    @Override
+    protected void initViews(View view) {
         inflateViews(view);
         initToolbar();
         initRecyclerView();

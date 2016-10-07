@@ -3,15 +3,12 @@ package com.brayanbedritchuk.zerotohero.view.exercise.insert_or_edit;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -33,10 +30,8 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
     private EditText etReps;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_insert_or_edit_exercise, container, false);
-        initViews(view);
-        return view;
+    protected int getLayoutId() {
+        return R.layout.frag_insert_or_edit_exercise;
     }
 
     @Override
@@ -73,7 +68,8 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
         getPresenter().onReceiveExercise(ExtrasHelper.getExercise(intent));
     }
 
-    private void initViews(View view) {
+    @Override
+    protected void initViews(View view) {
         inflateViews(view);
         initToolbar();
     }

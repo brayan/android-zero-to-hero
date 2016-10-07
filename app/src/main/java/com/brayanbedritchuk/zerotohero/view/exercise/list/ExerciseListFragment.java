@@ -3,13 +3,10 @@ package com.brayanbedritchuk.zerotohero.view.exercise.list;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +36,8 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frame_recycler, container, false);
-        initViews(view);
-        return view;
+    protected int getLayoutId() {
+        return R.layout.frame_recycler;
     }
 
     @Override
@@ -110,7 +105,8 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
         getPresenter().onClickExercise(position);
     }
 
-    private void initViews(View view) {
+    @Override
+    protected void initViews(View view) {
         inflateViews(view);
         initRecyclerView();
         initEmptyView();

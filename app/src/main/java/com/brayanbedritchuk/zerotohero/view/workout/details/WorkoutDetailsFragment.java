@@ -3,18 +3,15 @@ package com.brayanbedritchuk.zerotohero.view.workout.details;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.brayanbedritchuk.zerotohero.R;
@@ -39,15 +36,8 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     private FloatingActionButton fab;
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState); // TODO
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frame_linlay_appbar_card_recycler_fab, container, false);
-        initViews(view);
-        return view;
+    protected int getLayoutId() {
+        return R.layout.frame_linlay_appbar_card_recycler_fab;
     }
 
     @Override
@@ -95,7 +85,8 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
         getPresenter().getViewModel().setWorkout(workout);
     }
 
-    private void initViews(View view) {
+    @Override
+    protected void initViews(View view) {
         inflateViews(view);
         initToolbar();
         initRecyclerView();

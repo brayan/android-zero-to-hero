@@ -3,16 +3,13 @@ package com.brayanbedritchuk.zerotohero.view.exercise.details;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,10 +33,8 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     private FloatingActionButton fab;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_exercise_details, container, false);
-        initViews(view);
-        return view;
+    protected int getLayoutId() {
+        return R.layout.frag_exercise_details;
     }
 
     @Override
@@ -87,7 +82,8 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
         getPresenter().getViewModel().setExercise(exercise);
     }
 
-    private void initViews(View view) {
+    @Override
+    protected void initViews(View view) {
         inflateViews(view);
         initToolbar();
         initFab();
