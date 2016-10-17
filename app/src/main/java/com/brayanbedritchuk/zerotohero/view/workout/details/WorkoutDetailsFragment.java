@@ -31,9 +31,8 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private ExercisesListAdapter adapter;
-    private View emptyList;
     private FloatingActionButton fab;
+    private View emptyList;
 
     @Override
     protected int getLayoutId() {
@@ -43,7 +42,6 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_details, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -65,11 +63,6 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     }
 
     @Override
-    protected boolean hasMenu() {
-        return true;
-    }
-
-    @Override
     protected void onActivityResultOk(int requestCode, Intent data) {
         switch (requestCode) {
             case REQUEST_EDIT_WORKOUT: {
@@ -80,7 +73,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     }
 
     @Override
-    protected void getExtrasFromIntent(Intent intent) {
+    protected void extractExtrasFromIntent(Intent intent) {
         Workout workout = ExtrasHelper.getWorkout(intent);
         getPresenter().getViewModel().setWorkout(workout);
     }
@@ -108,7 +101,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     @Override
     public void updateExerciseListView() {
-        adapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
         updateVisibilityOfViews();
     }
 
@@ -193,7 +186,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ExercisesListAdapter(getPresenter().getExercises(), null);
+        ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter().getExercises(), null);
         recyclerView.setAdapter(adapter);
     }
 

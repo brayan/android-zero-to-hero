@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 public abstract class BaseAsyncTask extends AsyncTask<Void, Void, Exception> {
 
-       @Override
+    @Override
     protected Exception doInBackground(Void... params) {
         try {
             onRunningInBackground();
@@ -16,7 +16,6 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Void, Exception> {
 
     @Override
     protected void onPostExecute(Exception e) {
-        super.onPostExecute(e);
         if (e == null) {
             onSuccess();
         } else {
@@ -26,10 +25,8 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Void, Exception> {
 
     protected abstract void onRunningInBackground() throws Exception;
 
-    protected  void onSuccess() {
-    }
+    protected abstract void onSuccess();
 
-    protected void onFail(Exception e){
-    }
+    protected abstract void onFail(Exception e);
 
 }

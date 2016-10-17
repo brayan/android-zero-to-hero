@@ -5,13 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 
-import com.brayanbedritchuk.zerotohero.base.BaseActivitySingleFragment;
+import com.brayanbedritchuk.zerotohero.base.BaseActivity;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Exercise;
 
 import java.util.ArrayList;
 
-public class ExerciseChooserActivity extends BaseActivitySingleFragment<ExerciseChooserFragment> {
+public class ExerciseChooserActivity extends BaseActivity<ExerciseChooserFragment> {
 
     public static void start(Fragment fragment, ArrayList<Exercise> exercises, int requestCode) {
         Intent starter = new Intent(fragment.getActivity(), ExerciseChooserActivity.class);

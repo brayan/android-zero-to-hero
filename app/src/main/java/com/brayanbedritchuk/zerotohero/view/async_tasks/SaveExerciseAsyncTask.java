@@ -51,6 +51,8 @@ public class SaveExerciseAsyncTask extends BaseAsyncTask {
         return getExercise().getId() == -1;
     }
 
+
+
     public Exercise getExercise() {
         return exercise;
     }
@@ -75,10 +77,10 @@ public class SaveExerciseAsyncTask extends BaseAsyncTask {
         this.callback = callback;
     }
 
-    public interface Callback {
 
+
+    public interface Callback {
         void onSuccess();
         void onFail(Exception e);
-
     }
 }

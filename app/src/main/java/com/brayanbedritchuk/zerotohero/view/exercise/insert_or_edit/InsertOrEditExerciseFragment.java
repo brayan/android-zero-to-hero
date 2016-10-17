@@ -37,7 +37,6 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_insert_edit, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -54,17 +53,12 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
     }
 
     @Override
-    protected boolean hasMenu() {
-        return true;
-    }
-
-    @Override
     protected InsertOrEditExercisePresenter newPresenterInstance() {
         return new InsertOrEditExercisePresenter(this);
     }
 
     @Override
-    protected void getExtrasFromIntent(Intent intent) {
+    protected void extractExtrasFromIntent(Intent intent) {
         getPresenter().onReceiveExercise(ExtrasHelper.getExercise(intent));
     }
 

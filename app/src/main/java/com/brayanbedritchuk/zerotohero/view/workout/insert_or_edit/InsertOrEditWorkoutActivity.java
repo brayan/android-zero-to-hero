@@ -8,11 +8,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 
-import com.brayanbedritchuk.zerotohero.base.BaseActivitySingleFragment;
+import com.brayanbedritchuk.zerotohero.base.BaseActivity;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 
-public class InsertOrEditWorkoutActivity extends BaseActivitySingleFragment<InsertOrEditWorkoutFragment> {
+public class InsertOrEditWorkoutActivity extends BaseActivity<InsertOrEditWorkoutFragment> {
 
     public static void start(Fragment fragment, int requestCode) {
         start(fragment, null, requestCode);

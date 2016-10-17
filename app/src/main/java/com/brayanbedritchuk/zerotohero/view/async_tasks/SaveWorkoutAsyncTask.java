@@ -18,7 +18,6 @@ public class SaveWorkoutAsyncTask extends BaseAsyncTask {
 
     private SaveWorkoutAsyncTask.Callback callback;
 
-
     public SaveWorkoutAsyncTask(Context context, Workout workout, List<Exercise> exercises, Callback callback) {
         setContext(context.getApplicationContext());
         setWorkout(workout);
@@ -77,6 +76,8 @@ public class SaveWorkoutAsyncTask extends BaseAsyncTask {
         return getWorkout().getId() == -1;
     }
 
+
+
     public Workout getWorkout() {
         return workout;
     }
@@ -109,10 +110,11 @@ public class SaveWorkoutAsyncTask extends BaseAsyncTask {
         this.context = context;
     }
 
-    public interface Callback {
 
+
+    public interface Callback {
         void onSuccess();
         void onFail(Exception e);
-
     }
+
 }

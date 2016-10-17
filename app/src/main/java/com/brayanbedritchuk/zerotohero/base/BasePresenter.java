@@ -7,15 +7,17 @@ public abstract class BasePresenter {
     private boolean firstSession = true;
 
     public void onResume() {
+        checkFirstSessionAndResume();
+        postResume();
+    }
+
+    private void checkFirstSessionAndResume() {
         if (isFirstSession()) {
             onResumeFirstSession();
+            setFirstSession(false);
         } else {
             onResumeAfterRestart();
         }
-
-        setFirstSession(false);
-
-        postResume();
     }
 
     protected void onResumeFirstSession() {
@@ -27,7 +29,7 @@ public abstract class BasePresenter {
     protected void postResume() {
     }
 
-    protected void saveViewModel(Bundle outState) {
+    protected void onSaveInstanceState(Bundle outState) {
     }
 
     protected void restoreViewModel(Bundle savedInstanceState) {

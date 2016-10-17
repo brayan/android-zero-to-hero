@@ -34,7 +34,6 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
         switch (position) {
             case POSITION_WORKOUT: {
                 return new WorkoutListFragment();
@@ -47,7 +46,6 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-
         switch (position) {
             case POSITION_WORKOUT: {
                 return getContext().getString(R.string.tab_workouts);

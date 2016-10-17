@@ -46,14 +46,8 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     @Override
-    protected boolean hasMenu() {
-        return true;
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_exercise_chooser, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -71,7 +65,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     @Override
-    protected void getExtrasFromIntent(Intent intent) {
+    protected void extractExtrasFromIntent(Intent intent) {
         List<Exercise> exercises = ExtrasHelper.getExercises(intent);
         getPresenter().onReceiveSelectedExercises(exercises);
     }
@@ -100,7 +94,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
 
     @Override
     public void updateExerciseListView() {
-        adapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
         updateVisibilityOfViews();
     }
 
@@ -142,7 +136,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
 
     @Override
     public void updateExerciseView(int position) {
-        adapter.notifyItemChanged(position);
+        recyclerView.getAdapter().notifyItemChanged(position);
     }
 
     @Override
@@ -186,7 +180,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ExerciseChooserAdapter(getPresenter().getExerciseList(), getPresenter().getSelectedExercises(), this);
+        ExerciseChooserAdapter adapter = new ExerciseChooserAdapter(getPresenter().getExerciseList(), getPresenter().getSelectedExercises(), this);
         recyclerView.setAdapter(adapter);
     }
 

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         inflateViews();
         initToolbar();
         initViewPager();
-        initListeners();
+        bindListeners();
     }
 
     private void inflateViews() {
@@ -53,14 +53,21 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void initListeners() {
+    private void bindListeners() {
+        bindListenerToFab();
+        bindListenerToViewPager();
+    }
+
+    private void bindListenerToFab() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickFab();
             }
         });
+    }
 
+    private void bindListenerToViewPager() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

@@ -26,7 +26,6 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     private static final int REQUEST_DETAILS = 1;
 
     private RecyclerView recyclerView;
-    private WorkoutListAdapter adapter;
     private View emptyList;
 
     @Override
@@ -51,7 +50,6 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
                 return;
             }
         }
-
     }
 
     @Override
@@ -73,7 +71,7 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
 
     @Override
     public void updateContentViews() {
-        adapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
         updateVisibilityOfViews();
     }
 
@@ -99,7 +97,7 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
 
     @Override
     public void updateWorkoutRemoved(int position) {
-        adapter.notifyItemRemoved(position);
+        recyclerView.getAdapter().notifyItemRemoved(position);
     }
 
     @Override
@@ -123,7 +121,7 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new WorkoutListAdapter(getPresenter().getWorkouts(), this);
+        WorkoutListAdapter adapter = new WorkoutListAdapter(getPresenter().getWorkouts(), this);
         recyclerView.setAdapter(adapter);
     }
 

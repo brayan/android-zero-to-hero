@@ -40,7 +40,6 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_details, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -62,11 +61,6 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     }
 
     @Override
-    protected boolean hasMenu() {
-        return true;
-    }
-
-    @Override
     protected void onActivityResultOk(int requestCode, Intent data) {
         switch (requestCode) {
             case REQUEST_EDIT_EXERCISE: {
@@ -77,7 +71,7 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     }
 
     @Override
-    protected void getExtrasFromIntent(Intent intent) {
+    protected void extractExtrasFromIntent(Intent intent) {
         Exercise exercise = ExtrasHelper.getExercise(intent);
         getPresenter().getViewModel().setExercise(exercise);
     }

@@ -7,11 +7,11 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 
-import com.brayanbedritchuk.zerotohero.base.BaseActivitySingleFragment;
+import com.brayanbedritchuk.zerotohero.base.BaseActivity;
 import com.brayanbedritchuk.zerotohero.helper.ExtrasHelper;
 import com.brayanbedritchuk.zerotohero.model.Workout;
 
-public class WorkoutDetailsActivity extends BaseActivitySingleFragment<WorkoutDetailsFragment> {
+public class WorkoutDetailsActivity extends BaseActivity<WorkoutDetailsFragment> {
 
     public static void start(Fragment fragment, Workout workout, int requestCode) {
         Intent starter = getStartIntent(fragment.getActivity(), workout);

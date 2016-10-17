@@ -36,6 +36,8 @@ public class LoadExercisesAsyncTask extends BaseAsyncTask {
         getCallback().onFail(e);
     }
 
+
+
     public List<Exercise> getExerciseList() {
         return exerciseList;
     }
@@ -60,9 +62,11 @@ public class LoadExercisesAsyncTask extends BaseAsyncTask {
         this.callback = callback;
     }
 
-    public interface Callback {
 
+
+    public interface Callback {
         void onSuccess(List<Exercise> exercises);
         void onFail(Exception e);
     }
+
 }

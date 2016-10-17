@@ -34,6 +34,8 @@ public class DeleteWorkoutAsyncTask extends BaseAsyncTask {
         getCallback().onFail(e);
     }
 
+
+
     public Callback getCallback() {
         return callback;
     }
@@ -58,8 +60,11 @@ public class DeleteWorkoutAsyncTask extends BaseAsyncTask {
         this.workout = workout;
     }
 
+
+
     public interface Callback {
         void onSuccess();
         void onFail(Exception e);
     }
+
 }

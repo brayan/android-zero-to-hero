@@ -27,7 +27,6 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     private static final int REQUEST_DETAILS = 1;
 
     private RecyclerView recyclerView;
-    private ExercisesListAdapter adapter;
     private View emptyList;
 
     @Override
@@ -66,7 +65,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     public void updateContentViews() {
-        adapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
         updateVisibilityOfViews();
     }
 
@@ -92,7 +91,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     public void updateExerciseRemoved(int position) {
-        adapter.notifyItemRemoved(position);
+        recyclerView.getAdapter().notifyItemRemoved(position);
     }
 
     @Override
@@ -119,7 +118,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ExercisesListAdapter(getPresenter().getExercises(), this);
+        ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter().getExercises(), this);
         recyclerView.setAdapter(adapter);
     }
 

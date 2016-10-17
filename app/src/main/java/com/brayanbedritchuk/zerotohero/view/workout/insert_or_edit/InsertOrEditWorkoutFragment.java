@@ -42,10 +42,7 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     private RecyclerView recyclerView;
     private FloatingActionButton fabAddExercises;
     private EditText etWorkoutName;
-
     private View emptyList;
-
-    private ExercisesListAdapter adapter;
 
     @Override
     protected int getLayoutId() {
@@ -55,7 +52,6 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_insert_edit, menu);
-        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -72,12 +68,7 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     }
 
     @Override
-    protected boolean hasMenu() {
-        return true;
-    }
-
-    @Override
-    protected void getExtrasFromIntent(Intent intent) {
+    protected void extractExtrasFromIntent(Intent intent) {
         getPresenter().onReceiveWorkout(ExtrasHelper.getWorkout(intent));
     }
 
@@ -106,7 +97,7 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
 
     @Override
     public void updateExercisesListAndVisibility() {
-        adapter.notifyDataSetChanged();
+        recyclerView.getAdapter().notifyDataSetChanged();
         updateVisibilityOfViews();
     }
 
@@ -177,7 +168,7 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ExercisesListAdapter(getPresenter().getExercises(), null);
+        ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter().getExercises(), null);
         recyclerView.setAdapter(adapter);
     }
 
