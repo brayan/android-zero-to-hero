@@ -4,9 +4,9 @@ import java.util.List;
 
 public class ListHelper {
 
-    public static void clearAndAdd(List from, List to) {
-        to.clear();
-        to.addAll(from);
+    public static void clearAndAdd(List fromList, List toList) {
+        toList.clear();
+        toList.addAll(fromList);
     }
 
 }

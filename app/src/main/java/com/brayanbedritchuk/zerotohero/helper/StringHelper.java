@@ -6,8 +6,4 @@ public class StringHelper {
         return (text == null || text.trim().isEmpty());
     }
 
-    public static boolean hasContent(String text) {
-        return (text != null && !text.trim().isEmpty());
-    }
-
 }

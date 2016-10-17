@@ -1,4 +1,4 @@
-package com.brayanbedritchuk.zerotohero.persistence;
+package com.brayanbedritchuk.zerotohero.helper;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -10,7 +10,7 @@ import com.brayanbedritchuk.zerotohero.persistence.table.WorkoutTable;
 import java.util.ArrayList;
 import java.util.List;
 
-class CreateTablesHelper {
+public class CreateTablesHelper {
 
     private SQLiteDatabase database;
     private List<BaseSQLiteTable> tablesList;

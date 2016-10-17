@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.brayanbedritchuk.zerotohero.helper.CreateTablesHelper;
 import com.brayanbedritchuk.zerotohero.helper.LogHelper;
 
 public class Database extends SQLiteOpenHelper {
@@ -35,13 +36,7 @@ public class Database extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        onCreate(db);
-
-//        try {
-//            EditTablesHelper.editTables(db, oldVersion, newVersion);
-//        } catch (Exception e) {
-//            LogHelper.printExceptionLog(e);
-//        }
+        // TODO:
     }
 
 }
