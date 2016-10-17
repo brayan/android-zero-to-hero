@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.brayanbedritchuk.zerotohero">
+    package="br.com.sailboat.zerotohero">
 
     <application
         android:allowBackup="true"
