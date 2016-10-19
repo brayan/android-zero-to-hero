@@ -20,7 +20,7 @@ public class SaveExerciseAsyncTask extends BaseAsyncTask {
     }
 
     @Override
-    protected void onRunningInBackground() throws Exception {
+    protected void onDoInBackground() throws Exception {
         if (isExerciseNew()) {
             saveNewExercise();
         } else {

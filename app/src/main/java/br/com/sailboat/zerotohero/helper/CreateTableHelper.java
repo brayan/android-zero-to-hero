@@ -10,27 +10,27 @@ import br.com.sailboat.zerotohero.persistence.table.ExerciseTable;
 import br.com.sailboat.zerotohero.persistence.table.WorkoutExerciseTable;
 import br.com.sailboat.zerotohero.persistence.table.WorkoutTable;
 
-public class CreateTablesHelper {
+public class CreateTableHelper {
 
     private SQLiteDatabase database;
     private List<BaseSQLiteTable> tableList;
 
     public static void createTables(SQLiteDatabase database) throws Exception {
-        new CreateTablesHelper(database).createTables();
+        new CreateTableHelper(database).createTables();
     }
 
-    private CreateTablesHelper(SQLiteDatabase database) {
+    private CreateTableHelper(SQLiteDatabase database) {
         setDatabase(database);
-        initTablesList();
+        initTableList();
     }
 
     private void createTables() {
-        for (br.com.sailboat.zerotohero.base.BaseSQLiteTable BaseSQLiteTable : getTableList()) {
+        for (BaseSQLiteTable BaseSQLiteTable : getTableList()) {
             getDatabase().execSQL(BaseSQLiteTable.getSqlCreateTable());
         }
     }
 
-    private void initTablesList() {
+    private void initTableList() {
         setTableList(new ArrayList<BaseSQLiteTable>());
         getTableList().add(new WorkoutTable());
         getTableList().add(new ExerciseTable());

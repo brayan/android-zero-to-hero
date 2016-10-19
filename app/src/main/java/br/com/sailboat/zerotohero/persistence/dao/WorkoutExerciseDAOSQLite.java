@@ -11,7 +11,7 @@ public class WorkoutExerciseDAOSQLite extends BaseDAOSQLite {
         super(context);
     }
 
-    public long save(long workoutId, long exerciseId) throws Exception {
+    public long saveAndGetId(long workoutId, long exerciseId) throws Exception {
         getWritableDatabase().beginTransactionNonExclusive();
         try {
             StringBuilder sql = new StringBuilder();
@@ -37,26 +37,20 @@ public class WorkoutExerciseDAOSQLite extends BaseDAOSQLite {
     }
 
     public void deleteFromWorkout(long workoutId) throws Exception {
-        getWritableDatabase().beginTransactionNonExclusive();
-        try {
-            String sql = "DELETE FROM WorkoutExercise WHERE WorkoutExercise.workoutId = ?";
-            SQLiteStatement stmt = getWritableDatabase().compileStatement(sql);
-            stmt.bindLong(1, workoutId);
-            stmt.executeUpdateDelete();
-            stmt.clearBindings();
-
-            getWritableDatabase().setTransactionSuccessful();
-        } finally {
-            getWritableDatabase().endTransaction();
-        }
+        String query = "DELETE FROM WorkoutExercise WHERE WorkoutExercise.workoutId = ?";
+        deleteFromID(query, workoutId);
     }
 
     public void deleteFromExercise(long exerciseId) throws Exception {
+        String query = "DELETE FROM WorkoutExercise WHERE WorkoutExercise.exerciseId = ?";
+        deleteFromID(query, exerciseId);
+    }
+
+    private void deleteFromID(String query, long id) {
         getWritableDatabase().beginTransactionNonExclusive();
         try {
-            String sql = "DELETE FROM WorkoutExercise WHERE WorkoutExercise.exerciseId = ?";
-            SQLiteStatement stmt = getWritableDatabase().compileStatement(sql);
-            stmt.bindLong(1, exerciseId);
+            SQLiteStatement stmt = getWritableDatabase().compileStatement(query);
+            stmt.bindLong(1, id);
             stmt.executeUpdateDelete();
             stmt.clearBindings();
 

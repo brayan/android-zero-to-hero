@@ -26,7 +26,7 @@ public class SaveWorkoutAsyncTask extends BaseAsyncTask {
     }
 
     @Override
-    protected void onRunningInBackground() throws Exception {
+    protected void onDoInBackground() throws Exception {
         saveEntities();
     }
 
@@ -68,7 +68,7 @@ public class SaveWorkoutAsyncTask extends BaseAsyncTask {
     private void saveRalationshipWorkoutExercise() throws Exception {
         WorkoutExerciseDAOSQLite dao = new WorkoutExerciseDAOSQLite(getContext());
         for (Exercise exercise : getExercises()) {
-            dao.save(getWorkout().getId(), exercise.getId());
+            dao.saveAndGetId(getWorkout().getId(), exercise.getId());
         }
     }
 

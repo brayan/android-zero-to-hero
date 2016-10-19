@@ -7,7 +7,7 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Void, Exception> {
     @Override
     protected Exception doInBackground(Void... params) {
         try {
-            onRunningInBackground();
+            onDoInBackground();
             return null;
         } catch (Exception e) {
             return e;
@@ -23,7 +23,7 @@ public abstract class BaseAsyncTask extends AsyncTask<Void, Void, Exception> {
         }
     }
 
-    protected abstract void onRunningInBackground() throws Exception;
+    protected abstract void onDoInBackground() throws Exception;
 
     protected abstract void onSuccess();
 

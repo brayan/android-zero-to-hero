@@ -12,7 +12,7 @@ public class ExtrasHelper {
 
     private static final String WORKOUT = "WORKOUT";
     private static final String EXERCISE = "EXERCISE";
-    private static final String ARRAY_LIST_EXERCISES = "ARRAY_LIST_EXERCISES";
+    private static final String LIST_EXERCISES = "LIST_EXERCISES";
     private static final String DELETE_WORKOUT = "DELETE_WORKOUT";
     private static final String DELETE_EXERCISE = "DELETE_EXERCISE";
 
@@ -25,7 +25,7 @@ public class ExtrasHelper {
     }
 
     public static void putExercises(List<Exercise> exercises, Intent intent) {
-        intent.putExtra(ARRAY_LIST_EXERCISES, (ArrayList) exercises);
+        intent.putExtra(LIST_EXERCISES, (ArrayList) exercises);
     }
 
     public static Workout getWorkout(Intent intent) {
@@ -33,7 +33,7 @@ public class ExtrasHelper {
     }
 
     public static List<Exercise> getExercises(Intent intent) {
-        return (List) intent.getSerializableExtra(ARRAY_LIST_EXERCISES);
+        return (List) intent.getSerializableExtra(LIST_EXERCISES);
     }
 
     public static Exercise getExercise(Intent intent) {

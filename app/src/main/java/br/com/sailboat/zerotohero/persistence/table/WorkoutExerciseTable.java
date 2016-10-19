@@ -14,6 +14,7 @@ public class WorkoutExerciseTable extends BaseSQLiteTable {
         sb.append(" FOREIGN KEY(workoutId) REFERENCES Workout(id),");
         sb.append(" FOREIGN KEY(exerciseId) REFERENCES Exercise(id) ");
         sb.append(" ); ");
+
         return  sb.toString();
     }
 

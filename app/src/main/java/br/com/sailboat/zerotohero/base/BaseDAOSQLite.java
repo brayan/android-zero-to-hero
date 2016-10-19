@@ -2,6 +2,7 @@ package br.com.sailboat.zerotohero.base;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
 
@@ -13,6 +14,30 @@ public abstract class BaseDAOSQLite {
     public BaseDAOSQLite(Context context) {
         setContext(context.getApplicationContext());
         setDatabaseOpenHelper(DatabaseOpenHelper.getInstance(getContext()));
+    }
+
+    protected long executeInsert(SQLiteStatement statement) {
+        try {
+            getWritableDatabase().beginTransactionNonExclusive();
+            long id = statement.executeInsert();
+            statement.clearBindings();
+            getWritableDatabase().setTransactionSuccessful();
+
+            return id;
+        } finally {
+            getWritableDatabase().endTransaction();
+        }
+    }
+
+    protected void executeUpdate(SQLiteStatement statement) {
+        try {
+            getWritableDatabase().beginTransactionNonExclusive();
+            statement.executeUpdateDelete();
+            statement.clearBindings();
+            getWritableDatabase().setTransactionSuccessful();
+        } finally {
+            getWritableDatabase().endTransaction();
+        }
     }
 
     public SQLiteDatabase getReadableDatabase() {

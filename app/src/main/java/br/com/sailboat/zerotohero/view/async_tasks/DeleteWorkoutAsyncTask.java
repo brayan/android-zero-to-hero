@@ -19,7 +19,7 @@ public class DeleteWorkoutAsyncTask extends BaseAsyncTask {
         setCallback(callback);
     }
 
-    protected void onRunningInBackground() throws Exception {
+    protected void onDoInBackground() throws Exception {
         new WorkoutDAOSQLite(getContext()).delete(getWorkout().getId());
         new WorkoutExerciseDAOSQLite(getContext()).deleteFromWorkout(getWorkout().getId());
     }

@@ -22,7 +22,7 @@ public class LoadExercisesAsyncTask extends BaseAsyncTask {
     }
 
     @Override
-    protected void onRunningInBackground() throws Exception {
+    protected void onDoInBackground() throws Exception {
         setExerciseList(new ExerciseDAOSQLite(getContext()).getAll());
     }
 

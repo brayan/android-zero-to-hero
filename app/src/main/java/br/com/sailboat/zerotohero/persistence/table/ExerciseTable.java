@@ -1,10 +1,7 @@
 package br.com.sailboat.zerotohero.persistence.table;
 
 
-import android.database.Cursor;
-
 import br.com.sailboat.zerotohero.base.BaseSQLiteTable;
-import br.com.sailboat.zerotohero.model.Exercise;
 
 public class ExerciseTable extends BaseSQLiteTable {
 
@@ -18,35 +15,8 @@ public class ExerciseTable extends BaseSQLiteTable {
         sb.append(" exerciseSet INTEGER, ");
         sb.append(" repetition INTEGER ");
         sb.append(" ); ");
+
         return  sb.toString();
     }
 
-    public static String createQueryGetAll() {
-        StringBuilder query = new StringBuilder();
-        query.append(" SELECT Exercise.* FROM Exercise ");
-
-        return query.toString();
-    }
-
-    public static String createQueryGetFromWorkout(long workoutId) {
-        StringBuilder query = new StringBuilder();
-        query.append(" SELECT Exercise.* FROM Exercise ");
-        query.append(" INNER JOIN WorkoutExercise ");
-        query.append(" ON Exercise.id = WorkoutExercise.exerciseId ");
-        query.append(" WHERE WorkoutExercise.workoutId = " + workoutId);
-
-        return query.toString();
-    }
-
-    public static Exercise getExerciseFromCursor(Cursor cursor) {
-
-        Exercise exercise = new Exercise();
-        exercise.setId(cursor.getInt(cursor.getColumnIndexOrThrow("id")));
-        exercise.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-        exercise.setRepetition(cursor.getInt(cursor.getColumnIndexOrThrow("repetition")));
-        exercise.setSet(cursor.getInt(cursor.getColumnIndexOrThrow("exerciseSet")));
-        exercise.setWeight(cursor.getDouble(cursor.getColumnIndexOrThrow("weight")));
-
-        return exercise;
-    }
 }
