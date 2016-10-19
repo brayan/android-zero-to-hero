@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.sailboat.zerotohero.R;
@@ -64,12 +63,6 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     @Override
-    protected void extractExtrasFromIntent(Intent intent) {
-        List<Exercise> exercises = ExtrasHelper.getExercises(intent);
-        getPresenter().onReceiveSelectedExercises(exercises);
-    }
-
-    @Override
     protected void initViews(View view) {
         inflateViews(view);
         initToolbar();
@@ -108,12 +101,6 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     @Override
-    public void startExerciseDetailsActivity(Exercise exercise) {
-//        ExerciseDetailsActivity.start(getActivity(), workout);
-        showToast("Starting " + exercise.getName() + "...");
-    }
-
-    @Override
     public void updateTitle(String title) {
         toolbar.setTitle(title);
     }
@@ -145,7 +132,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     @Override
-    public void closeActivityResultOk(ArrayList<Exercise> exercises) {
+    public void closeActivityResultOk(List<Exercise> exercises) {
         Intent data = new Intent();
         ExtrasHelper.putExercises(exercises, data);
         getActivity().setResult(Activity.RESULT_OK, data);
@@ -165,10 +152,6 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     @Override
     public void onClickExercise(int position) {
         getPresenter().onClickExercise(position);
-    }
-
-    public void onClickFab() {
-        getPresenter().onClickNewWorkout();
     }
 
     private void inflateViews(View view) {

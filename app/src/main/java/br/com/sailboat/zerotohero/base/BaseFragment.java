@@ -60,15 +60,16 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends Frag
         }
     }
 
+    protected void extractExtrasFromIntent(Intent intent) {
+        getPresenter().extractExtrasFromIntent(intent);
+    }
+
     @NonNull
     protected abstract Presenter newPresenterInstance();
 
     protected abstract int getLayoutId();
 
     protected abstract void initViews(View view);
-
-    protected void extractExtrasFromIntent(Intent intent) {
-    }
 
     protected void onActivityResultOk(int requestCode, Intent data) {
     }

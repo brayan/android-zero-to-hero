@@ -1,5 +1,6 @@
 package br.com.sailboat.zerotohero.base;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 public abstract class BasePresenter {
@@ -33,6 +34,9 @@ public abstract class BasePresenter {
     }
 
     protected void restoreViewModel(Bundle savedInstanceState) {
+    }
+
+    public void extractExtrasFromIntent(Intent intent) {
     }
 
     public boolean isFirstSession() {
