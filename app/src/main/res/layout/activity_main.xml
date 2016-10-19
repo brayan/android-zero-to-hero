@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/default_background">
 
-    <include layout="@layout/appbar_tabs_viewpager"/>
+    <include layout="@layout/appbar_tabs_viewpager" />
 
-    <include layout="@layout/fab"/>
+    <include layout="@layout/fab" />
 
 </android.support.design.widget.CoordinatorLayout>
