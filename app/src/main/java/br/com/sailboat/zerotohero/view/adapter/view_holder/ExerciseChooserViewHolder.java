@@ -1,7 +1,7 @@
 package br.com.sailboat.zerotohero.view.adapter.view_holder;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
+import android.util.LongSparseArray;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -25,15 +25,25 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         setCallback(callback);
         initViews(itemView);
-        bindListeners(itemView);
+        checkCallbackAndBindListeners(itemView);
     }
 
-    public void onBindViewHolder(Exercise exercise, SparseArray<Exercise> selectedExercises) {
+    public void onBindViewHolder(Exercise exercise, LongSparseArray<Exercise> selectedExercises) {
+        bindTextViews(exercise);
+        bindCheckboxSelected(exercise, selectedExercises);
+    }
+
+    private void bindTextViews(Exercise exercise) {
         tvName.setText(exercise.getName());
         tvWeight.setText(String.valueOf(exercise.getWeight()) + " KG ");
         tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");
         tvReps.setText(String.valueOf(exercise.getRepetition()) + " reps");
-        cbSelected.setChecked(selectedExercises.get((int) exercise.getId()) != null);
+    }
+
+    private void bindCheckboxSelected(Exercise exercise, LongSparseArray<Exercise> selectedExercises) {
+        Exercise selectedExercise = selectedExercises.get(exercise.getId());
+        boolean isSelected = (selectedExercise != null);
+        cbSelected.setChecked(isSelected);
     }
 
     private void initViews(View view) {
@@ -42,6 +52,12 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
         tvSets = (TextView) view.findViewById(R.id.exercise__tv__sets);
         tvReps = (TextView) view.findViewById(R.id.exercise__tv__reps);
         cbSelected = (CheckBox) view.findViewById(R.id.holder_exercise_chooser__cbox);
+    }
+
+    private void checkCallbackAndBindListeners(View itemView) {
+        if (getCallback() != null) {
+            bindListeners(itemView);
+        }
     }
 
     private void bindListeners(View itemView) {

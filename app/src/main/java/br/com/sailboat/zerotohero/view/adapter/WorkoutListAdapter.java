@@ -19,6 +19,7 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutViewHolder> 
         setWorkoutList(items);
         setCallback(callback);
     }
+
     @Override
     public WorkoutViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflateLayout(parent, WorkoutViewHolder.LAYOUT_ID);
@@ -27,8 +28,8 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutViewHolder> 
 
     @Override
     public void onBindViewHolder(WorkoutViewHolder holder, int position) {
-        Workout beer = getWorkoutList().get(position);
-        holder.onBindViewHolder(beer);
+        Workout workout = getWorkoutList().get(position);
+        holder.onBindViewHolder(workout);
     }
 
     @Override
@@ -59,5 +60,6 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutViewHolder> 
 
 
     public interface Callback extends WorkoutViewHolder.Callback {
+
     }
 }

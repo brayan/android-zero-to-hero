@@ -1,40 +1,51 @@
 package br.com.sailboat.zerotohero.helper;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.sailboat.zerotohero.base.BaseSQLiteTable;
-import br.com.sailboat.zerotohero.persistence.table.ExerciseTable;
-import br.com.sailboat.zerotohero.persistence.table.WorkoutExerciseTable;
-import br.com.sailboat.zerotohero.persistence.table.WorkoutTable;
+import br.com.sailboat.zerotohero.base.BaseSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
 
 public class CreateTableHelper {
 
+    private Context context;
     private SQLiteDatabase database;
-    private List<BaseSQLiteTable> tableList;
+    private List<BaseSQLite> tableList;
 
-    public static void createTables(SQLiteDatabase database) throws Exception {
-        new CreateTableHelper(database).createTables();
+    public static void createTables(Context context, SQLiteDatabase database) {
+        new CreateTableHelper(context, database).createTables();
     }
 
-    private CreateTableHelper(SQLiteDatabase database) {
+    private CreateTableHelper(Context context, SQLiteDatabase database) {
+        setContext(context.getApplicationContext());
         setDatabase(database);
         initTableList();
     }
 
     private void createTables() {
-        for (BaseSQLiteTable BaseSQLiteTable : getTableList()) {
-            getDatabase().execSQL(BaseSQLiteTable.getSqlCreateTable());
+        for (BaseSQLite table : getTableList()) {
+            getDatabase().execSQL(table.getQueryCreateTable());
         }
     }
 
     private void initTableList() {
-        setTableList(new ArrayList<BaseSQLiteTable>());
-        getTableList().add(new WorkoutTable());
-        getTableList().add(new ExerciseTable());
-        getTableList().add(new WorkoutExerciseTable());
+        setTableList(new ArrayList<BaseSQLite>());
+        getTableList().add(new WorkoutSQLite(getContext()));
+        getTableList().add(new ExerciseSQLite(getContext()));
+        getTableList().add(new WorkoutExerciseSQLite(getContext()));
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public SQLiteDatabase getDatabase() {
@@ -45,11 +56,11 @@ public class CreateTableHelper {
         this.database = database;
     }
 
-    public List<BaseSQLiteTable> getTableList() {
+    public List<BaseSQLite> getTableList() {
         return tableList;
     }
 
-    public void setTableList(List<BaseSQLiteTable> tableList) {
+    public void setTableList(List<BaseSQLite> tableList) {
         this.tableList = tableList;
     }
 }

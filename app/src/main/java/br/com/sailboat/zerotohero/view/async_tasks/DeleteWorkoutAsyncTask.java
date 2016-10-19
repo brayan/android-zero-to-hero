@@ -4,8 +4,8 @@ import android.content.Context;
 
 import br.com.sailboat.zerotohero.base.BaseAsyncTask;
 import br.com.sailboat.zerotohero.model.Workout;
-import br.com.sailboat.zerotohero.persistence.dao.WorkoutDAOSQLite;
-import br.com.sailboat.zerotohero.persistence.dao.WorkoutExerciseDAOSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
 
 public class DeleteWorkoutAsyncTask extends BaseAsyncTask {
 
@@ -20,8 +20,8 @@ public class DeleteWorkoutAsyncTask extends BaseAsyncTask {
     }
 
     protected void onDoInBackground() throws Exception {
-        new WorkoutDAOSQLite(getContext()).delete(getWorkout().getId());
-        new WorkoutExerciseDAOSQLite(getContext()).deleteFromWorkout(getWorkout().getId());
+        new WorkoutSQLite(getContext()).delete(getWorkout().getId());
+        new WorkoutExerciseSQLite(getContext()).deleteFromWorkout(getWorkout().getId());
     }
 
     @Override
@@ -33,8 +33,6 @@ public class DeleteWorkoutAsyncTask extends BaseAsyncTask {
     protected void onFail(Exception e) {
         getCallback().onFail(e);
     }
-
-
 
     public Callback getCallback() {
         return callback;

@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import br.com.sailboat.zerotohero.helper.CreateTableHelper;
-import br.com.sailboat.zerotohero.helper.LogHelper;
 
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
@@ -14,8 +13,11 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     private static DatabaseOpenHelper instance;
 
+    private Context context;
+
     private DatabaseOpenHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        setContext(context);
     }
 
     public static DatabaseOpenHelper getInstance(Context context) {
@@ -26,17 +28,20 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        try {
-            CreateTableHelper.createTables(db);
-        } catch (Exception e) {
-            LogHelper.printExceptionLog(e);
-        }
+    public void onCreate(SQLiteDatabase database) {
+        CreateTableHelper.createTables(getContext(), database);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // TODO:
+    public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
+        // TODO
     }
 
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 }

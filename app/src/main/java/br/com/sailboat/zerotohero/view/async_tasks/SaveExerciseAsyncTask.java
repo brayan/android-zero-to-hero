@@ -4,7 +4,7 @@ import android.content.Context;
 
 import br.com.sailboat.zerotohero.base.BaseAsyncTask;
 import br.com.sailboat.zerotohero.model.Exercise;
-import br.com.sailboat.zerotohero.persistence.dao.ExerciseDAOSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 
 public class SaveExerciseAsyncTask extends BaseAsyncTask {
 
@@ -39,19 +39,17 @@ public class SaveExerciseAsyncTask extends BaseAsyncTask {
     }
 
     private void saveNewExercise() {
-        long exerciseId = new ExerciseDAOSQLite(getContext()).saveAndGetId(getExercise());
+        long exerciseId = new ExerciseSQLite(getContext()).saveAndGetId(getExercise());
         getExercise().setId(exerciseId);
     }
 
     private void updateExercise() {
-        new ExerciseDAOSQLite(getContext()).update(getExercise());
+        new ExerciseSQLite(getContext()).update(getExercise());
     }
 
     private boolean isExerciseNew() {
         return getExercise().getId() == -1;
     }
-
-
 
     public Exercise getExercise() {
         return exercise;

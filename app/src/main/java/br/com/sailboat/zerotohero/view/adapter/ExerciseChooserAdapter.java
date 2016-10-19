@@ -1,7 +1,7 @@
 package br.com.sailboat.zerotohero.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
+import android.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +13,16 @@ import br.com.sailboat.zerotohero.view.adapter.view_holder.ExerciseChooserViewHo
 
 public class ExerciseChooserAdapter extends RecyclerView.Adapter<ExerciseChooserViewHolder> {
 
-    private SparseArray<Exercise> selectedExercises;
+    private LongSparseArray<Exercise> selectedExercises;
     private List<Exercise> exerciseList;
     private ExerciseChooserAdapter.Callback callback;
 
-    public ExerciseChooserAdapter(List<Exercise> items, SparseArray<Exercise> selectedExercises, ExerciseChooserAdapter.Callback callback) {
+    public ExerciseChooserAdapter(List<Exercise> items, LongSparseArray<Exercise> selectedExercises, ExerciseChooserAdapter.Callback callback) {
         setExerciseList(items);
         setCallback(callback);
-        this.selectedExercises = selectedExercises;
+        setSelectedExercises(selectedExercises);
     }
+
     @Override
     public ExerciseChooserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflateLayout(parent, ExerciseChooserViewHolder.LAYOUT_ID);
@@ -31,7 +32,7 @@ public class ExerciseChooserAdapter extends RecyclerView.Adapter<ExerciseChooser
     @Override
     public void onBindViewHolder(ExerciseChooserViewHolder holder, int position) {
         Exercise exercise = getExerciseList().get(position);
-        holder.onBindViewHolder(exercise, selectedExercises);
+        holder.onBindViewHolder(exercise, getSelectedExercises());
     }
 
     @Override
@@ -59,8 +60,17 @@ public class ExerciseChooserAdapter extends RecyclerView.Adapter<ExerciseChooser
         this.callback = callback;
     }
 
+    public LongSparseArray<Exercise> getSelectedExercises() {
+        return selectedExercises;
+    }
+
+    public void setSelectedExercises(LongSparseArray<Exercise> selectedExercises) {
+        this.selectedExercises = selectedExercises;
+    }
+
 
 
     public interface Callback extends ExerciseChooserViewHolder.Callback {
+
     }
 }

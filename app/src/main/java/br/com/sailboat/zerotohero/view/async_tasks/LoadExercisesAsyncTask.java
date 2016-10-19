@@ -7,7 +7,7 @@ import java.util.List;
 
 import br.com.sailboat.zerotohero.base.BaseAsyncTask;
 import br.com.sailboat.zerotohero.model.Exercise;
-import br.com.sailboat.zerotohero.persistence.dao.ExerciseDAOSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 
 public class LoadExercisesAsyncTask extends BaseAsyncTask {
 
@@ -23,7 +23,7 @@ public class LoadExercisesAsyncTask extends BaseAsyncTask {
 
     @Override
     protected void onDoInBackground() throws Exception {
-        setExerciseList(new ExerciseDAOSQLite(getContext()).getAll());
+        setExerciseList(new ExerciseSQLite(getContext()).getAll());
     }
 
     @Override
@@ -35,8 +35,6 @@ public class LoadExercisesAsyncTask extends BaseAsyncTask {
     protected void onFail(Exception e) {
         getCallback().onFail(e);
     }
-
-
 
     public List<Exercise> getExerciseList() {
         return exerciseList;

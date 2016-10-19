@@ -23,11 +23,21 @@ public class WorkoutViewHolder extends RecyclerView.ViewHolder {
 
     private void initViews(View view) {
         inflateViews(view);
-        bindListeners(view);
+        checkCallbackAndBindListeners(view);
     }
 
     public void onBindViewHolder(Workout workout) {
         tvName.setText(workout.getName());
+    }
+
+    private void inflateViews(View view) {
+        tvName = (TextView) view.findViewById(R.id.holder_workout__tv__name);
+    }
+
+    private void checkCallbackAndBindListeners(View view) {
+        if (getCallback() != null) {
+            bindListeners(view);
+        }
     }
 
     private void bindListeners(View view) {
@@ -39,9 +49,7 @@ public class WorkoutViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    private void inflateViews(View view) {
-        tvName = (TextView) view.findViewById(R.id.holder_workout__tv__name);
-    }
+
 
     public Callback getCallback() {
         return callback;

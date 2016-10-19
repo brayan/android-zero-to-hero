@@ -22,10 +22,14 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         setCallback(callback);
         initViews(itemView);
-        verifyAndSetListeners(itemView);
+        checkCallbackAndBindListeners(itemView);
     }
 
     public void onBindViewHolder(Exercise exercise) {
+        bindTextViews(exercise);
+    }
+
+    private void bindTextViews(Exercise exercise) {
         tvName.setText(exercise.getName());
         tvWeight.setText(String.valueOf(exercise.getWeight()) + " KG ");
         tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");
@@ -39,16 +43,19 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         tvReps = (TextView) view.findViewById(R.id.exercise__tv__reps);
     }
 
-    private void verifyAndSetListeners(View itemView) {
+    private void checkCallbackAndBindListeners(View itemView) {
         if (getCallback() != null) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getCallback().onClickExercise(getAdapterPosition());
-                }
-            });
+            bindListeners(itemView);
         }
+    }
 
+    private void bindListeners(View itemView) {
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getCallback().onClickExercise(getAdapterPosition());
+            }
+        });
     }
 
     public Callback getCallback() {
@@ -59,8 +66,9 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         this.callback = callback;
     }
 
-    public interface Callback {
 
+
+    public interface Callback {
         void onClickExercise(int position);
     }
 }

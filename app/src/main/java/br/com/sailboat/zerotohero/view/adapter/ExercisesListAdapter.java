@@ -19,6 +19,7 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
         setExerciseList(items);
         setCallback(callback);
     }
+
     @Override
     public ExerciseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflateLayout(parent, ExerciseViewHolder.LAYOUT_ID);
@@ -59,5 +60,6 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
 
 
     public interface Callback extends ExerciseViewHolder.Callback {
+
     }
 }

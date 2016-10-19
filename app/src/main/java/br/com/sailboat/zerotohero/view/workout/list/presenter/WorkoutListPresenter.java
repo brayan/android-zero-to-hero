@@ -134,14 +134,10 @@ public class WorkoutListPresenter extends BasePresenter {
 
             @Override
             public void onFail(Exception e) {
-                onSaveWorkoutFail(e);
+                LogHelper.printExceptionLog(e);
+                getView().showToast(e.getMessage());
             }
         }).execute();
-    }
-
-    private void onSaveWorkoutFail(Exception e) {
-        LogHelper.printExceptionLog(e);
-        getView().showToast(e.getMessage());
     }
 
     public WorkoutListViewModel getViewModel() {

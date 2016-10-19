@@ -2,7 +2,7 @@ package br.com.sailboat.zerotohero.view.exercise.chooser.presenter;
 
 import android.content.Context;
 import android.support.annotation.StringRes;
-import android.util.SparseArray;
+import android.util.LongSparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,16 +35,16 @@ public class ExerciseChooserPresenter extends BasePresenter {
     }
 
     public void onReceiveSelectedExercises(List<Exercise> exercises) {
-        SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
+        LongSparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
 
         for (Exercise e : exercises) {
-            selectedExercises.put((int) e.getId(), e);
+            selectedExercises.put(e.getId(), e);
         }
     }
 
     public void onClickMenuSave() {
         ArrayList<Exercise> exercises = new ArrayList<>();
-        SparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
+        LongSparseArray<Exercise> selectedExercises = getViewModel().getSelectedExercises();
 
         for (int i = 0; i < selectedExercises.size(); i++) {
             exercises.add(selectedExercises.valueAt(i));
@@ -64,10 +64,10 @@ public class ExerciseChooserPresenter extends BasePresenter {
     public void onClickExercise(int position) {
         Exercise exercise = getExerciseList().get(position);
 
-        if (getViewModel().getSelectedExercises().get((int) exercise.getId()) == null) {
-            getViewModel().getSelectedExercises().put((int) exercise.getId(), exercise);
+        if (getViewModel().getSelectedExercises().get(exercise.getId()) == null) {
+            getViewModel().getSelectedExercises().put(exercise.getId(), exercise);
         } else {
-            getViewModel().getSelectedExercises().remove((int) exercise.getId());
+            getViewModel().getSelectedExercises().remove(exercise.getId());
         }
 
         updateTitle();
@@ -137,7 +137,7 @@ public class ExerciseChooserPresenter extends BasePresenter {
         return getViewModel().getExerciseList();
     }
 
-    public SparseArray<Exercise> getSelectedExercises() {
+    public LongSparseArray<Exercise> getSelectedExercises() {
         return getViewModel().getSelectedExercises();
     }
 

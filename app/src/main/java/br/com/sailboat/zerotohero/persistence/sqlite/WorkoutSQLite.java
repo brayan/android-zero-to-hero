@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.persistence.dao;
+package br.com.sailboat.zerotohero.persistence.sqlite;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -7,13 +7,24 @@ import android.database.sqlite.SQLiteStatement;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.sailboat.zerotohero.base.BaseDAOSQLite;
+import br.com.sailboat.zerotohero.base.BaseSQLite;
 import br.com.sailboat.zerotohero.model.Workout;
 
-public class WorkoutDAOSQLite extends BaseDAOSQLite {
+public class WorkoutSQLite extends BaseSQLite {
 
-    public WorkoutDAOSQLite(Context context) {
+    public WorkoutSQLite(Context context) {
         super(context);
+    }
+
+    @Override
+    public String getQueryCreateTable() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" CREATE TABLE Workout ( ");
+        sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sb.append(" name TEXT NOT NULL ");
+        sb.append(" ); ");
+
+        return sb.toString();
     }
 
     public List<Workout> getAll() {
@@ -29,7 +40,7 @@ public class WorkoutDAOSQLite extends BaseDAOSQLite {
         sb.append(" (name) ");
         sb.append(" VALUES (?); ");
 
-        SQLiteStatement statement = getWritableDatabase().compileStatement(sb.toString());
+        SQLiteStatement statement = compileStatement(sb.toString());
         statement.bindString(1, workout.getName());
 
         long id = executeInsert(statement);
@@ -43,30 +54,23 @@ public class WorkoutDAOSQLite extends BaseDAOSQLite {
         sb.append(" name = ? ");
         sb.append(" WHERE id = ? ");
 
-        SQLiteStatement statement = getWritableDatabase().compileStatement(sb.toString());
+        SQLiteStatement statement = compileStatement(sb.toString());
         statement.bindString(1, workout.getName());
         statement.bindLong(2, workout.getId());
 
-        executeInsert(statement);
+        executeUpdateOrDelete(statement);
     }
 
     public void delete(long workoutId) {
-        getWritableDatabase().beginTransactionNonExclusive();
-        try {
-            String sql = "DELETE FROM Workout WHERE Workout.id = ?";
-            SQLiteStatement stmt = getWritableDatabase().compileStatement(sql);
-            stmt.bindLong(1, workoutId);
-            stmt.executeUpdateDelete();
-            stmt.clearBindings();
+        String query = "DELETE FROM Workout WHERE Workout.id = ?";
+        SQLiteStatement statement = compileStatement(query);
+        statement.bindLong(1, workoutId);
 
-            getWritableDatabase().setTransactionSuccessful();
-        } finally {
-            getWritableDatabase().endTransaction();
-        }
+        executeUpdateOrDelete(statement);
     }
 
     private List<Workout> getWorkoutList(StringBuilder query) {
-        Cursor cursor = getReadableDatabase().rawQuery(query.toString(), null);
+        Cursor cursor = performQuery(query.toString());
         List<Workout> workouts = new ArrayList<>();
 
         while (cursor.moveToNext()) {
@@ -80,7 +84,6 @@ public class WorkoutDAOSQLite extends BaseDAOSQLite {
     }
 
     private Workout getWorkoutFromCursor(Cursor cursor) {
-
         Workout workout = new Workout();
         workout.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
         workout.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));

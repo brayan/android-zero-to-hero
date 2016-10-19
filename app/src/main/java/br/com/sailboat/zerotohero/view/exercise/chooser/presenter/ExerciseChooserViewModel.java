@@ -1,6 +1,6 @@
 package br.com.sailboat.zerotohero.view.exercise.chooser.presenter;
 
-import android.util.SparseArray;
+import android.util.LongSparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,19 +10,19 @@ import br.com.sailboat.zerotohero.model.Exercise;
 
 public class ExerciseChooserViewModel extends BaseViewModel {
 
-    private final SparseArray<Exercise> selectedExercises;
+    private final LongSparseArray<Exercise> selectedExercises;
     private final List<Exercise> exerciseList;
 
     public ExerciseChooserViewModel() {
         this.exerciseList = new ArrayList<>();
-        this.selectedExercises = new SparseArray<>();
+        this.selectedExercises = new LongSparseArray<>();
     }
 
     public List<Exercise> getExerciseList() {
         return exerciseList;
     }
 
-    public SparseArray<Exercise> getSelectedExercises() {
+    public LongSparseArray<Exercise> getSelectedExercises() {
         return selectedExercises;
     }
 }

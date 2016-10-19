@@ -7,8 +7,8 @@ import java.util.List;
 import br.com.sailboat.zerotohero.base.BaseAsyncTask;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
-import br.com.sailboat.zerotohero.persistence.dao.WorkoutDAOSQLite;
-import br.com.sailboat.zerotohero.persistence.dao.WorkoutExerciseDAOSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
 
 public class SaveWorkoutAsyncTask extends BaseAsyncTask {
 
@@ -51,22 +51,21 @@ public class SaveWorkoutAsyncTask extends BaseAsyncTask {
     }
 
     private void updateWorkout() throws Exception {
-        new WorkoutDAOSQLite(getContext()).update(getWorkout());
+        new WorkoutSQLite(getContext()).update(getWorkout());
     }
 
     private void saveNewWorkout() throws Exception {
-        long workoutId = new WorkoutDAOSQLite(getContext()).saveAndGetId(getWorkout());
+        long workoutId = new WorkoutSQLite(getContext()).saveAndGetId(getWorkout());
         getWorkout().setId(workoutId);
     }
 
     private void deleteRelationshipWorkoutExercise() throws Exception {
-        WorkoutExerciseDAOSQLite dao = new WorkoutExerciseDAOSQLite(getContext());
-
+        WorkoutExerciseSQLite dao = new WorkoutExerciseSQLite(getContext());
         dao.deleteFromWorkout(getWorkout().getId());
     }
 
     private void saveRalationshipWorkoutExercise() throws Exception {
-        WorkoutExerciseDAOSQLite dao = new WorkoutExerciseDAOSQLite(getContext());
+        WorkoutExerciseSQLite dao = new WorkoutExerciseSQLite(getContext());
         for (Exercise exercise : getExercises()) {
             dao.saveAndGetId(getWorkout().getId(), exercise.getId());
         }
@@ -75,8 +74,6 @@ public class SaveWorkoutAsyncTask extends BaseAsyncTask {
     private boolean isWorkoutNew() {
         return getWorkout().getId() == -1;
     }
-
-
 
     public Workout getWorkout() {
         return workout;
