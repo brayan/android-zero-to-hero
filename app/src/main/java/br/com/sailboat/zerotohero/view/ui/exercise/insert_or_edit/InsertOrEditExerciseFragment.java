@@ -79,23 +79,12 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
     }
 
     @Override
-    public void closeActivityWithResultCanceled() {
-        getActivity().setResult(Activity.RESULT_CANCELED);
-        getActivity().finish();
-    }
-
-    @Override
     public void closeActivityWithResultOk(Exercise exercise) {
         Intent intent = new Intent();
         ExtrasHelper.putExercise(exercise, intent);
 
         getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
-    }
-
-    @Override
-    public void openKeyboard() {
-        UIHelper.openKeyboard(getActivity(), etName);
     }
 
     @Override

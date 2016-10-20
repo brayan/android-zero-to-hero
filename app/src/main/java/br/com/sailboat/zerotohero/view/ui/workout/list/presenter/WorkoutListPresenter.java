@@ -50,7 +50,6 @@ public class WorkoutListPresenter extends BasePresenter {
         } else {
             getView().startWorkoutDetailsActivityWithAnimation(workout);
         }
-
     }
 
     public void onResultCanceledWorkoutDetails() {
@@ -168,7 +167,6 @@ public class WorkoutListPresenter extends BasePresenter {
 
 
     public interface View {
-
         Context getActivityContext();
         void updateContentViews();
         void showToast(String message);

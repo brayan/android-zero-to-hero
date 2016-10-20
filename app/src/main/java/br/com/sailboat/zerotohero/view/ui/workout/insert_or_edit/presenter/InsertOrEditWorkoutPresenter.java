@@ -53,12 +53,6 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
         getView().startExercisesChooserActivity(array);
     }
 
-    public void onResultOkExerciseChooser(Intent data) {
-        List<Exercise> exercises = ExtrasHelper.getExercises(data);
-        ListHelper.clearAndAdd(exercises, getViewModel().getExercises());
-        getView().updateExercisesListAndVisibility();
-    }
-
     public void onClickMenuSave() {
         try {
             checkRequiredComponents();
@@ -68,10 +62,17 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
         }
     }
 
+    public void onResultOkExerciseChooser(Intent data) {
+        List<Exercise> exercises = ExtrasHelper.getExercises(data);
+        ListHelper.clearAndAdd(exercises, getViewModel().getExercises());
+        getView().updateExercisesListAndVisibility();
+    }
+
     private void loadExercises() {
-        Context context = getView().getActivityContext().getApplicationContext();
         long workoutId = getViewModel().getWorkout().getId();
-        new LoadExercisesFromWorkoutAsyncTask(context, workoutId, new LoadExercisesFromWorkoutAsyncTask.Callback() {
+
+        new LoadExercisesFromWorkoutAsyncTask(getContext(), workoutId, new LoadExercisesFromWorkoutAsyncTask.Callback() {
+
             @Override
             public void onSuccess(List<Exercise> exercises) {
                 ListHelper.clearAndAdd(exercises, getViewModel().getExercises());
@@ -83,7 +84,9 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
                 LogHelper.printExceptionLog(e);
                 getView().showToast(e.getMessage());
             }
+
         }).execute();
+
     }
 
     private void updateContentViews() {
@@ -105,26 +108,6 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
 
     private boolean hasWorkoutToEdit() {
         return getViewModel().getWorkout() != null;
-    }
-
-    public InsertOrEditWorkoutViewModel getViewModel() {
-        return viewModel;
-    }
-
-    public void setViewModel(InsertOrEditWorkoutViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
-    }
-
-    public List<Exercise> getExercises() {
-        return getViewModel().getExercises();
     }
 
     private void buildAndReturnEntities() {
@@ -156,10 +139,33 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
         return getView().getActivityContext().getString(id);
     }
 
+    public Context getContext() {
+        return getView().getActivityContext();
+    }
+
+    public InsertOrEditWorkoutViewModel getViewModel() {
+        return viewModel;
+    }
+
+    public void setViewModel(InsertOrEditWorkoutViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public List<Exercise> getExercises() {
+        return getViewModel().getExercises();
+    }
+
 
 
     public interface View {
-
         Context getActivityContext();
         void updateVisibilityOfViews();
         void updateExercisesListAndVisibility();
@@ -167,10 +173,10 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
         void startExercisesChooserActivity(ArrayList<Exercise> exercises);
         String getTextFromWorkoutName();
         void showDialog(String message);
-        void closeActivityWithResultCanceled();
         void closeActivityWithResultOk(Workout workout, List<Exercise> exercises);
         void updateWorkoutNameView(String name);
         void hideKeyboard();
         void updateToolbarTitle(String title);
     }
+
 }

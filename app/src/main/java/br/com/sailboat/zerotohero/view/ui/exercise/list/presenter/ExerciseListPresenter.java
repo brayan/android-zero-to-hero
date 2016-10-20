@@ -40,9 +40,33 @@ public class ExerciseListPresenter extends BasePresenter {
         getView().startExerciseDetailsActivity(exercise);
     }
 
+    public void onClickNewExercise() {
+        getView().startNewExerciseActivity();
+    }
+
+    public void onActivityResultCanceledExerciseDetails() {
+        loadExercises();
+    }
+
+    public void onActivityResultOkInsertOrEditExercise(Intent data) {
+        Exercise exercise = ExtrasHelper.getExercise(data);
+
+        getViewModel().getExercises().add(exercise);
+        getView().updateContentViews();
+        saveExercise(exercise);
+    }
+
+    public void onActivityResultOkExerciseDetails(Intent data) {
+        if (ExtrasHelper.hasExerciseToDelete(data)) {
+            Exercise exerciseToDelete = ExtrasHelper.getExercise(data);
+            removeExerciseFromListAndDeleteFromDatabase(exerciseToDelete);
+        }
+    }
+
     private void loadExercises() {
-        Context context = getView().getActivityContext().getApplicationContext();
-        new LoadExercisesAsyncTask(context, new LoadExercisesAsyncTask.Callback() {
+
+        new LoadExercisesAsyncTask(getContext(), new LoadExercisesAsyncTask.Callback() {
+
             @Override
             public void onSuccess(List<Exercise> exercises) {
                 ListHelper.clearAndAdd(exercises, getViewModel().getExercises());
@@ -54,65 +78,27 @@ public class ExerciseListPresenter extends BasePresenter {
                 LogHelper.printExceptionLog(e);
                 getView().showToast(e.getMessage());
             }
+
         }).execute();
-    }
 
-    public ExerciseListViewModel getViewModel() {
-        return viewModel;
-    }
-
-    public void setViewModel(ExerciseListViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
-    }
-
-    public List<Exercise> getExercises() {
-        return getViewModel().getExercises();
-    }
-
-    public void onClickNewExercise() {
-        getView().startNewExerciseActivity();
-    }
-
-    public void onActivityResultOkInsertOrEditExercise(Intent data) {
-        Exercise exercise = ExtrasHelper.getExercise(data);
-
-        getViewModel().getExercises().add(exercise);
-        getView().updateContentViews();
-        saveExercise(exercise);
     }
 
     private void saveExercise(Exercise exercise) {
-        Context context = getView().getActivityContext().getApplicationContext();
-        new SaveExerciseAsyncTask(context, exercise, new SaveExerciseAsyncTask.Callback() {
+
+        new SaveExerciseAsyncTask(getContext(), exercise, new SaveExerciseAsyncTask.Callback() {
+
             @Override
             public void onSuccess() {
             }
 
             @Override
             public void onFail(Exception e) {
-                onSaveExerciseFail(e);
+                LogHelper.printExceptionLog(e);
+                getView().showDialog(e.getMessage());
             }
+
         }).execute();
-    }
 
-    private void onSaveExerciseFail(Exception e) {
-        LogHelper.printExceptionLog(e);
-        getView().showDialog(e.getMessage());
-    }
-
-    public void onActivityResultExerciseDetails(Intent data) {
-        if (ExtrasHelper.hasExerciseToDelete(data)) {
-            Exercise exerciseToDelete = ExtrasHelper.getExercise(data);
-            removeExerciseFromListAndDeleteFromDatabase(exerciseToDelete);
-        }
     }
 
     private void removeExerciseFromListAndDeleteFromDatabase(Exercise exerciseToDelete) {
@@ -137,8 +123,9 @@ public class ExerciseListPresenter extends BasePresenter {
     }
 
     private void deleteExercise(Exercise exerciseToDelete) {
-        Context context = getView().getActivityContext().getApplicationContext();
-        new DeleteExerciseAsyncTask(context, exerciseToDelete, new DeleteExerciseAsyncTask.Callback() {
+
+        new DeleteExerciseAsyncTask(getContext(), exerciseToDelete, new DeleteExerciseAsyncTask.Callback() {
+
             @Override
             public void onSuccess() {
             }
@@ -148,17 +135,38 @@ public class ExerciseListPresenter extends BasePresenter {
                 LogHelper.printExceptionLog(e);
                 getView().showToast(e.getMessage());
             }
+
         }).execute();
+
     }
 
-    public void onResultCanceledExerciseDetails() {
-        loadExercises();
+    public Context getContext() {
+        return getView().getActivityContext();
+    }
+
+    public ExerciseListViewModel getViewModel() {
+        return viewModel;
+    }
+
+    public void setViewModel(ExerciseListViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
+
+    public List<Exercise> getExercises() {
+        return getViewModel().getExercises();
     }
 
 
 
     public interface View {
-
         Context getActivityContext();
         void updateContentViews();
         void showToast(String message);

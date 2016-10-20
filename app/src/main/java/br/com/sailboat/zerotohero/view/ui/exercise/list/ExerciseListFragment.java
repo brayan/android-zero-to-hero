@@ -46,7 +46,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
                 return;
             }
             case REQUEST_DETAILS: {
-                getPresenter().onActivityResultExerciseDetails(data);
+                getPresenter().onActivityResultOkExerciseDetails(data);
                 return;
             }
         }
@@ -56,7 +56,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     protected void onActivityResultCanceled(int requestCode, Intent data) {
         switch (requestCode) {
             case REQUEST_DETAILS: {
-                getPresenter().onResultCanceledExerciseDetails();
+                getPresenter().onActivityResultCanceledExerciseDetails();
                 return;
             }
         }

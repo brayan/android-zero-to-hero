@@ -16,15 +16,13 @@ import android.widget.Toast;
 
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.base.BaseFragment;
-import br.com.sailboat.zerotohero.helper.DialogHelper;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.ui.workout.details.presenter.WorkoutDetailsPresenter;
 import br.com.sailboat.zerotohero.view.ui.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 
-public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsPresenter.View, ExercisesListAdapter.Callback {
+public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsPresenter.View {
 
     private static final int REQUEST_EDIT_WORKOUT = 0;
 
@@ -104,17 +102,6 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     }
 
     @Override
-    public void startNewWorkoutActivity() {
-//        InsertOrEditWorkoutActivity.start(getActivity(), null);
-    }
-
-    @Override
-    public void startExerciseDetailsActivity(Exercise exercise) {
-//        ExerciseDetailsActivity.start(getActivity(), workout);
-        showToast("Starting " + exercise.getName() + "...");
-    }
-
-    @Override
     public void updateTitle(String title) {
         toolbar.setTitle(title);
     }
@@ -158,16 +145,6 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     @Override
     public Context getActivityContext() {
         return getActivity();
-    }
-
-    @Override
-    public void onClickExercise(int position) {
-//        getPresenter().onClickExercise(position);
-        DialogHelper.showMessage(getFragmentManager(), "Aeeee");
-    }
-
-    public void onClickFab() {
-        getPresenter().onClickNewWorkout();
     }
 
     private void inflateViews(View view) {

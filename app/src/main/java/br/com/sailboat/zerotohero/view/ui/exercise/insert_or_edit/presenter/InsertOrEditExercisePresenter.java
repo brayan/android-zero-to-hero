@@ -24,11 +24,7 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
     @Override
     protected void onResumeFirstSession() {
         if (hasExerciseToEdit()) {
-            getView().setName(getViewModel().getExercise().getName());
-            getView().setWeight(String.valueOf(getViewModel().getExercise().getWeight()));
-            getView().setSet(String.valueOf(getViewModel().getExercise().getSet()));
-            getView().setRepetition(String.valueOf(getViewModel().getExercise().getRepetition()));
-            getView().hideKeyboard();
+            bindExerciseToView();
         }
     }
 
@@ -50,6 +46,14 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
         } catch (Exception e) {
             getView().showDialog(e.getMessage());
         }
+    }
+
+    private void bindExerciseToView() {
+        getView().setName(getViewModel().getExercise().getName());
+        getView().setWeight(String.valueOf(getViewModel().getExercise().getWeight()));
+        getView().setSet(String.valueOf(getViewModel().getExercise().getSet()));
+        getView().setRepetition(String.valueOf(getViewModel().getExercise().getRepetition()));
+        getView().hideKeyboard();
     }
 
     private void updateContentViews() {
@@ -137,17 +141,14 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
 
 
     public interface View {
-
         Context getActivityContext();
         void showToast(String message);
         String getName();
         void showDialog(String message);
-        void closeActivityWithResultCanceled();
         void setName(String name);
         void hideKeyboard();
         void updateToolbarTitle(String title);
         void closeActivityWithResultOk(Exercise exercise);
-        void openKeyboard();
         String getWeight();
         String getSets();
         String getReps();
@@ -155,4 +156,5 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
         void setSet(String set);
         void setRepetition(String repetition);
     }
+
 }

@@ -63,7 +63,9 @@ public class ExerciseChooserPresenter extends BasePresenter {
     }
 
     private void loadExercises() {
+
         new LoadExercisesAsyncTask(getContext(), new LoadExercisesAsyncTask.Callback() {
+
             @Override
             public void onSuccess(List<Exercise> exercises) {
                 ListHelper.clearAndAdd(exercises, getViewModel().getExerciseList());
@@ -75,7 +77,9 @@ public class ExerciseChooserPresenter extends BasePresenter {
                 LogHelper.printExceptionLog(e);
                 getView().showToast(e.getMessage());
             }
+
         }).execute();
+
     }
 
     private void updateTitle() {
@@ -177,7 +181,6 @@ public class ExerciseChooserPresenter extends BasePresenter {
 
 
     public interface View {
-
         Context getActivityContext();
         void updateExerciseListView();
         void showToast(String message);
@@ -187,7 +190,6 @@ public class ExerciseChooserPresenter extends BasePresenter {
         void closeActivityResultCanceled();
         void closeActivityResultOk(List<Exercise> exercises);
         void updateMenu();
-
     }
 
 }

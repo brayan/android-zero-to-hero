@@ -25,17 +25,6 @@ public class WorkoutDetailsPresenter extends BasePresenter {
         setViewModel(new WorkoutDetailsViewModel());
     }
 
-//    @Override
-//    protected void saveViewModel(Bundle outState) {
-//        outState.putSerializable(WorkoutDetailsViewModel.TAG, getViewModel());
-//    }
-//
-//    @Override
-//    protected void restoreViewModel(Bundle savedInstanceState) {
-//        setViewModel((WorkoutDetailsViewModel) savedInstanceState.getSerializable(WorkoutDetailsViewModel.TAG));
-//        getViewModel().setExerciseList(new ArrayList<Exercise>());
-//    }
-
     @Override
     protected void onResumeFirstSession() {
         loadExercises();
@@ -52,15 +41,6 @@ public class WorkoutDetailsPresenter extends BasePresenter {
         getViewModel().setWorkout(workout);
     }
 
-    public void onClickNewWorkout() {
-        getView().startNewWorkoutActivity();
-    }
-
-    public void onClickExercise(int position) {
-        Exercise exercise = getExercises().get(position);
-        getView().startExerciseDetailsActivity(exercise);
-    }
-
     public void onClickEditWorkout() {
         Workout workout = getViewModel().getWorkout();
         getView().startEditWorkoutActivity(workout);
@@ -70,6 +50,11 @@ public class WorkoutDetailsPresenter extends BasePresenter {
         getView().closeActivityWithResultCanceled();
     }
 
+    public void onClickMenuDelete() {
+        Workout workout = getViewModel().getWorkout();
+        getView().closeActivityWithResultOkAndDeleteWorkout(workout);
+    }
+
     public void onResultOkEditWorkout(Intent data) {
         getViewModel().setWorkout(ExtrasHelper.getWorkout(data));
         ListHelper.clearAndAdd(ExtrasHelper.getExercises(data), getViewModel().getExerciseList());
@@ -77,15 +62,10 @@ public class WorkoutDetailsPresenter extends BasePresenter {
         saveWorkout();
     }
 
-    public void onClickMenuDelete() {
-        Workout workout = getViewModel().getWorkout();
-        getView().closeActivityWithResultOkAndDeleteWorkout(workout);
-    }
-
     private void loadExercises() {
-        Context context = getView().getActivityContext().getApplicationContext();
         long workoutId = getViewModel().getWorkout().getId();
-        new LoadExercisesFromWorkoutAsyncTask(context, workoutId, new LoadExercisesFromWorkoutAsyncTask.Callback() {
+
+        new LoadExercisesFromWorkoutAsyncTask(getContext(), workoutId, new LoadExercisesFromWorkoutAsyncTask.Callback() {
             @Override
             public void onSuccess(List<Exercise> exercises) {
                 ListHelper.clearAndAdd(exercises, getViewModel().getExerciseList());
@@ -97,7 +77,29 @@ public class WorkoutDetailsPresenter extends BasePresenter {
                 LogHelper.printExceptionLog(e);
                 getView().showToast(e.getMessage());
             }
+
         }).execute();
+
+    }
+
+    private void saveWorkout() {
+        Workout workout = getViewModel().getWorkout();
+        List<Exercise> exercises = getViewModel().getExerciseList();
+
+        new SaveWorkoutAsyncTask(getContext(), workout, exercises, new SaveWorkoutAsyncTask.Callback() {
+
+            @Override
+            public void onSuccess() {
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                LogHelper.printExceptionLog(e);
+                getView().showToast(e.getMessage());
+            }
+
+        }).execute();
+
     }
 
     private void updateContentViews() {
@@ -130,31 +132,17 @@ public class WorkoutDetailsPresenter extends BasePresenter {
         return getViewModel().getExerciseList();
     }
 
-    private void saveWorkout() {
-        Context context = getView().getActivityContext().getApplicationContext();
-        Workout workout = getViewModel().getWorkout();
-        List<Exercise> exercises = getViewModel().getExerciseList();
-
-        new SaveWorkoutAsyncTask(context, workout, exercises, new SaveWorkoutAsyncTask.Callback() {
-            @Override
-            public void onSuccess() {
-            }
-
-            @Override
-            public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
-            }
-        }).execute();
+    public Context getContext() {
+        return getView().getActivityContext();
     }
+
+
 
     public interface View {
 
         Context getActivityContext();
         void updateExerciseListView();
         void showToast(String message);
-        void startNewWorkoutActivity();
-        void startExerciseDetailsActivity(Exercise exercise);
         void updateTitle(String title);
         void updateVisibilityOfViews();
         void startEditWorkoutActivity(Workout workout);

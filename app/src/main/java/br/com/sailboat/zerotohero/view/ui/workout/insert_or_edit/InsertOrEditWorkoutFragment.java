@@ -116,12 +116,6 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     }
 
     @Override
-    public void closeActivityWithResultCanceled() {
-        getActivity().setResult(Activity.RESULT_CANCELED);
-        getActivity().finish();
-    }
-
-    @Override
     public void closeActivityWithResultOk(Workout workout, List<Exercise> exercises) {
         Intent intent = new Intent();
         ExtrasHelper.putWorkout(workout, intent);

@@ -76,10 +76,9 @@ public class ExerciseDetailsPresenter extends BasePresenter {
     }
 
     private void saveExercise() {
-        Context context = getView().getActivityContext().getApplicationContext();
-        Exercise exercise = getViewModel().getExercise();
 
-        new SaveExerciseAsyncTask(context, exercise, new SaveExerciseAsyncTask.Callback() {
+        new SaveExerciseAsyncTask(getContext(), getExercise(), new SaveExerciseAsyncTask.Callback() {
+
             @Override
             public void onSuccess() {
             }
@@ -89,11 +88,22 @@ public class ExerciseDetailsPresenter extends BasePresenter {
                 LogHelper.printExceptionLog(e);
                 getView().showToast(e.getMessage());
             }
+
         }).execute();
+
     }
 
-    public interface View {
+    public Context getContext() {
+        return getView().getActivityContext();
+    }
 
+    public Exercise getExercise() {
+        return getViewModel().getExercise();
+    }
+
+
+
+    public interface View {
         Context getActivityContext();
         void showToast(String message);
         void startEditExerciseActivity(Exercise exercise);
