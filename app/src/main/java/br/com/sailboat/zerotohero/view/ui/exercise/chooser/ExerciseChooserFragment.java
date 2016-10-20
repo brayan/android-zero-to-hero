@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +30,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private android.view.View emptyList;
+    private View emptyList;
 
     @Override
     protected int getLayoutId() {
@@ -61,7 +62,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     @Override
-    protected void initViews(android.view.View view) {
+    protected void initViews(View view) {
         inflateViews(view);
         initToolbar();
         initRecyclerView();
@@ -73,9 +74,9 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-        toolbar.setNavigationOnClickListener(new android.view.View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(android.view.View v) {
+            public void onClick(View v) {
                 getPresenter().onClickNavigationIcon();
             }
         });
@@ -103,12 +104,12 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         boolean isEmpty = getPresenter().getExerciseList().isEmpty();
 
         if (isEmpty) {
-            recyclerView.setVisibility(android.view.View.GONE);
-            emptyList.setVisibility(android.view.View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            emptyList.setVisibility(View.VISIBLE);
 
         } else {
-            emptyList.setVisibility(android.view.View.GONE);
-            recyclerView.setVisibility(android.view.View.VISIBLE);
+            emptyList.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
 
     }
@@ -147,7 +148,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         getPresenter().onClickExercise(position);
     }
 
-    private void inflateViews(android.view.View view) {
+    private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         emptyList = view.findViewById(R.id.empty_list);
@@ -167,9 +168,9 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         tvTitle.setText("No exercises");
 
         TextView tvMessage = (TextView) emptyList.findViewById(R.id.empty_list_message);
-        tvMessage.setVisibility(android.view.View.GONE);
+        tvMessage.setVisibility(View.GONE);
 
-        emptyList.setVisibility(android.view.View.GONE);
+        emptyList.setVisibility(View.GONE);
     }
 
 }
