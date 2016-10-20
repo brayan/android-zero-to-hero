@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import br.com.sailboat.zerotohero.helper.CreateTableHelper;
+import br.com.sailboat.zerotohero.helper.CreateTablesHelper;
 
 public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
@@ -29,7 +29,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        CreateTableHelper.createTables(getContext(), database);
+        CreateTablesHelper.createTables(getContext(), database);
     }
 
     @Override

@@ -11,17 +11,17 @@ import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
 
-public class CreateTableHelper {
+public class CreateTablesHelper {
 
     private Context context;
     private SQLiteDatabase database;
     private List<BaseSQLite> tableList;
 
     public static void createTables(Context context, SQLiteDatabase database) {
-        new CreateTableHelper(context, database).createTables();
+        new CreateTablesHelper(context, database).createTables();
     }
 
-    private CreateTableHelper(Context context, SQLiteDatabase database) {
+    private CreateTablesHelper(Context context, SQLiteDatabase database) {
         setContext(context.getApplicationContext());
         setDatabase(database);
         initTableList();

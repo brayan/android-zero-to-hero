@@ -17,7 +17,7 @@ public class LoadWorkoutsAsyncTask extends BaseAsyncTask {
     private LoadWorkoutsAsyncTask.Callback callback;
 
     public LoadWorkoutsAsyncTask(Context context, Callback callback) {
-        setContext(context);
+        setContext(context.getApplicationContext());
         setWorkoutList(new ArrayList<Workout>());
         setCallback(callback);
     }
