@@ -39,12 +39,15 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends Frag
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (resultCode == Activity.RESULT_OK) {
-            onActivityResultOk(requestCode, data);
-
-        } else if (resultCode == Activity.RESULT_CANCELED) {
-            onActivityResultCanceled(requestCode, data);
+        switch (requestCode) {
+            case Activity.RESULT_OK: {
+                onActivityResultOk(requestCode, data);
+                return;
+            }
+            case Activity.RESULT_CANCELED: {
+                onActivityResultCanceled(requestCode, data);
+                return;
+            }
         }
     }
 
@@ -60,7 +63,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends Frag
         }
     }
 
-    protected void extractExtrasFromIntent(Intent intent) {
+    private void extractExtrasFromIntent(Intent intent) {
         getPresenter().extractExtrasFromIntent(intent);
     }
 

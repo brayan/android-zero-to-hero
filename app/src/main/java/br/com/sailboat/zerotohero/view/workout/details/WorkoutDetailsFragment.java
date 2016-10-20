@@ -22,10 +22,9 @@ import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.workout.details.presenter.WorkoutDetailsPresenter;
-import br.com.sailboat.zerotohero.view.workout.details.presenter.WorkoutDetailsView;
 import br.com.sailboat.zerotohero.view.workout.insert_or_edit.InsertOrEditWorkoutActivity;
 
-public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsView, ExercisesListAdapter.Callback {
+public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsPresenter.View, ExercisesListAdapter.Callback {
 
     private static final int REQUEST_EDIT_WORKOUT = 0;
 
@@ -70,12 +69,6 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
                 return;
             }
         }
-    }
-
-    @Override
-    protected void extractExtrasFromIntent(Intent intent) {
-        Workout workout = ExtrasHelper.getWorkout(intent);
-        getPresenter().getViewModel().setWorkout(workout);
     }
 
     @Override

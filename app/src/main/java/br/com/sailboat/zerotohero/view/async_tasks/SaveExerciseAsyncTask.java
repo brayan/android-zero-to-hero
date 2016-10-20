@@ -38,12 +38,12 @@ public class SaveExerciseAsyncTask extends BaseAsyncTask {
         getCallback().onFail(e);
     }
 
-    private void saveNewExercise() {
+    private void saveNewExercise() throws Exception {
         long exerciseId = new ExerciseSQLite(getContext()).saveAndGetId(getExercise());
         getExercise().setId(exerciseId);
     }
 
-    private void updateExercise() {
+    private void updateExercise() throws Exception {
         new ExerciseSQLite(getContext()).update(getExercise());
     }
 

@@ -16,10 +16,10 @@ import br.com.sailboat.zerotohero.view.async_tasks.SaveExerciseAsyncTask;
 
 public class ExerciseListPresenter extends BasePresenter {
 
-    private ExerciseListView view;
+    private View view;
     private ExerciseListViewModel viewModel;
 
-    public ExerciseListPresenter(ExerciseListView view) {
+    public ExerciseListPresenter(View view) {
         setView(view);
         setViewModel(new ExerciseListViewModel());
     }
@@ -64,11 +64,11 @@ public class ExerciseListPresenter extends BasePresenter {
         this.viewModel = viewModel;
     }
 
-    public ExerciseListView getView() {
+    public View getView() {
         return view;
     }
 
-    public void setView(ExerciseListView view) {
+    public void setView(View view) {
         this.view = view;
     }
 
@@ -152,5 +152,18 @@ public class ExerciseListPresenter extends BasePresenter {
 
     public void onResultCanceledExerciseDetails() {
         loadExercises();
+    }
+
+
+
+    public interface View {
+
+        Context getActivityContext();
+        void updateContentViews();
+        void showToast(String message);
+        void startExerciseDetailsActivity(Exercise exercise);
+        void startNewExerciseActivity();
+        void showDialog(String message);
+        void updateExerciseRemoved(int position);
     }
 }

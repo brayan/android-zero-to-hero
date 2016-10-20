@@ -1,18 +1,21 @@
 package br.com.sailboat.zerotohero.view.exercise.insert_or_edit.presenter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.StringRes;
 
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.base.BasePresenter;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.helper.StringHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 
 public class InsertOrEditExercisePresenter extends BasePresenter {
 
-    private InsertOrEditExerciseView view;
+    private View view;
     private InsertOrEditExerciseViewModel viewModel;
 
-    public InsertOrEditExercisePresenter(InsertOrEditExerciseView view) {
+    public InsertOrEditExercisePresenter(View view) {
         setView(view);
         setViewModel(new InsertOrEditExerciseViewModel());
     }
@@ -26,15 +29,17 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
             getView().setRepetition(String.valueOf(getViewModel().getExercise().getRepetition()));
             getView().hideKeyboard();
         }
-
-//        else {
-//            getView().openKeyboard();
-//        }
     }
 
     @Override
     protected void postResume() {
         updateContentViews();
+    }
+
+    @Override
+    public void extractExtrasFromIntent(Intent intent) {
+        Exercise exercise = ExtrasHelper.getExercise(intent);
+        getViewModel().setExercise(exercise);
     }
 
     public void onClickMenuSave() {
@@ -74,11 +79,11 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
         this.viewModel = viewModel;
     }
 
-    public InsertOrEditExerciseView getView() {
+    public View getView() {
         return view;
     }
 
-    public void setView(InsertOrEditExerciseView view) {
+    public void setView(View view) {
         this.view = view;
     }
 
@@ -128,7 +133,25 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
         return getView().getActivityContext().getString(id);
     }
 
-    public void onReceiveExercise(Exercise exercise) {
-        getViewModel().setExercise(exercise);
+
+
+    public interface View {
+
+        Context getActivityContext();
+        void showToast(String message);
+        String getName();
+        void showDialog(String message);
+        void closeActivityWithResultCanceled();
+        void setName(String name);
+        void hideKeyboard();
+        void updateToolbarTitle(String title);
+        void closeActivityWithResultOk(Exercise exercise);
+        void openKeyboard();
+        String getWeight();
+        String getSets();
+        String getReps();
+        void setWeight(String weight);
+        void setSet(String set);
+        void setRepetition(String repetition);
     }
 }

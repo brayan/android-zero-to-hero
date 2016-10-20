@@ -19,9 +19,8 @@ import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.exercise.details.ExerciseDetailsActivity;
 import br.com.sailboat.zerotohero.view.exercise.insert_or_edit.InsertOrEditExerciseActivity;
 import br.com.sailboat.zerotohero.view.exercise.list.presenter.ExerciseListPresenter;
-import br.com.sailboat.zerotohero.view.exercise.list.presenter.ExerciseListView;
 
-public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> implements ExerciseListView, ExercisesListAdapter.Callback {
+public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> implements ExerciseListPresenter.View, ExercisesListAdapter.Callback {
 
     private static final int REQUEST_NEW_EXERCISE = 0;
     private static final int REQUEST_DETAILS = 1;

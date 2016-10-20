@@ -32,9 +32,8 @@ import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.exercise.chooser.ExerciseChooserActivity;
 import br.com.sailboat.zerotohero.view.workout.insert_or_edit.presenter.InsertOrEditWorkoutPresenter;
-import br.com.sailboat.zerotohero.view.workout.insert_or_edit.presenter.InsertOrEditWorkoutView;
 
-public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkoutPresenter> implements InsertOrEditWorkoutView {
+public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkoutPresenter> implements InsertOrEditWorkoutPresenter.View {
 
     private static final int REQUEST_EXERCISE_CHOOSER = 0;
 
@@ -65,11 +64,6 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
                 return super.onOptionsItemSelected(item);
             }
         }
-    }
-
-    @Override
-    protected void extractExtrasFromIntent(Intent intent) {
-        getPresenter().onReceiveWorkout(ExtrasHelper.getWorkout(intent));
     }
 
     @Override

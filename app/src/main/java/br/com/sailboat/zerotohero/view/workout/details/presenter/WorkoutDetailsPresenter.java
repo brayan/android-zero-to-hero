@@ -16,10 +16,10 @@ import br.com.sailboat.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
 
 public class WorkoutDetailsPresenter extends BasePresenter {
 
-    private WorkoutDetailsView view;
+    private View view;
     private WorkoutDetailsViewModel viewModel;
 
-    public WorkoutDetailsPresenter(WorkoutDetailsView view) {
+    public WorkoutDetailsPresenter(View view) {
         setView(view);
         setViewModel(new WorkoutDetailsViewModel());
     }
@@ -43,6 +43,12 @@ public class WorkoutDetailsPresenter extends BasePresenter {
     @Override
     protected void postResume() {
         updateContentViews();
+    }
+
+    @Override
+    public void extractExtrasFromIntent(Intent intent) {
+        Workout workout = ExtrasHelper.getWorkout(intent);
+        getViewModel().setWorkout(workout);
     }
 
     public void onClickNewWorkout() {
@@ -111,11 +117,11 @@ public class WorkoutDetailsPresenter extends BasePresenter {
         this.viewModel = viewModel;
     }
 
-    public WorkoutDetailsView getView() {
+    public View getView() {
         return view;
     }
 
-    public void setView(WorkoutDetailsView view) {
+    public void setView(View view) {
         this.view = view;
     }
 
@@ -139,6 +145,20 @@ public class WorkoutDetailsPresenter extends BasePresenter {
                 getView().showToast(e.getMessage());
             }
         }).execute();
+    }
+
+    public interface View {
+
+        Context getActivityContext();
+        void updateExerciseListView();
+        void showToast(String message);
+        void startNewWorkoutActivity();
+        void startExerciseDetailsActivity(Exercise exercise);
+        void updateTitle(String title);
+        void updateVisibilityOfViews();
+        void startEditWorkoutActivity(Workout workout);
+        void closeActivityWithResultCanceled();
+        void closeActivityWithResultOkAndDeleteWorkout(Workout workout);
     }
 
 }

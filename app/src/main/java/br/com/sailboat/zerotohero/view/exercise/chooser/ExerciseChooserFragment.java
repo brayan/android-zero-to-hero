@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,13 +24,12 @@ import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.ExerciseChooserAdapter;
 import br.com.sailboat.zerotohero.view.exercise.chooser.presenter.ExerciseChooserPresenter;
-import br.com.sailboat.zerotohero.view.exercise.chooser.presenter.ExerciseChooserView;
 
-public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresenter> implements ExerciseChooserView, ExerciseChooserAdapter.Callback {
+public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresenter> implements ExerciseChooserPresenter.View, ExerciseChooserAdapter.Callback {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
-    private View emptyList;
+    private android.view.View emptyList;
 
     @Override
     protected int getLayoutId() {
@@ -63,7 +61,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     @Override
-    protected void initViews(View view) {
+    protected void initViews(android.view.View view) {
         inflateViews(view);
         initToolbar();
         initRecyclerView();
@@ -75,9 +73,9 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new android.view.View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(android.view.View v) {
                 getPresenter().onClickNavigationIcon();
             }
         });
@@ -96,11 +94,6 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     @Override
-    public void startNewWorkoutActivity() {
-//        InsertOrEditWorkoutActivity.start(getActivity(), null);
-    }
-
-    @Override
     public void updateTitle(String title) {
         toolbar.setTitle(title);
     }
@@ -110,12 +103,12 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         boolean isEmpty = getPresenter().getExerciseList().isEmpty();
 
         if (isEmpty) {
-            recyclerView.setVisibility(View.GONE);
-            emptyList.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(android.view.View.GONE);
+            emptyList.setVisibility(android.view.View.VISIBLE);
 
         } else {
-            emptyList.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            emptyList.setVisibility(android.view.View.GONE);
+            recyclerView.setVisibility(android.view.View.VISIBLE);
         }
 
     }
@@ -154,7 +147,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         getPresenter().onClickExercise(position);
     }
 
-    private void inflateViews(View view) {
+    private void inflateViews(android.view.View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
         emptyList = view.findViewById(R.id.empty_list);
@@ -174,9 +167,9 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         tvTitle.setText("No exercises");
 
         TextView tvMessage = (TextView) emptyList.findViewById(R.id.empty_list_message);
-        tvMessage.setVisibility(View.GONE);
+        tvMessage.setVisibility(android.view.View.GONE);
 
-        emptyList.setVisibility(View.GONE);
+        emptyList.setVisibility(android.view.View.GONE);
     }
 
 }

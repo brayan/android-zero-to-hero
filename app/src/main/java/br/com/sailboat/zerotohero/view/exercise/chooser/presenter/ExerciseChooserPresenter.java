@@ -19,10 +19,10 @@ import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesAsyncTask;
 
 public class ExerciseChooserPresenter extends BasePresenter {
 
-    private ExerciseChooserView view;
+    private ExerciseChooserPresenter.View view;
     private ExerciseChooserViewModel viewModel;
 
-    public ExerciseChooserPresenter(ExerciseChooserView view) {
+    public ExerciseChooserPresenter(ExerciseChooserPresenter.View view) {
         setView(view);
         setViewModel(new ExerciseChooserViewModel());
     }
@@ -157,11 +157,11 @@ public class ExerciseChooserPresenter extends BasePresenter {
         this.viewModel = viewModel;
     }
 
-    public ExerciseChooserView getView() {
+    public View getView() {
         return view;
     }
 
-    public void setView(ExerciseChooserView view) {
+    public void setView(View view) {
         this.view = view;
     }
 
@@ -171,6 +171,22 @@ public class ExerciseChooserPresenter extends BasePresenter {
 
     public LongSparseArray<Exercise> getSelectedExercises() {
         return getViewModel().getSelectedExercises();
+    }
+
+
+
+    public interface View {
+
+        Context getActivityContext();
+        void updateExerciseListView();
+        void showToast(String message);
+        void updateTitle(String title);
+        void updateVisibilityOfViews();
+        void updateExerciseView(int position);
+        void closeActivityResultCanceled();
+        void closeActivityResultOk(List<Exercise> exercises);
+        void updateMenu();
+
     }
 
 }

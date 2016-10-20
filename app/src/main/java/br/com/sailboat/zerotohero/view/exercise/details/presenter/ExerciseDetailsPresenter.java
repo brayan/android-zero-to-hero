@@ -11,10 +11,10 @@ import br.com.sailboat.zerotohero.view.async_tasks.SaveExerciseAsyncTask;
 
 public class ExerciseDetailsPresenter extends BasePresenter {
 
-    private ExerciseDetailsView view;
+    private View view;
     private ExerciseDetailsViewModel viewModel;
 
-    public ExerciseDetailsPresenter(ExerciseDetailsView view) {
+    public ExerciseDetailsPresenter(View view) {
         setView(view);
         setViewModel(new ExerciseDetailsViewModel());
     }
@@ -22,6 +22,12 @@ public class ExerciseDetailsPresenter extends BasePresenter {
     @Override
     protected void postResume() {
         updateContentViews();
+    }
+
+    @Override
+    public void extractExtrasFromIntent(Intent intent) {
+        Exercise exercise = ExtrasHelper.getExercise(intent);
+        getViewModel().setExercise(exercise);
     }
 
     public void onClickEditExercise() {
@@ -60,11 +66,11 @@ public class ExerciseDetailsPresenter extends BasePresenter {
         this.viewModel = viewModel;
     }
 
-    public ExerciseDetailsView getView() {
+    public View getView() {
         return view;
     }
 
-    public void setView(ExerciseDetailsView view) {
+    public void setView(View view) {
         this.view = view;
     }
 
@@ -83,6 +89,19 @@ public class ExerciseDetailsPresenter extends BasePresenter {
                 getView().showToast(e.getMessage());
             }
         }).execute();
+    }
+
+    public interface View {
+
+        Context getActivityContext();
+        void showToast(String message);
+        void startEditExerciseActivity(Exercise exercise);
+        void closeActivityWithResultCanceled();
+        void closeActivityWithResultOkAndDeleteExercise(Exercise exercise);
+        void setRepetition(String name);
+        void setWeight(String weight);
+        void setSet(String set);
+        void setName(String name);
     }
 
 }

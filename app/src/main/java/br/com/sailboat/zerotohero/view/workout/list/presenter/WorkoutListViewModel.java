@@ -17,4 +17,5 @@ public class WorkoutListViewModel extends BaseViewModel {
     public List<Workout> getWorkoutList() {
         return workoutList;
     }
+
 }

@@ -19,10 +19,10 @@ import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesFromWorkoutAsync
 
 public class InsertOrEditWorkoutPresenter extends BasePresenter {
 
-    private InsertOrEditWorkoutView view;
+    private View view;
     private InsertOrEditWorkoutViewModel viewModel;
 
-    public InsertOrEditWorkoutPresenter(InsertOrEditWorkoutView view) {
+    public InsertOrEditWorkoutPresenter(View view) {
         setView(view);
         setViewModel(new InsertOrEditWorkoutViewModel());
     }
@@ -39,6 +39,12 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
     @Override
     protected void postResume() {
         updateContentViews();
+    }
+
+    @Override
+    public void extractExtrasFromIntent(Intent intent) {
+        Workout workout = ExtrasHelper.getWorkout(intent);
+        getViewModel().setWorkout(workout);
     }
 
     public void onClickAddExercises() {
@@ -59,10 +65,6 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
         } catch (Exception e) {
             getView().showDialog(e.getMessage());
         }
-    }
-
-    public void onReceiveWorkout(Workout workout) {
-        getViewModel().setWorkout(workout);
     }
 
     private void loadExercises() {
@@ -112,11 +114,11 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
         this.viewModel = viewModel;
     }
 
-    public InsertOrEditWorkoutView getView() {
+    public View getView() {
         return view;
     }
 
-    public void setView(InsertOrEditWorkoutView view) {
+    public void setView(View view) {
         this.view = view;
     }
 
@@ -151,5 +153,23 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
 
     private String getString(@StringRes int id) {
         return getView().getActivityContext().getString(id);
+    }
+
+
+
+    public interface View {
+
+        Context getActivityContext();
+        void updateVisibilityOfViews();
+        void updateExercisesListAndVisibility();
+        void showToast(String message);
+        void startExercisesChooserActivity(ArrayList<Exercise> exercises);
+        String getTextFromWorkoutName();
+        void showDialog(String message);
+        void closeActivityWithResultCanceled();
+        void closeActivityWithResultOk(Workout workout, List<Exercise> exercises);
+        void updateWorkoutNameView(String name);
+        void hideKeyboard();
+        void updateToolbarTitle(String title);
     }
 }

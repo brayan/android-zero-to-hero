@@ -27,7 +27,7 @@ public class WorkoutSQLite extends BaseSQLite {
         return sb.toString();
     }
 
-    public List<Workout> getAll() {
+    public List<Workout> getAll() throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT Workout.* FROM Workout ");
 
@@ -61,7 +61,7 @@ public class WorkoutSQLite extends BaseSQLite {
         executeUpdateOrDelete(statement);
     }
 
-    public void delete(long workoutId) {
+    public void delete(long workoutId) throws Exception {
         String query = "DELETE FROM Workout WHERE Workout.id = ?";
         SQLiteStatement statement = compileStatement(query);
         statement.bindLong(1, workoutId);

@@ -19,10 +19,10 @@ import br.com.sailboat.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
 
 public class WorkoutListPresenter extends BasePresenter {
 
-    private WorkoutListView view;
+    private View view;
     private WorkoutListViewModel viewModel;
 
-    public WorkoutListPresenter(WorkoutListView view) {
+    public WorkoutListPresenter(View view) {
         setView(view);
         setViewModel(new WorkoutListViewModel());
     }
@@ -94,8 +94,8 @@ public class WorkoutListPresenter extends BasePresenter {
     }
 
     private void loadWorkouts() {
-        Context context = getView().getActivityContext().getApplicationContext();
-        new LoadWorkoutsAsyncTask(context, new LoadWorkoutsAsyncTask.Callback() {
+        new LoadWorkoutsAsyncTask(getContext(), new LoadWorkoutsAsyncTask.Callback() {
+
             @Override
             public void onSuccess(List<Workout> workoutList) {
                 ListHelper.clearAndAdd(workoutList, getViewModel().getWorkoutList());
@@ -106,12 +106,12 @@ public class WorkoutListPresenter extends BasePresenter {
             public void onFail(Exception e) {
                 LogHelper.printExceptionLog(e);
             }
+
         }).execute();
     }
 
     private void deleteWorkout(Workout workoutToDelete) {
-        Context context = getView().getActivityContext().getApplicationContext();
-        new DeleteWorkoutAsyncTask(context, workoutToDelete, new DeleteWorkoutAsyncTask.Callback() {
+        new DeleteWorkoutAsyncTask(getContext(), workoutToDelete, new DeleteWorkoutAsyncTask.Callback() {
             @Override
             public void onSuccess() {
             }
@@ -125,8 +125,7 @@ public class WorkoutListPresenter extends BasePresenter {
     }
 
     private void saveWorkout(Workout workout, List<Exercise> exercises) {
-        Context context = getView().getActivityContext().getApplicationContext();
-        new SaveWorkoutAsyncTask(context, workout, exercises, new SaveWorkoutAsyncTask.Callback() {
+        new SaveWorkoutAsyncTask(getContext(), workout, exercises, new SaveWorkoutAsyncTask.Callback() {
 
             @Override
             public void onSuccess() {
@@ -137,7 +136,12 @@ public class WorkoutListPresenter extends BasePresenter {
                 LogHelper.printExceptionLog(e);
                 getView().showToast(e.getMessage());
             }
+
         }).execute();
+    }
+
+    private Context getContext() {
+        return getView().getActivityContext();
     }
 
     public WorkoutListViewModel getViewModel() {
@@ -148,16 +152,29 @@ public class WorkoutListPresenter extends BasePresenter {
         this.viewModel = viewModel;
     }
 
-    public WorkoutListView getView() {
+    public View getView() {
         return view;
     }
 
-    public void setView(WorkoutListView view) {
+    public void setView(View view) {
         this.view = view;
     }
 
     public List<Workout> getWorkouts() {
         return getViewModel().getWorkoutList();
+    }
+
+
+
+    public interface View {
+
+        Context getActivityContext();
+        void updateContentViews();
+        void showToast(String message);
+        void startNewWorkoutActivity();
+        void startWorkoutDetailsActivity(Workout workout);
+        void updateWorkoutRemoved(int position);
+        void startWorkoutDetailsActivityWithAnimation(Workout workout);
     }
 
 }

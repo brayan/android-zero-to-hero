@@ -19,9 +19,8 @@ import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.helper.UIHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.exercise.insert_or_edit.presenter.InsertOrEditExercisePresenter;
-import br.com.sailboat.zerotohero.view.exercise.insert_or_edit.presenter.InsertOrEditExerciseView;
 
-public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExercisePresenter> implements InsertOrEditExerciseView {
+public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExercisePresenter> implements InsertOrEditExercisePresenter.View {
 
     private Toolbar toolbar;
     private EditText etName;
@@ -55,11 +54,6 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
     @Override
     protected InsertOrEditExercisePresenter newPresenterInstance() {
         return new InsertOrEditExercisePresenter(this);
-    }
-
-    @Override
-    protected void extractExtrasFromIntent(Intent intent) {
-        getPresenter().onReceiveExercise(ExtrasHelper.getExercise(intent));
     }
 
     @Override

@@ -30,14 +30,14 @@ public class ExerciseSQLite extends BaseSQLite {
         return  sb.toString();
     }
 
-    public List<Exercise> getAll() {
+    public List<Exercise> getAll() throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT Exercise.* FROM Exercise ");
 
         return getExerciseList(sb.toString());
     }
 
-    public List<Exercise> getFromWorkout(long workoutId) {
+    public List<Exercise> getFromWorkout(long workoutId) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT Exercise.* FROM Exercise ");
         sb.append(" INNER JOIN WorkoutExercise ");
@@ -47,7 +47,7 @@ public class ExerciseSQLite extends BaseSQLite {
         return getExerciseList(sb.toString());
     }
 
-    public long saveAndGetId(Exercise exercise) {
+    public long saveAndGetId(Exercise exercise) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" INSERT INTO Exercise ");
         sb.append(" (name, weight, exerciseSet, repetition) ");
@@ -61,7 +61,7 @@ public class ExerciseSQLite extends BaseSQLite {
         return id;
     }
 
-    public void update(Exercise exercise) {
+    public void update(Exercise exercise) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE Exercise SET ");
         sb.append(" name = ?, ");
@@ -76,7 +76,7 @@ public class ExerciseSQLite extends BaseSQLite {
         executeUpdateOrDelete(statement);
     }
 
-    public void delete(long exerciseId) {
+    public void delete(long exerciseId) throws Exception {
         String query = "DELETE FROM Exercise WHERE Exercise.id = ?";
         SQLiteStatement statement = compileStatement(query);
         statement.bindLong(1, exerciseId);
