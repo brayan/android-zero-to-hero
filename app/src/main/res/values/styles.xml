@@ -1,23 +1,15 @@
 <resources>
 
-    <style name="AppTheme" parent="Orange500"></style>
-
-    <style name="Orange500" parent="AppThemeParent">
-        <item name="colorPrimary">@color/orange_500</item>
-        <item name="colorPrimaryDark">@color/orange_700</item>
-        <item name="colorAccent">@color/blue_a_200</item>
-        <item name="actionModeBackground">@color/orange_500</item>
-    </style>
-
-
-    <style name="AppThemeParent" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionModeBackground">@color/colorPrimary</item>
         <item name="windowActionBar">false</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="toolbarStyle">@style/toolbar</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
-
-    <style name="NavigationDrawerStyle" parent="Orange500"></style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
@@ -25,19 +17,20 @@
     </style>
 
     <style name="toolbar" parent="Widget.AppCompat.Toolbar">
-
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
-
     </style>
 
     <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="BackgroundFrameDetalhes">
-        <item name="android:background">@android:color/white</item>
+    <style name="frag_exercise_details__tv__labels">
+        <item name="android:textColor">@color/blue_grey_500</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
     </style>
 
 </resources>

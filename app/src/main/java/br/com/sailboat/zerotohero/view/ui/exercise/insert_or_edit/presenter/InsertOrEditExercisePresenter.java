@@ -42,7 +42,7 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
     public void onClickMenuSave() {
         try {
             checkRequiredComponents();
-            buildAndReturnEntities();
+            buildAndReturnExercise();
         } catch (Exception e) {
             getView().showDialog(e.getMessage());
         }
@@ -92,7 +92,7 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
         this.view = view;
     }
 
-    private void buildAndReturnEntities() {
+    private void buildAndReturnExercise() {
         Exercise exercise = getViewModel().getExercise();
 
         if (exercise == null) {

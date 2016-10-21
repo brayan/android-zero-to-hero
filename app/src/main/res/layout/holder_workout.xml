@@ -21,19 +21,9 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="Monday Workout"
+            android:text="Workout"
             android:textColor="@color/primary_text"
             android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/holder_workout__tv__info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text=""
-            android:textColor="@color/secondary_text"
-            android:textSize="14sp" />
 
     </LinearLayout>
 

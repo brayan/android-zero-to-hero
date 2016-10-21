@@ -139,7 +139,6 @@ public class WorkoutDetailsPresenter extends BasePresenter {
 
 
     public interface View {
-
         Context getActivityContext();
         void updateExerciseListView();
         void showToast(String message);
