@@ -39,7 +39,7 @@ public abstract class BaseFragment<Presenter extends BasePresenter> extends Frag
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
+        switch (resultCode) {
             case Activity.RESULT_OK: {
                 onActivityResultOk(requestCode, data);
                 return;
