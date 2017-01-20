@@ -10,11 +10,11 @@ import java.util.List;
 
 import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesAsyncTask;
 
-public class ExerciseChooserPresenter extends br.com.sailboat.canoe.base.BasePresenter<ExerciseChooserPresenter.View> {
+public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPresenter.View> {
 
     private ExerciseChooserViewModel viewModel = new ExerciseChooserViewModel();
 
@@ -34,7 +34,7 @@ public class ExerciseChooserPresenter extends br.com.sailboat.canoe.base.BasePre
 
     @Override
     public void extractExtrasFromIntent(Intent intent) {
-        List<Exercise> exercises = ExtrasHelper.getExercises(intent);
+        List<Exercise> exercises = Extras.getExercises(intent);
         addSelectedExercises(exercises);
     }
 

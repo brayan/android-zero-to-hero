@@ -3,11 +3,12 @@ package br.com.sailboat.zerotohero.view.ui.exercise.details;
 import android.content.Context;
 import android.content.Intent;
 
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.canoe.base.BasePresenter;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.async_tasks.SaveExerciseAsyncTask;
 
-public class ExerciseDetailsPresenter extends br.com.sailboat.canoe.base.BasePresenter<ExerciseDetailsPresenter.View> {
+public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPresenter.View> {
 
     private ExerciseDetailsViewModel viewModel = new ExerciseDetailsViewModel();
 
@@ -22,7 +23,7 @@ public class ExerciseDetailsPresenter extends br.com.sailboat.canoe.base.BasePre
 
     @Override
     public void extractExtrasFromIntent(Intent intent) {
-        Exercise exercise = ExtrasHelper.getExercise(intent);
+        Exercise exercise = Extras.getExercise(intent);
         getViewModel().setExercise(exercise);
     }
 
@@ -36,7 +37,7 @@ public class ExerciseDetailsPresenter extends br.com.sailboat.canoe.base.BasePre
     }
 
     public void onResultOkEditExercise(Intent data) {
-        getViewModel().setExercise(ExtrasHelper.getExercise(data));
+        getViewModel().setExercise(Extras.getExercise(data));
         updateContentViews();
         saveExercise();
     }
@@ -85,7 +86,7 @@ public class ExerciseDetailsPresenter extends br.com.sailboat.canoe.base.BasePre
 
 
 
-    public interface View extends br.com.sailboat.canoe.base.BasePresenter.View {
+    public interface View extends BasePresenter.View {
         Context getActivityContext();
         void showToast(String message);
         void startEditExerciseActivity(Exercise exercise);

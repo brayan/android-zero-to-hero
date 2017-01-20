@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import br.com.sailboat.zerotohero.base.BaseActivity;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Workout;
 
 public class InsertOrEditWorkoutActivity extends BaseActivity<InsertOrEditWorkoutFragment> {
@@ -25,7 +25,7 @@ public class InsertOrEditWorkoutActivity extends BaseActivity<InsertOrEditWorkou
         Intent starter = new Intent(context, InsertOrEditWorkoutActivity.class);
 
         if (workout != null) {
-            ExtrasHelper.putWorkout(workout, starter);
+            Extras.putWorkout(workout, starter);
         }
 
         return starter;

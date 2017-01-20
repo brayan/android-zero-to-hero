@@ -6,13 +6,13 @@ import android.content.Intent;
 import java.util.List;
 
 import br.com.sailboat.canoe.base.BasePresenter;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesFromWorkoutAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
 
-public class WorkoutDetailsPresenter extends br.com.sailboat.canoe.base.BasePresenter<WorkoutDetailsPresenter.View> {
+public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresenter.View> {
 
     private WorkoutDetailsViewModel viewModel = new WorkoutDetailsViewModel();
 
@@ -32,7 +32,7 @@ public class WorkoutDetailsPresenter extends br.com.sailboat.canoe.base.BasePres
 
     @Override
     public void extractExtrasFromIntent(Intent intent) {
-        Workout workout = ExtrasHelper.getWorkout(intent);
+        Workout workout = Extras.getWorkout(intent);
         getViewModel().setWorkout(workout);
     }
 
@@ -51,9 +51,9 @@ public class WorkoutDetailsPresenter extends br.com.sailboat.canoe.base.BasePres
     }
 
     public void onResultOkEditWorkout(Intent data) {
-        getViewModel().setWorkout(ExtrasHelper.getWorkout(data));
+        getViewModel().setWorkout(Extras.getWorkout(data));
         getViewModel().getExerciseList().clear();
-        getViewModel().getExerciseList().addAll(ExtrasHelper.getExercises(data));
+        getViewModel().getExerciseList().addAll(Extras.getExercises(data));
         updateContentViews();
         saveWorkout();
     }

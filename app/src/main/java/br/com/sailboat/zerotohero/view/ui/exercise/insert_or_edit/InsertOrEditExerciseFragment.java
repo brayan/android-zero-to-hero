@@ -16,7 +16,7 @@ import br.com.sailboat.canoe.dialog.MessageDialog;
 import br.com.sailboat.canoe.helper.UIHelper;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.base.BaseFragment;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 
 public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExercisePresenter> implements InsertOrEditExercisePresenter.View {
@@ -80,7 +80,7 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
     @Override
     public void closeActivityWithResultOk(Exercise exercise) {
         Intent intent = new Intent();
-        ExtrasHelper.putExercise(exercise, intent);
+        Extras.putExercise(exercise, intent);
 
         getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();

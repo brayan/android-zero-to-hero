@@ -6,7 +6,7 @@ import android.content.Intent;
 import java.util.List;
 
 import br.com.sailboat.canoe.base.BasePresenter;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.async_tasks.DeleteExerciseAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesAsyncTask;
@@ -21,13 +21,8 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
     }
 
     @Override
-    protected void onResumeFirstSession() {
-        loadExercises();
-    }
-
-    @Override
     protected void postResume() {
-        getView().updateContentViews();
+        loadExercises();
     }
 
     public void onClickExercise(int position) {
@@ -44,7 +39,7 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
     }
 
     public void onActivityResultOkInsertOrEditExercise(Intent data) {
-        Exercise exercise = ExtrasHelper.getExercise(data);
+        Exercise exercise = Extras.getExercise(data);
 
         getViewModel().getExercises().add(exercise);
         getView().updateContentViews();
@@ -52,8 +47,8 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
     }
 
     public void onActivityResultOkExerciseDetails(Intent data) {
-        if (ExtrasHelper.hasExerciseToDelete(data)) {
-            Exercise exerciseToDelete = ExtrasHelper.getExercise(data);
+        if (Extras.hasExerciseToDelete(data)) {
+            Exercise exerciseToDelete = Extras.getExercise(data);
             removeExerciseFromListAndDeleteFromDatabase(exerciseToDelete);
         }
     }
@@ -147,7 +142,7 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
 
 
 
-    public interface View extends br.com.sailboat.canoe.base.BasePresenter.View{
+    public interface View extends BasePresenter.View{
         Context getActivityContext();
         void updateContentViews();
         void showToast(String message);

@@ -6,15 +6,16 @@ import android.os.Build;
 
 import java.util.List;
 
+import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.ApiLevelHelper;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.async_tasks.DeleteWorkoutAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadWorkoutsAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
 
-public class WorkoutListPresenter extends br.com.sailboat.canoe.base.BasePresenter<WorkoutListPresenter.View> {
+public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.View> {
 
     private WorkoutListViewModel viewModel = new WorkoutListViewModel();
 
@@ -51,8 +52,8 @@ public class WorkoutListPresenter extends br.com.sailboat.canoe.base.BasePresent
     }
 
     public void onActivityResultOkInsertOrEditWorkout(Intent data) {
-        Workout workout = ExtrasHelper.getWorkout(data);
-        List<Exercise> exercises = ExtrasHelper.getExercises(data);
+        Workout workout = Extras.getWorkout(data);
+        List<Exercise> exercises = Extras.getExercises(data);
 
         getViewModel().getWorkoutList().add(workout);
         getView().updateContentViews();
@@ -60,8 +61,8 @@ public class WorkoutListPresenter extends br.com.sailboat.canoe.base.BasePresent
     }
 
     public void onActivityResultOkWorkoutDetails(Intent data) {
-        if (ExtrasHelper.hasWorkoutToDelete(data)) {
-            Workout workoutToDelete = ExtrasHelper.getWorkout(data);
+        if (Extras.hasWorkoutToDelete(data)) {
+            Workout workoutToDelete = Extras.getWorkout(data);
             removeWorkoutFromListAndDeleteFromDatabase(workoutToDelete);
         }
     }
@@ -143,7 +144,7 @@ public class WorkoutListPresenter extends br.com.sailboat.canoe.base.BasePresent
     }
 
 
-    public interface View extends br.com.sailboat.canoe.base.BasePresenter.View{
+    public interface View extends BasePresenter.View{
         Context getActivityContext();
         void updateContentViews();
         void showToast(String message);

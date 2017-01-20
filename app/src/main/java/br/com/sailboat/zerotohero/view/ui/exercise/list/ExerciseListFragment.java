@@ -14,6 +14,7 @@ import android.widget.Toast;
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.MessageDialog;
 import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.zerotohero.helper.RequestCodes;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.ui.exercise.details.ExerciseDetailsActivity;
@@ -21,10 +22,7 @@ import br.com.sailboat.zerotohero.view.ui.exercise.insert_or_edit.InsertOrEditEx
 
 public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> implements ExerciseListPresenter.View, ExercisesListAdapter.Callback {
 
-    private static final int REQUEST_NEW_EXERCISE = 0;
-    private static final int REQUEST_DETAILS = 1;
-
-    private RecyclerView recyclerView;
+    private RecyclerView recycler;
     private View emptyList;
 
     @Override
@@ -40,11 +38,11 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     @Override
     protected void onActivityResultOk(int requestCode, Intent data) {
         switch (requestCode) {
-            case REQUEST_NEW_EXERCISE: {
+            case RequestCodes.INSERT_EXERCISE: {
                 getPresenter().onActivityResultOkInsertOrEditExercise(data);
                 return;
             }
-            case REQUEST_DETAILS: {
+            case RequestCodes.EXERCISE_DETAILS: {
                 getPresenter().onActivityResultOkExerciseDetails(data);
                 return;
             }
@@ -54,7 +52,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     @Override
     protected void onActivityResultCanceled(int requestCode, Intent data) {
         switch (requestCode) {
-            case REQUEST_DETAILS: {
+            case RequestCodes.EXERCISE_DETAILS: {
                 getPresenter().onActivityResultCanceledExerciseDetails();
                 return;
             }
@@ -63,7 +61,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     public void updateContentViews() {
-        recyclerView.getAdapter().notifyDataSetChanged();
+        recycler.getAdapter().notifyDataSetChanged();
         updateVisibilityOfViews();
     }
 
@@ -74,12 +72,12 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     public void startExerciseDetailsActivity(Exercise exercise) {
-        ExerciseDetailsActivity.start(this, exercise, REQUEST_DETAILS);
+        ExerciseDetailsActivity.start(this, exercise);
     }
 
     @Override
     public void startNewExerciseActivity() {
-        InsertOrEditExerciseActivity.start(this, REQUEST_NEW_EXERCISE);
+        InsertOrEditExerciseActivity.start(this);
     }
 
     @Override
@@ -89,7 +87,11 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     public void updateExerciseRemoved(int position) {
-        recyclerView.getAdapter().notifyItemRemoved(position);
+        recycler.getAdapter().notifyItemRemoved(position);
+    }
+
+    public void onClickFab() {
+        getPresenter().onClickNewExercise();
     }
 
     @Override
@@ -110,14 +112,14 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     }
 
     private void inflateViews(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
+        recycler = (RecyclerView) view.findViewById(R.id.recycler);
         emptyList = view.findViewById(R.id.emptyList);
     }
 
     private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter().getExercises(), this);
-        recyclerView.setAdapter(adapter);
+        recycler.setAdapter(adapter);
     }
 
     private void initEmptyView() {
@@ -137,17 +139,14 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
         boolean emptyList = getPresenter().getExercises().isEmpty();
 
         if (emptyList) {
-            recyclerView.setVisibility(View.GONE);
+            recycler.setVisibility(View.GONE);
             this.emptyList.setVisibility(View.VISIBLE);
 
         } else {
             this.emptyList.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            recycler.setVisibility(View.VISIBLE);
         }
 
     }
 
-    public void onClickFab() {
-        getPresenter().onClickNewExercise();
-    }
 }

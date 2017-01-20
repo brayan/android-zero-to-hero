@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.ui.exercise.insert_or_edit.InsertOrEditExerciseActivity;
 
@@ -107,8 +107,8 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     @Override
     public void closeActivityWithResultOkAndDeleteExercise(Exercise exercise) {
         Intent intent = new Intent();
-        ExtrasHelper.putExercise(exercise, intent);
-        ExtrasHelper.deleteExercise(intent);
+        Extras.putExercise(exercise, intent);
+        Extras.deleteExercise(intent);
 
         getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();

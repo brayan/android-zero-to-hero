@@ -6,18 +6,19 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import br.com.sailboat.zerotohero.base.BaseActivity;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
+import br.com.sailboat.zerotohero.helper.RequestCodes;
 import br.com.sailboat.zerotohero.model.Exercise;
 
 public class InsertOrEditExerciseActivity extends BaseActivity<InsertOrEditExerciseFragment> {
 
-    public static void start(Fragment fragment, int requestCode) {
-        start(fragment, null, requestCode);
+    public static void start(Fragment fragment) {
+        start(fragment, null);
     }
 
-    public static void start(Fragment fragment, Exercise exercise, int requestCode) {
+    public static void start(Fragment fragment, Exercise exercise) {
         Intent starter = getStartIntent(fragment.getActivity(), exercise);
-        fragment.startActivityForResult(starter, requestCode);
+        fragment.startActivityForResult(starter, RequestCodes.INSERT_EXERCISE);
     }
 
     @NonNull
@@ -25,7 +26,7 @@ public class InsertOrEditExerciseActivity extends BaseActivity<InsertOrEditExerc
         Intent starter = new Intent(context, InsertOrEditExerciseActivity.class);
 
         if (exercise != null) {
-            ExtrasHelper.putExercise(exercise, starter);
+            Extras.putExercise(exercise, starter);
         }
 
         return starter;

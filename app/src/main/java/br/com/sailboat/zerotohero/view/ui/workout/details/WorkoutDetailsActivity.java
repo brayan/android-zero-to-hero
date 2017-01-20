@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import br.com.sailboat.zerotohero.base.BaseActivity;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Workout;
 
 public class WorkoutDetailsActivity extends BaseActivity<WorkoutDetailsFragment> {
@@ -19,7 +19,7 @@ public class WorkoutDetailsActivity extends BaseActivity<WorkoutDetailsFragment>
     @NonNull
     private static Intent getStartIntent(Context context, Workout workout) {
         Intent starter = new Intent(context, WorkoutDetailsActivity.class);
-        ExtrasHelper.putWorkout(workout, starter);
+        Extras.putWorkout(workout, starter);
         return starter;
     }
 

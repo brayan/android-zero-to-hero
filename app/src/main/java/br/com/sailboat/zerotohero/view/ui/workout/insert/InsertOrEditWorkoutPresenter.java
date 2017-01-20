@@ -9,7 +9,7 @@ import java.util.List;
 import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesFromWorkoutAsyncTask;
@@ -38,7 +38,7 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter<InsertOrEditWork
 
     @Override
     public void extractExtrasFromIntent(Intent intent) {
-        Workout workout = ExtrasHelper.getWorkout(intent);
+        Workout workout = Extras.getWorkout(intent);
         getViewModel().setWorkout(workout);
     }
 
@@ -57,7 +57,7 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter<InsertOrEditWork
     }
 
     public void onResultOkExerciseChooser(Intent data) {
-        List<Exercise> exercises = ExtrasHelper.getExercises(data);
+        List<Exercise> exercises = Extras.getExercises(data);
         getViewModel().getExercises().clear();
         getViewModel().getExercises().addAll(exercises);
         getView().updateExercisesListAndVisibility();

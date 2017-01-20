@@ -7,7 +7,7 @@ import android.support.annotation.StringRes;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.base.BasePresenter;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 
 public class InsertOrEditExercisePresenter extends BasePresenter {
@@ -34,7 +34,7 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
 
     @Override
     public void extractExtrasFromIntent(Intent intent) {
-        Exercise exercise = ExtrasHelper.getExercise(intent);
+        Exercise exercise = Extras.getExercise(intent);
         getViewModel().setExercise(exercise);
     }
 

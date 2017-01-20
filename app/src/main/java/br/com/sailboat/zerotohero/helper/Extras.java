@@ -8,7 +8,7 @@ import java.util.List;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 
-public class ExtrasHelper {
+public class Extras {
 
     private static final String WORKOUT = "WORKOUT";
     private static final String EXERCISE = "EXERCISE";

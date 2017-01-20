@@ -26,7 +26,7 @@ import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.MessageDialog;
 import br.com.sailboat.canoe.helper.UIHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
@@ -117,8 +117,8 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     @Override
     public void closeActivityWithResultOk(Workout workout, List<Exercise> exercises) {
         Intent intent = new Intent();
-        ExtrasHelper.putWorkout(workout, intent);
-        ExtrasHelper.putExercises(exercises, intent);
+        Extras.putWorkout(workout, intent);
+        Extras.putExercises(exercises, intent);
 
         getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
