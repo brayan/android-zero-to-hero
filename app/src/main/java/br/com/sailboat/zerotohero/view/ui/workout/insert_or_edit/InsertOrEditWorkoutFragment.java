@@ -45,7 +45,7 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frag_insert_or_edit_workout;
+        return R.layout.frg_insert_workout;
     }
 
     @Override
@@ -148,10 +148,10 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
         fabAddExercises = (FloatingActionButton) view.findViewById(R.id.fab);
-        etWorkoutName = (EditText) view.findViewById(R.id.frag_insert_or_edit_workout__et__name);
-        emptyList = view.findViewById(R.id.empty_list);
+        etWorkoutName = (EditText) view.findViewById(R.id.frg_insert_workout__et__name);
+        emptyList = view.findViewById(R.id.emptyList);
     }
 
     private void initRecyclerView() {
@@ -187,13 +187,13 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     }
 
     private void initEmptyView() {
-        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.empty_list_image);
-        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.teal_300), PorterDuff.Mode.SRC_ATOP);
+        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
+        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_teal_300), PorterDuff.Mode.SRC_ATOP);
 
-        TextView tvTitle = (TextView) emptyList.findViewById(R.id.empty_list_title);
+        TextView tvTitle = (TextView) emptyList.findViewById(R.id.tvEmptyListTitle);
         tvTitle.setText("No exercises");
 
-        TextView tvMessage = (TextView) emptyList.findViewById(R.id.empty_list_message);
+        TextView tvMessage = (TextView) emptyList.findViewById(R.id.tvEmptyListMessage);
         tvMessage.setText("Add exercises by tapping the + button");
 
         emptyList.setVisibility(View.GONE);

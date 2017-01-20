@@ -1,10 +1,10 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="actionModeBackground">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/md_orange_500</item>
+        <item name="colorPrimaryDark">@color/md_orange_700</item>
+        <item name="colorAccent">@color/md_light_blue_A400</item>
+        <item name="actionModeBackground">@color/md_orange_500</item>
         <item name="windowActionBar">false</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="toolbarStyle">@style/toolbar</item>
@@ -26,8 +26,8 @@
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="frag_exercise_details__tv__labels">
-        <item name="android:textColor">@color/blue_grey_500</item>
+    <style name="frg_exercise_details__tv__labels">
+        <item name="android:textColor">@color/md_blue_grey_500</item>
         <item name="android:textSize">16sp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

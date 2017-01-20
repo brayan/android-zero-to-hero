@@ -114,8 +114,8 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     private void inflateViews(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        emptyList = view.findViewById(R.id.empty_list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
+        emptyList = view.findViewById(R.id.emptyList);
     }
 
     private void initRecyclerView() {
@@ -125,13 +125,13 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     private void initEmptyView() {
-        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.empty_list_image);
-        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.orange_300), PorterDuff.Mode.SRC_ATOP);
+        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
+        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_orange_300), PorterDuff.Mode.SRC_ATOP);
 
-        TextView tvTitle = (TextView) emptyList.findViewById(R.id.empty_list_title);
+        TextView tvTitle = (TextView) emptyList.findViewById(R.id.tvEmptyListTitle);
         tvTitle.setText("No workouts");
 
-        TextView tvMessage = (TextView) emptyList.findViewById(R.id.empty_list_message);
+        TextView tvMessage = (TextView) emptyList.findViewById(R.id.tvEmptyListMessage);
         tvMessage.setText("Create a new workout plan by tapping the + button");
 
         emptyList.setVisibility(View.GONE);

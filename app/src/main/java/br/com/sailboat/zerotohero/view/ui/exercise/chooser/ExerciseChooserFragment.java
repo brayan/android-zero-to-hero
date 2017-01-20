@@ -34,7 +34,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frag_exercise_chooser;
+        return R.layout.frg_exercise_chooser;
     }
 
     @Override
@@ -150,8 +150,8 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        emptyList = view.findViewById(R.id.empty_list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
+        emptyList = view.findViewById(R.id.emptyList);
     }
 
     private void initRecyclerView() {
@@ -161,13 +161,13 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     private void initEmptyView() {
-        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.empty_list_image);
-        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.blue_300), PorterDuff.Mode.SRC_ATOP);
+        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
+        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_blue_300), PorterDuff.Mode.SRC_ATOP);
 
-        TextView tvTitle = (TextView) emptyList.findViewById(R.id.empty_list_title);
+        TextView tvTitle = (TextView) emptyList.findViewById(R.id.tvEmptyListTitle);
         tvTitle.setText("No exercises");
 
-        TextView tvMessage = (TextView) emptyList.findViewById(R.id.empty_list_message);
+        TextView tvMessage = (TextView) emptyList.findViewById(R.id.tvEmptyListMessage);
         tvMessage.setVisibility(View.GONE);
 
         emptyList.setVisibility(View.GONE);

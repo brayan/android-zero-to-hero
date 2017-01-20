@@ -9,7 +9,7 @@ import br.com.sailboat.zerotohero.model.Exercise;
 
 public class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
-    public static final int LAYOUT_ID = R.layout.holder_exercise;
+    public static final int LAYOUT_ID = R.layout.vh_exercise;
 
     private TextView tvName;
     private TextView tvWeight;

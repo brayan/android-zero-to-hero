@@ -33,7 +33,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frag_workout_details;
+        return R.layout.frg_workout_details;
     }
 
     @Override
@@ -149,8 +149,8 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
-        emptyList = view.findViewById(R.id.empty_list);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
+        emptyList = view.findViewById(R.id.emptyList);
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
     }
 

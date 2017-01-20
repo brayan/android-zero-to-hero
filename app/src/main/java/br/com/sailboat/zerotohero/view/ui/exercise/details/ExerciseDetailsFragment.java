@@ -33,7 +33,7 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frag_exercise_details;
+        return R.layout.frg_exercise_details;
     }
 
     @Override
@@ -142,10 +142,10 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        tvName = (TextView) view.findViewById(R.id.frag_exercise_details__tv__name);
-        tvWeight = (TextView) view.findViewById(R.id.frag_exercise_details__tv__weight);
-        tvSets = (TextView) view.findViewById(R.id.frag_exercise_details__tv__sets);
-        tvReps = (TextView) view.findViewById(R.id.frag_exercise_details__tv__reps);
+        tvName = (TextView) view.findViewById(R.id.frg_exercise_details__tv__name);
+        tvWeight = (TextView) view.findViewById(R.id.frg_exercise_details__tv__weight);
+        tvSets = (TextView) view.findViewById(R.id.frg_exercise_details__tv__sets);
+        tvReps = (TextView) view.findViewById(R.id.frg_exercise_details__tv__reps);
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
     }
 

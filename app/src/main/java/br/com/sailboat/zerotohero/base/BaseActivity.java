@@ -18,7 +18,7 @@ public abstract class BaseActivity<T extends Fragment> extends AppCompatActivity
 
     private void checkStateAndAddFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
-            addFragment(R.id.frame_layout, newFragmentInstance());
+            addFragment(R.id.frameLayout, newFragmentInstance());
         }
     }
 

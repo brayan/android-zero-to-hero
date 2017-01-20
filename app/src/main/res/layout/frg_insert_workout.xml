@@ -22,16 +22,16 @@
             android:layout_marginTop="16dp">
 
             <EditText
-                android:id="@+id/frag_insert_or_edit_workout__et__name"
+                android:id="@+id/frg_insert_workout__et__name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Workout Name" />
 
         </android.support.design.widget.TextInputLayout>
 
-        <include layout="@layout/recyclerview" />
+        <include layout="@layout/recycler_scroll" />
 
-        <include layout="@layout/empty_list" />
+        <include layout="@layout/ept_list" />
 
     </LinearLayout>
 

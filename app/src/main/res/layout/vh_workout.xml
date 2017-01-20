@@ -16,7 +16,7 @@
         android:paddingTop="8dp">
 
         <TextView
-            android:id="@+id/holder_workout__tv__name"
+            android:id="@+id/vh_workout__tv__name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"

@@ -30,7 +30,7 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frag_insert_or_edit_exercise;
+        return R.layout.frg_insert_exercise;
     }
 
     @Override
@@ -140,10 +140,10 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
 
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        etName = (EditText) view.findViewById(R.id.frag_insert_or_edit_exercise__et__name);
-        etWeight = (EditText) view.findViewById(R.id.frag_insert_or_edit_exercise__et__weight);
-        etReps = (EditText) view.findViewById(R.id.frag_insert_or_edit_exercise__et__reps);
-        etSets = (EditText) view.findViewById(R.id.frag_insert_or_edit_exercise__et__sets);
+        etName = (EditText) view.findViewById(R.id.frg_insert_exercise__et__name);
+        etWeight = (EditText) view.findViewById(R.id.frg_insert_exercise__et__weight);
+        etReps = (EditText) view.findViewById(R.id.frg_insert_exercise__et__reps);
+        etSets = (EditText) view.findViewById(R.id.frg_insert_exercise__et__sets);
     }
 
     private void initToolbar() {

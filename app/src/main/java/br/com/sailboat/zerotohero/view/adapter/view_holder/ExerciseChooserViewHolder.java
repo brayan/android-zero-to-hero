@@ -11,7 +11,7 @@ import br.com.sailboat.zerotohero.model.Exercise;
 
 public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
 
-    public static final int LAYOUT_ID = R.layout.holder_exercise_chooser;
+    public static final int LAYOUT_ID = R.layout.vh_exercise_selector;
 
     private TextView tvName;
     private TextView tvWeight;
@@ -51,7 +51,7 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
         tvWeight = (TextView) view.findViewById(R.id.exercise__tv__weight);
         tvSets = (TextView) view.findViewById(R.id.exercise__tv__sets);
         tvReps = (TextView) view.findViewById(R.id.exercise__tv__reps);
-        cbSelected = (CheckBox) view.findViewById(R.id.holder_exercise_chooser__cbox);
+        cbSelected = (CheckBox) view.findViewById(R.id.vh_exercise_selector__cb);
     }
 
     private void checkCallbackAndBindListeners(View itemView) {

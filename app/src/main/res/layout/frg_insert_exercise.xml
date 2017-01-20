@@ -24,11 +24,11 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/frag_insert_or_edit_exercise__et__name"
+                    android:id="@+id/frg_insert_exercise__et__name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Name"
-                    android:textColor="@color/green_500"
+                    android:textColor="@color/md_green_500"
                     android:textSize="32sp"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -38,12 +38,12 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/frag_insert_or_edit_exercise__et__weight"
+                    android:id="@+id/frg_insert_exercise__et__weight"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Weight"
                     android:inputType="numberDecimal"
-                    android:textColor="@color/red_300"
+                    android:textColor="@color/md_red_300"
                     android:textSize="32sp"/>
 
             </android.support.design.widget.TextInputLayout>
@@ -59,12 +59,12 @@
                     android:layout_weight="1">
 
                     <EditText
-                        android:id="@+id/frag_insert_or_edit_exercise__et__sets"
+                        android:id="@+id/frg_insert_exercise__et__sets"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Sets"
                         android:inputType="number"
-                        android:textColor="@color/blue_500"
+                        android:textColor="@color/md_blue_500"
                         android:textSize="32sp"/>
 
                 </android.support.design.widget.TextInputLayout>
@@ -75,12 +75,12 @@
                     android:layout_weight="1">
 
                     <EditText
-                        android:id="@+id/frag_insert_or_edit_exercise__et__reps"
+                        android:id="@+id/frg_insert_exercise__et__reps"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Reps"
                         android:inputType="number"
-                        android:textColor="@color/teal_500"
+                        android:textColor="@color/md_teal_500"
                         android:textSize="32sp"/>
 
                 </android.support.design.widget.TextInputLayout>
