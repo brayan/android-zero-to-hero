@@ -8,8 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import br.com.sailboat.canoe.helper.AnimationHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.AnimationHelper;
 import br.com.sailboat.zerotohero.view.ui.exercise.list.ExerciseListFragment;
 import br.com.sailboat.zerotohero.view.ui.workout.list.WorkoutListFragment;
 

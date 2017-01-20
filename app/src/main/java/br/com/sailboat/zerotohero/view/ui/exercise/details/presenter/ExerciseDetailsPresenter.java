@@ -3,21 +3,17 @@ package br.com.sailboat.zerotohero.view.ui.exercise.details.presenter;
 import android.content.Context;
 import android.content.Intent;
 
-import br.com.sailboat.zerotohero.base.BasePresenter;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.helper.LogHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.async_tasks.SaveExerciseAsyncTask;
 import br.com.sailboat.zerotohero.view.ui.exercise.details.view_model.ExerciseDetailsViewModel;
 
-public class ExerciseDetailsPresenter extends BasePresenter {
+public class ExerciseDetailsPresenter extends br.com.sailboat.canoe.base.BasePresenter<ExerciseDetailsPresenter.View> {
 
-    private View view;
-    private ExerciseDetailsViewModel viewModel;
+    private ExerciseDetailsViewModel viewModel = new ExerciseDetailsViewModel();
 
-    public ExerciseDetailsPresenter(View view) {
-        setView(view);
-        setViewModel(new ExerciseDetailsViewModel());
+    public ExerciseDetailsPresenter(ExerciseDetailsPresenter.View view) {
+        super(view);
     }
 
     @Override
@@ -59,20 +55,8 @@ public class ExerciseDetailsPresenter extends BasePresenter {
         getView().setRepetition(String.valueOf(exercise.getRepetition()));
     }
 
-    public ExerciseDetailsViewModel getViewModel() {
+    private ExerciseDetailsViewModel getViewModel() {
         return viewModel;
-    }
-
-    public void setViewModel(ExerciseDetailsViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 
     private void saveExercise() {
@@ -85,8 +69,7 @@ public class ExerciseDetailsPresenter extends BasePresenter {
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
+                printLogAndShowDialog(e);
             }
 
         }).execute();
@@ -103,7 +86,7 @@ public class ExerciseDetailsPresenter extends BasePresenter {
 
 
 
-    public interface View {
+    public interface View extends br.com.sailboat.canoe.base.BasePresenter.View {
         Context getActivityContext();
         void showToast(String message);
         void startEditExerciseActivity(Exercise exercise);

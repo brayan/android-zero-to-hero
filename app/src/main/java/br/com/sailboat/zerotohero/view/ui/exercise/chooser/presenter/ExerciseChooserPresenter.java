@@ -3,29 +3,24 @@ package br.com.sailboat.zerotohero.view.ui.exercise.chooser.presenter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.util.LongSparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.base.BasePresenter;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.helper.ListHelper;
-import br.com.sailboat.zerotohero.helper.LogHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesAsyncTask;
 import br.com.sailboat.zerotohero.view.ui.exercise.chooser.view_model.ExerciseChooserViewModel;
 
-public class ExerciseChooserPresenter extends BasePresenter {
+public class ExerciseChooserPresenter extends br.com.sailboat.canoe.base.BasePresenter<ExerciseChooserPresenter.View> {
 
-    private ExerciseChooserPresenter.View view;
-    private ExerciseChooserViewModel viewModel;
+    private ExerciseChooserViewModel viewModel = new ExerciseChooserViewModel();
 
     public ExerciseChooserPresenter(ExerciseChooserPresenter.View view) {
-        setView(view);
-        setViewModel(new ExerciseChooserViewModel());
+        super(view);
     }
 
     @Override
@@ -68,14 +63,14 @@ public class ExerciseChooserPresenter extends BasePresenter {
 
             @Override
             public void onSuccess(List<Exercise> exercises) {
-                ListHelper.clearAndAdd(exercises, getViewModel().getExerciseList());
+                getViewModel().getExerciseList().clear();
+                getViewModel().getExerciseList().addAll(exercises);
                 getView().updateExerciseListView();
             }
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
+                printLogAndShowDialog(e);
             }
 
         }).execute();
@@ -96,14 +91,6 @@ public class ExerciseChooserPresenter extends BasePresenter {
         }
 
         getView().updateTitle(title);
-    }
-
-    private String getString(@StringRes int id) {
-        return getView().getActivityContext().getString(id);
-    }
-
-    private Context getContext() {
-        return getView().getActivityContext();
     }
 
     private void updateContentViews() {
@@ -154,22 +141,6 @@ public class ExerciseChooserPresenter extends BasePresenter {
         return exercises;
     }
 
-    public ExerciseChooserViewModel getViewModel() {
-        return viewModel;
-    }
-
-    public void setViewModel(ExerciseChooserViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
-    }
-
     public List<Exercise> getExerciseList() {
         return getViewModel().getExerciseList();
     }
@@ -178,9 +149,11 @@ public class ExerciseChooserPresenter extends BasePresenter {
         return getViewModel().getSelectedExercises();
     }
 
+    private ExerciseChooserViewModel getViewModel() {
+        return viewModel;
+    }
 
-
-    public interface View {
+    public interface View extends BasePresenter.View {
         Context getActivityContext();
         void updateExerciseListView();
         void showToast(String message);

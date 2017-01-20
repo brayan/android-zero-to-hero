@@ -5,24 +5,20 @@ import android.content.Intent;
 
 import java.util.List;
 
-import br.com.sailboat.zerotohero.base.BasePresenter;
+import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.helper.ListHelper;
-import br.com.sailboat.zerotohero.helper.LogHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.async_tasks.DeleteExerciseAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.SaveExerciseAsyncTask;
 import br.com.sailboat.zerotohero.view.ui.exercise.list.view_model.ExerciseListViewModel;
 
-public class ExerciseListPresenter extends BasePresenter {
+public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.View> {
 
-    private View view;
-    private ExerciseListViewModel viewModel;
+    private ExerciseListViewModel viewModel = new ExerciseListViewModel();
 
-    public ExerciseListPresenter(View view) {
-        setView(view);
-        setViewModel(new ExerciseListViewModel());
+    public ExerciseListPresenter(ExerciseListPresenter.View view) {
+        super(view);
     }
 
     @Override
@@ -69,14 +65,14 @@ public class ExerciseListPresenter extends BasePresenter {
 
             @Override
             public void onSuccess(List<Exercise> exercises) {
-                ListHelper.clearAndAdd(exercises, getViewModel().getExercises());
+                getViewModel().getExercises().clear();
+                getViewModel().getExercises().addAll(exercises);
                 getView().updateContentViews();
             }
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
+                printLogAndShowDialog(e);
             }
 
         }).execute();
@@ -93,8 +89,7 @@ public class ExerciseListPresenter extends BasePresenter {
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showDialog(e.getMessage());
+                printLogAndShowDialog(e);
             }
 
         }).execute();
@@ -132,8 +127,7 @@ public class ExerciseListPresenter extends BasePresenter {
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
+                printLogAndShowDialog(e);
             }
 
         }).execute();
@@ -144,20 +138,8 @@ public class ExerciseListPresenter extends BasePresenter {
         return getView().getActivityContext();
     }
 
-    public ExerciseListViewModel getViewModel() {
+    private ExerciseListViewModel getViewModel() {
         return viewModel;
-    }
-
-    public void setViewModel(ExerciseListViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 
     public List<Exercise> getExercises() {
@@ -166,7 +148,7 @@ public class ExerciseListPresenter extends BasePresenter {
 
 
 
-    public interface View {
+    public interface View extends br.com.sailboat.canoe.base.BasePresenter.View{
         Context getActivityContext();
         void updateContentViews();
         void showToast(String message);

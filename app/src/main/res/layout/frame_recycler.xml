@@ -5,6 +5,6 @@
 
     <include layout="@layout/ept_list" />
 
-    <include layout="@layout/recycler_scroll" />
+    <include layout="@layout/recycler" />
 
 </FrameLayout>

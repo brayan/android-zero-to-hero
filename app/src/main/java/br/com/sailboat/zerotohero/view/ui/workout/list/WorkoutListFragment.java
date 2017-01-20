@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.base.BaseFragment;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.WorkoutListAdapter;
 import br.com.sailboat.zerotohero.view.ui.workout.details.WorkoutDetailsActivity;

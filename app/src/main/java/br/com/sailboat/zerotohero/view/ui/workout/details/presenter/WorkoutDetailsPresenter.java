@@ -5,24 +5,20 @@ import android.content.Intent;
 
 import java.util.List;
 
-import br.com.sailboat.zerotohero.base.BasePresenter;
+import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.helper.ListHelper;
-import br.com.sailboat.zerotohero.helper.LogHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesFromWorkoutAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
 import br.com.sailboat.zerotohero.view.ui.workout.details.view_model.WorkoutDetailsViewModel;
 
-public class WorkoutDetailsPresenter extends BasePresenter {
+public class WorkoutDetailsPresenter extends br.com.sailboat.canoe.base.BasePresenter<WorkoutDetailsPresenter.View> {
 
-    private View view;
-    private WorkoutDetailsViewModel viewModel;
+    private WorkoutDetailsViewModel viewModel = new WorkoutDetailsViewModel();
 
-    public WorkoutDetailsPresenter(View view) {
-        setView(view);
-        setViewModel(new WorkoutDetailsViewModel());
+    public WorkoutDetailsPresenter(WorkoutDetailsPresenter.View view) {
+        super(view);
     }
 
     @Override
@@ -57,7 +53,8 @@ public class WorkoutDetailsPresenter extends BasePresenter {
 
     public void onResultOkEditWorkout(Intent data) {
         getViewModel().setWorkout(ExtrasHelper.getWorkout(data));
-        ListHelper.clearAndAdd(ExtrasHelper.getExercises(data), getViewModel().getExerciseList());
+        getViewModel().getExerciseList().clear();
+        getViewModel().getExerciseList().addAll(ExtrasHelper.getExercises(data));
         updateContentViews();
         saveWorkout();
     }
@@ -68,14 +65,14 @@ public class WorkoutDetailsPresenter extends BasePresenter {
         new LoadExercisesFromWorkoutAsyncTask(getContext(), workoutId, new LoadExercisesFromWorkoutAsyncTask.Callback() {
             @Override
             public void onSuccess(List<Exercise> exercises) {
-                ListHelper.clearAndAdd(exercises, getViewModel().getExerciseList());
+                getViewModel().getExerciseList().clear();
+                getViewModel().getExerciseList().addAll(exercises);
                 getView().updateExerciseListView();
             }
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
+                printLogAndShowDialog(e);
             }
 
         }).execute();
@@ -94,8 +91,7 @@ public class WorkoutDetailsPresenter extends BasePresenter {
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
+                printLogAndShowDialog(e);
             }
 
         }).execute();
@@ -112,20 +108,8 @@ public class WorkoutDetailsPresenter extends BasePresenter {
         getView().updateTitle(getViewModel().getWorkout().getName());
     }
 
-    public WorkoutDetailsViewModel getViewModel() {
+    private WorkoutDetailsViewModel getViewModel() {
         return viewModel;
-    }
-
-    public void setViewModel(WorkoutDetailsViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 
     public List<Exercise> getExercises() {
@@ -138,7 +122,7 @@ public class WorkoutDetailsPresenter extends BasePresenter {
 
 
 
-    public interface View {
+    public interface View extends BasePresenter.View {
         Context getActivityContext();
         void updateExerciseListView();
         void showToast(String message);

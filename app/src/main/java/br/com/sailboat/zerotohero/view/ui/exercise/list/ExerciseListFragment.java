@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import br.com.sailboat.canoe.base.BaseFragment;
+import br.com.sailboat.canoe.dialog.MessageDialog;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.base.BaseFragment;
-import br.com.sailboat.zerotohero.helper.DialogHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.ui.exercise.details.ExerciseDetailsActivity;
@@ -85,7 +85,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     public void showDialog(String message) {
-        DialogHelper.showMessage(getFragmentManager(), message);
+        MessageDialog.showMessage(getFragmentManager(), message, null);
     }
 
     @Override

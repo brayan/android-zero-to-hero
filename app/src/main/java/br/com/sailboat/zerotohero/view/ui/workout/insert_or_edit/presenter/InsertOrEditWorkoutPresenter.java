@@ -2,30 +2,25 @@ package br.com.sailboat.zerotohero.view.ui.workout.insert_or_edit.presenter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.StringRes;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.sailboat.canoe.base.BasePresenter;
+import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.base.BasePresenter;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.helper.ListHelper;
-import br.com.sailboat.zerotohero.helper.LogHelper;
-import br.com.sailboat.zerotohero.helper.StringHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesFromWorkoutAsyncTask;
 import br.com.sailboat.zerotohero.view.ui.workout.insert_or_edit.view_model.InsertOrEditWorkoutViewModel;
 
-public class InsertOrEditWorkoutPresenter extends BasePresenter {
+public class InsertOrEditWorkoutPresenter extends BasePresenter<InsertOrEditWorkoutPresenter.View> {
 
-    private View view;
-    private InsertOrEditWorkoutViewModel viewModel;
+    private InsertOrEditWorkoutViewModel viewModel = new InsertOrEditWorkoutViewModel();
 
-    public InsertOrEditWorkoutPresenter(View view) {
-        setView(view);
-        setViewModel(new InsertOrEditWorkoutViewModel());
+    public InsertOrEditWorkoutPresenter(InsertOrEditWorkoutPresenter.View view) {
+        super(view);
     }
 
     @Override
@@ -64,7 +59,8 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
 
     public void onResultOkExerciseChooser(Intent data) {
         List<Exercise> exercises = ExtrasHelper.getExercises(data);
-        ListHelper.clearAndAdd(exercises, getViewModel().getExercises());
+        getViewModel().getExercises().clear();
+        getViewModel().getExercises().addAll(exercises);
         getView().updateExercisesListAndVisibility();
     }
 
@@ -75,14 +71,14 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
 
             @Override
             public void onSuccess(List<Exercise> exercises) {
-                ListHelper.clearAndAdd(exercises, getViewModel().getExercises());
+                getViewModel().getExercises().clear();
+                getViewModel().getExercises().addAll(exercises);
                 getView().updateExercisesListAndVisibility();
             }
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
+                printLogAndShowDialog(e);
             }
 
         }).execute();
@@ -126,7 +122,7 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
     private void checkRequiredComponents() throws Exception {
         String name = getView().getTextFromWorkoutName();
 
-        if (StringHelper.isEmpty(name)) {
+        if (StringHelper.isNullOrEmpty(name)) {
             throw new Exception(getString(R.string.exeption_workout_name));
         }
 
@@ -135,28 +131,8 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
         }
     }
 
-    private String getString(@StringRes int id) {
-        return getView().getActivityContext().getString(id);
-    }
-
-    public Context getContext() {
-        return getView().getActivityContext();
-    }
-
-    public InsertOrEditWorkoutViewModel getViewModel() {
+    private InsertOrEditWorkoutViewModel getViewModel() {
         return viewModel;
-    }
-
-    public void setViewModel(InsertOrEditWorkoutViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 
     public List<Exercise> getExercises() {
@@ -164,8 +140,7 @@ public class InsertOrEditWorkoutPresenter extends BasePresenter {
     }
 
 
-
-    public interface View {
+    public interface View extends BasePresenter.View {
         Context getActivityContext();
         void updateVisibilityOfViews();
         void updateExercisesListAndVisibility();

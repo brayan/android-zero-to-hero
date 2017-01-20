@@ -6,11 +6,8 @@ import android.os.Build;
 
 import java.util.List;
 
-import br.com.sailboat.zerotohero.base.BasePresenter;
-import br.com.sailboat.zerotohero.helper.ApiLevelHelper;
+import br.com.sailboat.canoe.helper.ApiLevelHelper;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.helper.ListHelper;
-import br.com.sailboat.zerotohero.helper.LogHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.async_tasks.DeleteWorkoutAsyncTask;
@@ -18,14 +15,12 @@ import br.com.sailboat.zerotohero.view.async_tasks.LoadWorkoutsAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
 import br.com.sailboat.zerotohero.view.ui.workout.list.view_model.WorkoutListViewModel;
 
-public class WorkoutListPresenter extends BasePresenter {
+public class WorkoutListPresenter extends br.com.sailboat.canoe.base.BasePresenter<WorkoutListPresenter.View> {
 
-    private View view;
-    private WorkoutListViewModel viewModel;
+    private WorkoutListViewModel viewModel = new WorkoutListViewModel();
 
-    public WorkoutListPresenter(View view) {
-        setView(view);
-        setViewModel(new WorkoutListViewModel());
+    public WorkoutListPresenter(WorkoutListPresenter.View view) {
+        super(view);
     }
 
     @Override
@@ -98,13 +93,14 @@ public class WorkoutListPresenter extends BasePresenter {
 
             @Override
             public void onSuccess(List<Workout> workoutList) {
-                ListHelper.clearAndAdd(workoutList, getViewModel().getWorkoutList());
+                getViewModel().getWorkoutList().clear();
+                getViewModel().getWorkoutList().addAll(workoutList);
                 getView().updateContentViews();
             }
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
+                printLogAndShowDialog(e);
             }
 
         }).execute();
@@ -118,8 +114,7 @@ public class WorkoutListPresenter extends BasePresenter {
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
+                printLogAndShowDialog(e);
             }
         }).execute();
     }
@@ -133,31 +128,15 @@ public class WorkoutListPresenter extends BasePresenter {
 
             @Override
             public void onFail(Exception e) {
-                LogHelper.printExceptionLog(e);
-                getView().showToast(e.getMessage());
+                printLogAndShowDialog(e);
             }
 
         }).execute();
     }
 
-    private Context getContext() {
-        return getView().getActivityContext();
-    }
 
-    public WorkoutListViewModel getViewModel() {
+    private WorkoutListViewModel getViewModel() {
         return viewModel;
-    }
-
-    public void setViewModel(WorkoutListViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 
     public List<Workout> getWorkouts() {
@@ -165,8 +144,7 @@ public class WorkoutListPresenter extends BasePresenter {
     }
 
 
-
-    public interface View {
+    public interface View extends br.com.sailboat.canoe.base.BasePresenter.View{
         Context getActivityContext();
         void updateContentViews();
         void showToast(String message);

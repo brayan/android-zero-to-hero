@@ -22,11 +22,11 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.sailboat.canoe.base.BaseFragment;
+import br.com.sailboat.canoe.dialog.MessageDialog;
+import br.com.sailboat.canoe.helper.UIHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.base.BaseFragment;
-import br.com.sailboat.zerotohero.helper.DialogHelper;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.helper.UIHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
@@ -112,7 +112,7 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
 
     @Override
     public void showDialog(String message) {
-        DialogHelper.showMessage(getFragmentManager(), message);
+        MessageDialog.showMessage(getFragmentManager(), message, null);
     }
 
     @Override

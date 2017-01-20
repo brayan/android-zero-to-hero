@@ -29,7 +29,7 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <include layout="@layout/recycler_scroll" />
+        <include layout="@layout/recycler" />
 
         <include layout="@layout/ept_list" />
 

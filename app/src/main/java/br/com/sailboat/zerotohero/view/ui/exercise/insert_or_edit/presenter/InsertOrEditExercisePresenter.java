@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.StringRes;
 
+import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.base.BasePresenter;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.helper.StringHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.ui.exercise.insert_or_edit.view_model.InsertOrEditExerciseViewModel;
 
@@ -111,25 +111,25 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
     private void checkRequiredComponents() throws Exception {
         String name = getView().getName();
 
-        if (StringHelper.isEmpty(name)) {
+        if (StringHelper.isNullOrEmpty(name)) {
             throw new Exception(getString(R.string.exeption_exercise_name));
         }
 
         String weight = getView().getWeight();
 
-        if (StringHelper.isEmpty(weight)) {
+        if (StringHelper.isNullOrEmpty(weight)) {
             throw new Exception(getString(R.string.exeption_exercise_weight));
         }
 
         String sets = getView().getSets();
 
-        if (StringHelper.isEmpty(sets)) {
+        if (StringHelper.isNullOrEmpty(sets)) {
             throw new Exception(getString(R.string.exeption_exercise_sets));
         }
 
         String reps = getView().getReps();
 
-        if (StringHelper.isEmpty(reps)) {
+        if (StringHelper.isNullOrEmpty(reps)) {
             throw new Exception(getString(R.string.exeption_exercise_reps));
         }
     }

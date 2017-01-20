@@ -10,7 +10,7 @@
     card_view:cardBackgroundColor="@android:color/white"
     card_view:cardCornerRadius="2dp">
 
-    <include layout="@layout/recycler_scroll" />
+    <include layout="@layout/recycler" />
 
     <include layout="@layout/ept_list" />
 
