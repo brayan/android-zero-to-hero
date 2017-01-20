@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.workout.list.presenter;
+package br.com.sailboat.zerotohero.view.ui.workout.list;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.async_tasks.DeleteWorkoutAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadWorkoutsAsyncTask;
 import br.com.sailboat.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
-import br.com.sailboat.zerotohero.view.ui.workout.list.view_model.WorkoutListViewModel;
 
 public class WorkoutListPresenter extends br.com.sailboat.canoe.base.BasePresenter<WorkoutListPresenter.View> {
 

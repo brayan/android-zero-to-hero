@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.workout.insert_or_edit;
+package br.com.sailboat.zerotohero.view.ui.workout.insert;
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,8 +30,7 @@ import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
-import br.com.sailboat.zerotohero.view.ui.exercise.chooser.ExerciseChooserActivity;
-import br.com.sailboat.zerotohero.view.ui.workout.insert_or_edit.presenter.InsertOrEditWorkoutPresenter;
+import br.com.sailboat.zerotohero.view.ui.exercise.selector.ExerciseChooserActivity;
 
 public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkoutPresenter> implements InsertOrEditWorkoutPresenter.View {
 

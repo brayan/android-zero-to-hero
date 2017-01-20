@@ -19,8 +19,7 @@ import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
-import br.com.sailboat.zerotohero.view.ui.workout.details.presenter.WorkoutDetailsPresenter;
-import br.com.sailboat.zerotohero.view.ui.workout.insert_or_edit.InsertOrEditWorkoutActivity;
+import br.com.sailboat.zerotohero.view.ui.workout.insert.InsertOrEditWorkoutActivity;
 
 public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsPresenter.View {
 

@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.exercise.chooser.presenter;
+package br.com.sailboat.zerotohero.view.ui.exercise.selector;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesAsyncTask;
-import br.com.sailboat.zerotohero.view.ui.exercise.chooser.view_model.ExerciseChooserViewModel;
 
 public class ExerciseChooserPresenter extends br.com.sailboat.canoe.base.BasePresenter<ExerciseChooserPresenter.View> {
 

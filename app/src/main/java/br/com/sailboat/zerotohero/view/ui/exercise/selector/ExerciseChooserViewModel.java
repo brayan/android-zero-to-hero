@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.exercise.chooser.view_model;
+package br.com.sailboat.zerotohero.view.ui.exercise.selector;
 
 import android.util.LongSparseArray;
 

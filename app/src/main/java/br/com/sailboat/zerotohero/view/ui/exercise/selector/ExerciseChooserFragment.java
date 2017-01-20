@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.exercise.chooser;
+package br.com.sailboat.zerotohero.view.ui.exercise.selector;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,7 +24,6 @@ import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.ExerciseChooserAdapter;
-import br.com.sailboat.zerotohero.view.ui.exercise.chooser.presenter.ExerciseChooserPresenter;
 
 public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresenter> implements ExerciseChooserPresenter.View, ExerciseChooserAdapter.Callback {
 
@@ -34,7 +33,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frg_exercise_chooser;
+        return R.layout.frg_exercise_selector;
     }
 
     @Override

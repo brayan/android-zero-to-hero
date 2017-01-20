@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.exercise.chooser;
+package br.com.sailboat.zerotohero.view.ui.exercise.selector;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;

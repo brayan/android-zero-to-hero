@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.workout.details.view_model;
+package br.com.sailboat.zerotohero.view.ui.workout.details;
 
 import java.util.ArrayList;
 import java.util.List;

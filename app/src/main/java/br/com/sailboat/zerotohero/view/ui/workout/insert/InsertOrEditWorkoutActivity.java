@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.workout.insert_or_edit;
+package br.com.sailboat.zerotohero.view.ui.workout.insert;
 
 import android.content.Context;
 import android.content.Intent;
