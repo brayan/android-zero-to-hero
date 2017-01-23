@@ -22,7 +22,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="Workout"
-            android:textColor="@color/primary_text"
+            android:textColor="@color/md_blue_grey_700"
             android:textSize="16sp" />
 
     </LinearLayout>
