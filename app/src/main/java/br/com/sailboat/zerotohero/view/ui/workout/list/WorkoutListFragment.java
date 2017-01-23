@@ -3,9 +3,12 @@ package br.com.sailboat.zerotohero.view.ui.workout.list;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,22 +16,20 @@ import android.widget.Toast;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.WorkoutListAdapter;
 import br.com.sailboat.zerotohero.view.ui.workout.details.WorkoutDetailsActivity;
-import br.com.sailboat.zerotohero.view.ui.workout.insert.InsertOrEditWorkoutActivity;
+import br.com.sailboat.zerotohero.view.ui.workout.insert.InsertWorkoutActivity;
 
 public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> implements WorkoutListPresenter.View, WorkoutListAdapter.Callback {
 
-    private static final int REQUEST_NEW_WORKOUT = 0;
-    private static final int REQUEST_DETAILS = 1;
-
+    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private View emptyList;
+    private FloatingActionButton fab;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frame_recycler;
+        return R.layout.frg_workout_list;
     }
 
     @Override
@@ -37,34 +38,16 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     @Override
-    protected void onActivityResultOk(int requestCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_NEW_WORKOUT: {
-                getPresenter().onActivityResultOkInsertOrEditWorkout(data);
-                return;
-            }
-            case REQUEST_DETAILS: {
-                getPresenter().onActivityResultOkWorkoutDetails(data);
-                return;
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResultCanceled(int requestCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_DETAILS: {
-                getPresenter().onResultCanceledWorkoutDetails();
-                return;
-            }
-        }
+    protected void postActivityResult(int requestCode, Intent data) {
+        getPresenter().postActivityResult();
     }
 
     @Override
     protected void initViews(View view) {
-        inflateViews(view);
-        initRecyclerView();
-        initEmptyView();
+        initToolbar(view);
+        initRecyclerView(view);
+        initEmptyView(view);
+        initFab(view);
     }
 
     @Override
@@ -80,22 +63,12 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
 
     @Override
     public void startNewWorkoutActivity() {
-        InsertOrEditWorkoutActivity.start(this, REQUEST_NEW_WORKOUT);
+        InsertWorkoutActivity.start(this);
     }
 
     @Override
-    public void startWorkoutDetailsActivity(Workout workout) {
-        WorkoutDetailsActivity.start(this, workout, REQUEST_DETAILS);
-    }
-
-    @Override
-    public void startWorkoutDetailsActivityWithAnimation(Workout workout) {
-        startWorkoutDetailsActivity(workout);
-    }
-
-    @Override
-    public void updateWorkoutRemoved(int position) {
-        recyclerView.getAdapter().notifyItemRemoved(position);
+    public void startWorkoutDetailsActivity(long workoutId) {
+        WorkoutDetailsActivity.start(this, workoutId);
     }
 
     @Override
@@ -112,18 +85,16 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
         getPresenter().onClickNewWorkout();
     }
 
-    private void inflateViews(View view) {
+    private void initRecyclerView(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        emptyList = view.findViewById(R.id.emptyList);
-    }
-
-    private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         WorkoutListAdapter adapter = new WorkoutListAdapter(getPresenter().getWorkouts(), this);
         recyclerView.setAdapter(adapter);
     }
 
-    private void initEmptyView() {
+    private void initEmptyView(View view) {
+        emptyList = view.findViewById(R.id.emptyList);
+
         ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
         imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_orange_300), PorterDuff.Mode.SRC_ATOP);
 
@@ -134,6 +105,24 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
         tvMessage.setText("Create a new workout plan by tapping the + button");
 
         emptyList.setVisibility(View.GONE);
+    }
+
+    private void initToolbar(View view) {
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.app_name);
+
+        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
+        appCompatActivity.setSupportActionBar(toolbar);
+    }
+
+    private void initFab(View view) {
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new android.view.View.OnClickListener() {
+            @Override
+            public void onClick(android.view.View v) {
+                getPresenter().onClickNewWorkout();
+            }
+        });
     }
 
     private void updateVisibilityOfViews() {

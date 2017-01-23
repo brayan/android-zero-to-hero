@@ -25,7 +25,7 @@ public class WorkoutExerciseSQLite extends BaseSQLite {
         return  sb.toString();
     }
 
-    public long saveAndGetId(long workoutId, long exerciseId) throws Exception {
+    public long save(long workoutId, long exerciseId) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" INSERT INTO WorkoutExercise ");
         sb.append(" (workoutId, exerciseId) ");

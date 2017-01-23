@@ -1,23 +1,20 @@
-package br.com.sailboat.zerotohero.view.ui.exercise.insert_or_edit;
+package br.com.sailboat.zerotohero.view.ui.exercise.insert;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.StringRes;
 
+import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.base.BasePresenter;
 import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 
-public class InsertOrEditExercisePresenter extends BasePresenter {
+public class InsertExercisePresenter extends BasePresenter<InsertExercisePresenter.View> {
 
-    private View view;
-    private InsertOrEditExerciseViewModel viewModel;
+    private InsertExerciseViewModel viewModel = new InsertExerciseViewModel();
 
-    public InsertOrEditExercisePresenter(View view) {
-        setView(view);
-        setViewModel(new InsertOrEditExerciseViewModel());
+    public InsertExercisePresenter(InsertExercisePresenter.View view) {
+        super(view);
     }
 
     @Override
@@ -75,20 +72,8 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
         return getViewModel().getExercise() != null;
     }
 
-    public InsertOrEditExerciseViewModel getViewModel() {
+    private InsertExerciseViewModel getViewModel() {
         return viewModel;
-    }
-
-    public void setViewModel(InsertOrEditExerciseViewModel viewModel) {
-        this.viewModel = viewModel;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 
     private void buildAndReturnExercise() {
@@ -133,13 +118,9 @@ public class InsertOrEditExercisePresenter extends BasePresenter {
         }
     }
 
-    private String getString(@StringRes int id) {
-        return getView().getActivityContext().getString(id);
-    }
 
 
-
-    public interface View {
+    public interface View extends BasePresenter.View {
         Context getActivityContext();
         void showToast(String message);
         String getName();

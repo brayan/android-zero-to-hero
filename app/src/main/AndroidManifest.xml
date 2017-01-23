@@ -18,13 +18,15 @@
 
         <activity android:name=".view.ui.main.MainActivity" />
 
-        <activity android:name=".view.ui.workout.insert.InsertOrEditWorkoutActivity" />
+        <activity android:name=".view.ui.workout.insert.InsertWorkoutActivity" />
+
+        <activity android:name=".view.ui.workout.list.WorkoutListActivity" />
 
         <activity android:name=".view.ui.workout.details.WorkoutDetailsActivity" />
 
         <activity android:name=".view.ui.exercise.selector.ExerciseChooserActivity" />
 
-        <activity android:name=".view.ui.exercise.insert_or_edit.InsertOrEditExerciseActivity" />
+        <activity android:name=".view.ui.exercise.insert.InsertExerciseActivity" />
 
         <activity android:name=".view.ui.exercise.details.ExerciseDetailsActivity" />
 

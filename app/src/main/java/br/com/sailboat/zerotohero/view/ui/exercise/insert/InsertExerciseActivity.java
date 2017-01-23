@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.exercise.insert_or_edit;
+package br.com.sailboat.zerotohero.view.ui.exercise.insert;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.helper.RequestCodes;
 import br.com.sailboat.zerotohero.model.Exercise;
 
-public class InsertOrEditExerciseActivity extends BaseActivity<InsertOrEditExerciseFragment> {
+public class InsertExerciseActivity extends BaseActivity<InsertExerciseFragment> {
 
     public static void start(Fragment fragment) {
         start(fragment, null);
@@ -23,7 +23,7 @@ public class InsertOrEditExerciseActivity extends BaseActivity<InsertOrEditExerc
 
     @NonNull
     private static Intent getStartIntent(Context context, Exercise exercise) {
-        Intent starter = new Intent(context, InsertOrEditExerciseActivity.class);
+        Intent starter = new Intent(context, InsertExerciseActivity.class);
 
         if (exercise != null) {
             Extras.putExercise(exercise, starter);
@@ -33,7 +33,7 @@ public class InsertOrEditExerciseActivity extends BaseActivity<InsertOrEditExerc
     }
 
     @Override
-    protected InsertOrEditExerciseFragment newFragmentInstance() {
-        return new InsertOrEditExerciseFragment();
+    protected InsertExerciseFragment newFragmentInstance() {
+        return new InsertExerciseFragment();
     }
 }

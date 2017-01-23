@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.sailboat.zerotohero.model.Exercise;
-import br.com.sailboat.zerotohero.model.Workout;
 
 public class Extras {
 
-    private static final String WORKOUT = "WORKOUT";
+    private static final String WORKOUT_ID = "WORKOUT_ID";
     private static final String EXERCISE = "EXERCISE";
     private static final String LIST_EXERCISES = "LIST_EXERCISES";
     private static final String DELETE_WORKOUT = "DELETE_WORKOUT";
@@ -20,16 +19,16 @@ public class Extras {
         intent.putExtra(EXERCISE, exercise);
     }
 
-    public static void putWorkout(Workout workout, Intent intent) {
-        intent.putExtra(WORKOUT, workout);
+    public static void putWorkoutId(long workoutId, Intent intent) {
+        intent.putExtra(WORKOUT_ID, workoutId);
     }
 
     public static void putExercises(List<Exercise> exercises, Intent intent) {
         intent.putExtra(LIST_EXERCISES, (ArrayList) exercises);
     }
 
-    public static Workout getWorkout(Intent intent) {
-        return (Workout) intent.getSerializableExtra(WORKOUT);
+    public static long getWorkoutId(Intent intent) {
+        return intent.getLongExtra(WORKOUT_ID, -1);
     }
 
     public static List<Exercise> getExercises(Intent intent) {

@@ -6,11 +6,13 @@ import android.content.Intent;
 import java.util.List;
 
 import br.com.sailboat.canoe.base.BasePresenter;
+import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.model.Workout;
-import br.com.sailboat.zerotohero.view.async_tasks.LoadExercisesFromWorkoutAsyncTask;
-import br.com.sailboat.zerotohero.view.async_tasks.SaveWorkoutAsyncTask;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
 
 public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresenter.View> {
 
@@ -21,24 +23,19 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
     }
 
     @Override
-    protected void onResumeFirstSession() {
-        loadExercises();
+    public void extractExtrasFromIntent(Intent intent) {
+        long workoutId = Extras.getWorkoutId(intent);
+        getViewModel().setWorkoutId(workoutId);
     }
 
     @Override
     protected void postResume() {
-        updateContentViews();
-    }
-
-    @Override
-    public void extractExtrasFromIntent(Intent intent) {
-        Workout workout = Extras.getWorkout(intent);
-        getViewModel().setWorkout(workout);
+        loadDetails();
     }
 
     public void onClickEditWorkout() {
-        Workout workout = getViewModel().getWorkout();
-        getView().startEditWorkoutActivity(workout);
+        long workoutId = getViewModel().getWorkoutId();
+        getView().startEditWorkoutActivity(workoutId);
     }
 
     public void onClickNavigation() {
@@ -46,46 +43,22 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
     }
 
     public void onClickMenuDelete() {
-        Workout workout = getViewModel().getWorkout();
-        getView().closeActivityWithResultOkAndDeleteWorkout(workout);
+        getView().showDialogDeleteWorkout();
     }
 
-    public void onResultOkEditWorkout(Intent data) {
-        getViewModel().setWorkout(Extras.getWorkout(data));
-        getViewModel().getExerciseList().clear();
-        getViewModel().getExerciseList().addAll(Extras.getExercises(data));
-        updateContentViews();
-        saveWorkout();
-    }
-
-    private void loadExercises() {
-        long workoutId = getViewModel().getWorkout().getId();
-
-        new LoadExercisesFromWorkoutAsyncTask(getContext(), workoutId, new LoadExercisesFromWorkoutAsyncTask.Callback() {
-            @Override
-            public void onSuccess(List<Exercise> exercises) {
-                getViewModel().getExerciseList().clear();
-                getViewModel().getExerciseList().addAll(exercises);
-                getView().updateExerciseListView();
-            }
+    public void onClickDeleteWorkout() {
+        AsyncHelper.execute(new AsyncHelper.Callback() {
 
             @Override
-            public void onFail(Exception e) {
-                printLogAndShowDialog(e);
+            public void doInBackground() throws Exception {
+                long workoutId = getViewModel().getWorkoutId();
+                new WorkoutSQLite(getContext()).delete(workoutId);
+                new WorkoutExerciseSQLite(getContext()).deleteFromWorkout(workoutId);
             }
-
-        }).execute();
-
-    }
-
-    private void saveWorkout() {
-        Workout workout = getViewModel().getWorkout();
-        List<Exercise> exercises = getViewModel().getExerciseList();
-
-        new SaveWorkoutAsyncTask(getContext(), workout, exercises, new SaveWorkoutAsyncTask.Callback() {
 
             @Override
             public void onSuccess() {
+                closeActivityWithResultOk();
             }
 
             @Override
@@ -93,8 +66,43 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
                 printLogAndShowDialog(e);
             }
 
-        }).execute();
+        });
+    }
 
+    private void loadDetails() {
+
+        AsyncHelper.execute(new AsyncHelper.Callback() {
+
+            Workout workout;
+            List<Exercise> exercises;
+
+            @Override
+            public void doInBackground() throws Exception {
+                long workoutId = getViewModel().getWorkoutId();
+
+                workout = new WorkoutSQLite(getContext()).getWorkoutById(workoutId);
+                exercises = new ExerciseSQLite(getContext()).getFromWorkout(workoutId);
+            }
+
+            @Override
+            public void onSuccess() {
+                updateViewModel();
+                updateContentViews();
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                printLogAndShowDialog(e);
+                closeActivityWithResultCanceled();
+            }
+
+            private void updateViewModel() {
+                getViewModel().setWorkout(workout);
+                getViewModel().getExerciseList().clear();
+                getViewModel().getExerciseList().addAll(exercises);
+            }
+
+        });
     }
 
     private void updateContentViews() {
@@ -104,7 +112,7 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
     }
 
     private void updateTitle() {
-        getView().updateTitle(getViewModel().getWorkout().getName());
+        getView().setTitle(getViewModel().getWorkout().getName());
     }
 
     private WorkoutDetailsViewModel getViewModel() {
@@ -120,16 +128,18 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
     }
 
 
-
     public interface View extends BasePresenter.View {
         Context getActivityContext();
+
         void updateExerciseListView();
-        void showToast(String message);
-        void updateTitle(String title);
+
+        void setTitle(String title);
+
         void updateVisibilityOfViews();
-        void startEditWorkoutActivity(Workout workout);
-        void closeActivityWithResultCanceled();
-        void closeActivityWithResultOkAndDeleteWorkout(Workout workout);
+
+        void startEditWorkoutActivity(long workoutId);
+
+        void showDialogDeleteWorkout();
     }
 
 }

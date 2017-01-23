@@ -1,9 +1,9 @@
-package br.com.sailboat.zerotohero.view.ui.exercise.insert_or_edit;
+package br.com.sailboat.zerotohero.view.ui.exercise.insert;
 
 import br.com.sailboat.zerotohero.base.BaseViewModel;
 import br.com.sailboat.zerotohero.model.Exercise;
 
-public class InsertOrEditExerciseViewModel extends BaseViewModel {
+public class InsertExerciseViewModel extends BaseViewModel {
 
     private Exercise exercise;
 

@@ -9,10 +9,17 @@ import br.com.sailboat.zerotohero.model.Workout;
 
 public class WorkoutDetailsViewModel extends BaseViewModel {
 
-    public static final String TAG = WorkoutDetailsViewModel.class.getName();
-
+    private long workoutId = -1;
     private Workout workout;
-    private transient List<Exercise> exerciseList = new ArrayList<>();
+    private final List<Exercise> exerciseList = new ArrayList<>();
+
+    public long getWorkoutId() {
+        return workoutId;
+    }
+
+    public void setWorkoutId(long workoutId) {
+        this.workoutId = workoutId;
+    }
 
     public Workout getWorkout() {
         return workout;
@@ -26,7 +33,4 @@ public class WorkoutDetailsViewModel extends BaseViewModel {
         return exerciseList;
     }
 
-    public void setExerciseList(List<Exercise> exerciseList) {
-        this.exerciseList = exerciseList;
-    }
 }

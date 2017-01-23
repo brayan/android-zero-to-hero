@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteStatement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.sailboat.canoe.exception.EntityNotFoundException;
 import br.com.sailboat.zerotohero.base.BaseSQLite;
 import br.com.sailboat.zerotohero.model.Workout;
 
@@ -27,6 +28,22 @@ public class WorkoutSQLite extends BaseSQLite {
         return sb.toString();
     }
 
+    public Workout getWorkoutById(long workoutId) throws EntityNotFoundException {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" SELECT Workout.* FROM Workout ");
+        sb.append(" WHERE Workout.id = " + workoutId);
+
+        Cursor cursor = performQuery(sb.toString());
+
+        if (cursor.moveToNext()) {
+            Workout workout = buildFromCursor(cursor);
+            cursor.close();
+            return workout;
+        }
+
+        throw new EntityNotFoundException();
+    }
+
     public List<Workout> getAll() throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT Workout.* FROM Workout ");
@@ -34,7 +51,7 @@ public class WorkoutSQLite extends BaseSQLite {
         return getWorkoutList(sb);
     }
 
-    public long saveAndGetId(Workout workout) throws Exception {
+    public long save(Workout workout) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" INSERT INTO Workout ");
         sb.append(" (name) ");
@@ -44,6 +61,7 @@ public class WorkoutSQLite extends BaseSQLite {
         statement.bindString(1, workout.getName());
 
         long id = executeInsert(statement);
+        workout.setId(id);
 
         return id;
     }
@@ -74,7 +92,7 @@ public class WorkoutSQLite extends BaseSQLite {
         List<Workout> workouts = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            Workout workout = getWorkoutFromCursor(cursor);
+            Workout workout = buildFromCursor(cursor);
             workouts.add(workout);
         }
 
@@ -83,7 +101,7 @@ public class WorkoutSQLite extends BaseSQLite {
         return workouts;
     }
 
-    private Workout getWorkoutFromCursor(Cursor cursor) {
+    private Workout buildFromCursor(Cursor cursor) {
         Workout workout = new Workout();
         workout.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
         workout.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));

@@ -1,6 +1,5 @@
 package br.com.sailboat.zerotohero.view.ui.workout.insert;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -20,19 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.MessageDialog;
-import br.com.sailboat.canoe.helper.UIHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
-import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.ui.exercise.selector.ExerciseChooserActivity;
 
-public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkoutPresenter> implements InsertOrEditWorkoutPresenter.View {
+public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> implements InsertWorkoutPresenter.View {
 
     private static final int REQUEST_EXERCISE_CHOOSER = 0;
 
@@ -55,7 +50,7 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_insert_edit_save: {
+            case R.id.menu_save: {
                 getPresenter().onClickMenuSave();
                 return true;
             }
@@ -66,8 +61,8 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     }
 
     @Override
-    protected InsertOrEditWorkoutPresenter newPresenterInstance() {
-        return new InsertOrEditWorkoutPresenter(this);
+    protected InsertWorkoutPresenter newPresenterInstance() {
+        return new InsertWorkoutPresenter(this);
     }
 
     @Override
@@ -115,24 +110,9 @@ public class InsertOrEditWorkoutFragment extends BaseFragment<InsertOrEditWorkou
     }
 
     @Override
-    public void closeActivityWithResultOk(Workout workout, List<Exercise> exercises) {
-        Intent intent = new Intent();
-        Extras.putWorkout(workout, intent);
-        Extras.putExercises(exercises, intent);
-
-        getActivity().setResult(Activity.RESULT_OK, intent);
-        getActivity().finish();
-    }
-
-    @Override
     public void updateWorkoutNameView(String name) {
         etWorkoutName.setText(name);
         etWorkoutName.setSelection(etWorkoutName.getText().length());
-    }
-
-    @Override
-    public void hideKeyboard() {
-        UIHelper.hideKeyboard(getActivity());
     }
 
     @Override

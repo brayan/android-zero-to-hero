@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.view.ui.exercise.insert_or_edit;
+package br.com.sailboat.zerotohero.view.ui.exercise.insert;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,14 +12,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.MessageDialog;
 import br.com.sailboat.canoe.helper.UIHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.base.BaseFragment;
 import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 
-public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExercisePresenter> implements InsertOrEditExercisePresenter.View {
+public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter> implements InsertExercisePresenter.View {
 
     private Toolbar toolbar;
     private EditText etName;
@@ -40,7 +40,7 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_insert_edit_save: {
+            case R.id.menu_save: {
                 getPresenter().onClickMenuSave();
                 return true;
             }
@@ -51,8 +51,8 @@ public class InsertOrEditExerciseFragment extends BaseFragment<InsertOrEditExerc
     }
 
     @Override
-    protected InsertOrEditExercisePresenter newPresenterInstance() {
-        return new InsertOrEditExercisePresenter(this);
+    protected InsertExercisePresenter newPresenterInstance() {
+        return new InsertExercisePresenter(this);
     }
 
     @Override

@@ -2,7 +2,6 @@ package br.com.sailboat.zerotohero.view.ui.workout.details;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,18 +11,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import br.com.sailboat.canoe.base.BaseFragment;
+import br.com.sailboat.canoe.dialog.TwoOptionsDialog;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.Extras;
-import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
-import br.com.sailboat.zerotohero.view.ui.workout.insert.InsertOrEditWorkoutActivity;
+import br.com.sailboat.zerotohero.view.ui.workout.insert.InsertWorkoutActivity;
 
 public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsPresenter.View {
-
-    private static final int REQUEST_EDIT_WORKOUT = 0;
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -59,16 +54,6 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     }
 
     @Override
-    protected void onActivityResultOk(int requestCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_EDIT_WORKOUT: {
-                getPresenter().onResultOkEditWorkout(data);
-                return;
-            }
-        }
-    }
-
-    @Override
     protected void initViews(View view) {
         inflateViews(view);
         initToolbar();
@@ -96,12 +81,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     }
 
     @Override
-    public void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void updateTitle(String title) {
+    public void setTitle(String title) {
         toolbar.setTitle(title);
     }
 
@@ -121,23 +101,27 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     }
 
     @Override
-    public void startEditWorkoutActivity(Workout workout) {
-        InsertOrEditWorkoutActivity.start(this, workout, REQUEST_EDIT_WORKOUT);
+    public void startEditWorkoutActivity(long workoutId) {
+        InsertWorkoutActivity.start(this, workoutId);
+    }
+
+    @Override
+    public void showDialogDeleteWorkout() {
+        TwoOptionsDialog dialog = new TwoOptionsDialog();
+        dialog.setMessage(getString(R.string.delete_workout));
+        dialog.setPositiveMsg(getString(R.string.delete));
+        dialog.setPositiveCallback(new TwoOptionsDialog.PositiveCallback() {
+            @Override
+            public void onClickPositiveOption() {
+                getPresenter().onClickDeleteWorkout();
+            }
+        });
+        dialog.show(getFragmentManager(), "DELETE_TASK");
     }
 
     @Override
     public void closeActivityWithResultCanceled() {
         getActivity().setResult(Activity.RESULT_CANCELED);
-        getActivity().finish();
-    }
-
-    @Override
-    public void closeActivityWithResultOkAndDeleteWorkout(Workout workout) {
-        Intent intent = new Intent();
-        Extras.putWorkout(workout, intent);
-        Extras.deleteWorkout(intent);
-
-        getActivity().setResult(Activity.RESULT_OK, intent);
         getActivity().finish();
     }
 

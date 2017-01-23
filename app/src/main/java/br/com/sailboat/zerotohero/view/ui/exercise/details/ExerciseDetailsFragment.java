@@ -17,7 +17,7 @@ import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
-import br.com.sailboat.zerotohero.view.ui.exercise.insert_or_edit.InsertOrEditExerciseActivity;
+import br.com.sailboat.zerotohero.view.ui.exercise.insert.InsertExerciseActivity;
 
 public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresenter> implements ExerciseDetailsPresenter.View {
 
@@ -95,7 +95,7 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
 
     @Override
     public void startEditExerciseActivity(Exercise exercise) {
-        InsertOrEditExerciseActivity.start(this, exercise, REQUEST_EDIT_EXERCISE);
+        InsertExerciseActivity.start(this, exercise);
     }
 
     @Override
