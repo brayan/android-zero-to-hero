@@ -1,11 +1,13 @@
 package br.com.sailboat.zerotohero.view.ui.exercise.details;
 
-import android.content.Context;
 import android.content.Intent;
 
 import br.com.sailboat.canoe.base.BasePresenter;
+import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
 import br.com.sailboat.zerotohero.view.async_tasks.SaveExerciseAsyncTask;
 
 public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPresenter.View> {
@@ -17,14 +19,14 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
     }
 
     @Override
-    protected void postResume() {
-        updateContentViews();
+    public void extractExtrasFromIntent(Intent intent) {
+        long exerciseId = Extras.getExerciseId(intent);
+        getViewModel().setExerciseId(exerciseId);
     }
 
     @Override
-    public void extractExtrasFromIntent(Intent intent) {
-        Exercise exercise = Extras.getExercise(intent);
-        getViewModel().setExercise(exercise);
+    protected void postResume() {
+        loadDetails();
     }
 
     public void onClickEditExercise() {
@@ -32,19 +34,35 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
         getView().startEditExerciseActivity(exercise);
     }
 
-    public void onClickNavigation() {
-        getView().closeActivityWithResultCanceled();
-    }
-
-    public void onResultOkEditExercise(Intent data) {
-        getViewModel().setExercise(Extras.getExercise(data));
-        updateContentViews();
-        saveExercise();
+    public void postActivityResult() {
+        loadDetails();
     }
 
     public void onClickMenuDelete() {
-        Exercise exercise = getViewModel().getExercise();
-        getView().closeActivityWithResultOkAndDeleteExercise(exercise);
+        getView().showDialogDeleteExercise();
+    }
+
+    public void onClickDeleteExercise() {
+        AsyncHelper.execute(new AsyncHelper.Callback() {
+
+            @Override
+            public void doInBackground() throws Exception {
+                long exerciseId = getViewModel().getExerciseId();
+                new ExerciseSQLite(getContext()).delete(exerciseId);
+                new WorkoutExerciseSQLite(getContext()).deleteFromExercise(exerciseId);
+            }
+
+            @Override
+            public void onSuccess() {
+                closeActivityWithResultOk();
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                printLogAndShowDialog(e);
+            }
+
+        });
     }
 
     private void updateContentViews() {
@@ -57,6 +75,32 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
 
     private ExerciseDetailsViewModel getViewModel() {
         return viewModel;
+    }
+
+    private void loadDetails() {
+        AsyncHelper.execute(new AsyncHelper.Callback() {
+
+            Exercise exercise;
+
+            @Override
+            public void doInBackground() throws Exception {
+                long exerciseId = getViewModel().getExerciseId();
+                exercise = new ExerciseSQLite(getContext()).getExerciseById(exerciseId);
+            }
+
+            @Override
+            public void onSuccess() {
+                getViewModel().setExercise(exercise);
+                updateContentViews();
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                printLogAndShowDialog(e);
+                closeActivityWithResultCanceled();
+            }
+
+        });
     }
 
     private void saveExercise() {
@@ -76,26 +120,18 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
 
     }
 
-    public Context getContext() {
-        return getView().getActivityContext();
-    }
-
     public Exercise getExercise() {
         return getViewModel().getExercise();
     }
 
 
-
     public interface View extends BasePresenter.View {
-        Context getActivityContext();
-        void showToast(String message);
         void startEditExerciseActivity(Exercise exercise);
-        void closeActivityWithResultCanceled();
-        void closeActivityWithResultOkAndDeleteExercise(Exercise exercise);
         void setRepetition(String name);
         void setWeight(String weight);
         void setSet(String set);
         void setName(String name);
+        void showDialogDeleteExercise();
     }
 
 }

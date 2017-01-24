@@ -8,19 +8,18 @@ import android.support.v4.app.Fragment;
 import br.com.sailboat.zerotohero.base.BaseActivity;
 import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.helper.RequestCodes;
-import br.com.sailboat.zerotohero.model.Exercise;
 
 public class ExerciseDetailsActivity extends BaseActivity<ExerciseDetailsFragment> {
 
-    public static void start(Fragment fragment, Exercise exercise) {
-        Intent starter = getStartIntent(fragment.getActivity(), exercise);
+    public static void start(Fragment fragment, long exerciseId) {
+        Intent starter = getStartIntent(fragment.getActivity(), exerciseId);
         fragment.startActivityForResult(starter, RequestCodes.EXERCISE_DETAILS);
     }
 
     @NonNull
-    private static Intent getStartIntent(Context context, Exercise exercise) {
+    private static Intent getStartIntent(Context context, long exerciseId) {
         Intent starter = new Intent(context, ExerciseDetailsActivity.class);
-        Extras.putExercise(exercise, starter);
+        Extras.putExerciseId(exerciseId, starter);
         return starter;
     }
 

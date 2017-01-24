@@ -1,9 +1,9 @@
 package br.com.sailboat.zerotohero.view.ui.exercise.insert;
 
-import android.content.Context;
 import android.content.Intent;
 
 import br.com.sailboat.canoe.base.BasePresenter;
+import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.Extras;
@@ -18,10 +18,46 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
     }
 
     @Override
+    public void extractExtrasFromIntent(Intent intent) {
+        long exerciseId = Extras.getExerciseId(intent);
+        getViewModel().setExerciseId(exerciseId);
+    }
+
+    @Override
     protected void onResumeFirstSession() {
         if (hasExerciseToEdit()) {
-            bindExerciseToView();
+            startEditingExercise();
         }
+    }
+
+    private void startEditingExercise() {
+        AsyncHelper.execute(new AsyncHelper.Callback() {
+
+            @Override
+            public void doInBackground() throws Exception {
+                long exerciseId = getViewModel().getExerciseId();
+
+                loadExerciseInfo(exerciseId);
+            }
+
+            @Override
+            public void onSuccess() {
+                getView().setActivityToHideKeyboard();
+                getView().updateWorkoutNameView(getViewModel().getName());
+                updateContentViews();
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                printLogAndShowDialog(e);
+                closeActivityWithResultCanceled();
+            }
+
+        });
+    }
+
+    private void loadExerciseInfo(long exerciseId) {
+        // TODO
     }
 
     @Override
@@ -29,13 +65,9 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
         updateContentViews();
     }
 
-    @Override
-    public void extractExtrasFromIntent(Intent intent) {
-        Exercise exercise = Extras.getExercise(intent);
-        getViewModel().setExercise(exercise);
-    }
-
     public void onClickMenuSave() {
+        // TODO
+
         try {
             checkRequiredComponents();
             buildAndReturnExercise();
@@ -49,7 +81,7 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
         getView().setWeight(String.valueOf(getViewModel().getExercise().getWeight()));
         getView().setSet(String.valueOf(getViewModel().getExercise().getSet()));
         getView().setRepetition(String.valueOf(getViewModel().getExercise().getRepetition()));
-        getView().hideKeyboard();
+        closeKeyboard();
     }
 
     private void updateContentViews() {
@@ -121,12 +153,8 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
 
 
     public interface View extends BasePresenter.View {
-        Context getActivityContext();
-        void showToast(String message);
         String getName();
-        void showDialog(String message);
         void setName(String name);
-        void hideKeyboard();
         void updateToolbarTitle(String title);
         void closeActivityWithResultOk(Exercise exercise);
         String getWeight();

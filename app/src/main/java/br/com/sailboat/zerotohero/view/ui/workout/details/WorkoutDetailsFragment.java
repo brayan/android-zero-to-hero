@@ -116,7 +116,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
                 getPresenter().onClickDeleteWorkout();
             }
         });
-        dialog.show(getFragmentManager(), "DELETE_TASK");
+        dialog.show(getFragmentManager(), "DELETE_DIALOG");
     }
 
     @Override

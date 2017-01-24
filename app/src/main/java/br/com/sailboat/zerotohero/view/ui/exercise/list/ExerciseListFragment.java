@@ -1,6 +1,5 @@
 package br.com.sailboat.zerotohero.view.ui.exercise.list;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
@@ -9,13 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.com.sailboat.canoe.base.BaseFragment;
-import br.com.sailboat.canoe.dialog.MessageDialog;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.RequestCodes;
-import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.ui.exercise.details.ExerciseDetailsActivity;
 import br.com.sailboat.zerotohero.view.ui.exercise.insert.InsertExerciseActivity;
@@ -36,27 +31,8 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     }
 
     @Override
-    protected void onActivityResultOk(int requestCode, Intent data) {
-        switch (requestCode) {
-            case RequestCodes.INSERT_EXERCISE: {
-                getPresenter().onActivityResultOkInsertOrEditExercise(data);
-                return;
-            }
-            case RequestCodes.EXERCISE_DETAILS: {
-                getPresenter().onActivityResultOkExerciseDetails(data);
-                return;
-            }
-        }
-    }
-
-    @Override
-    protected void onActivityResultCanceled(int requestCode, Intent data) {
-        switch (requestCode) {
-            case RequestCodes.EXERCISE_DETAILS: {
-                getPresenter().onActivityResultCanceledExerciseDetails();
-                return;
-            }
-        }
+    protected void postActivityResult(int requestCode, Intent data) {
+        getPresenter().postActivityResult();
     }
 
     @Override
@@ -66,13 +42,8 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     }
 
     @Override
-    public void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void startExerciseDetailsActivity(Exercise exercise) {
-        ExerciseDetailsActivity.start(this, exercise);
+    public void startExerciseDetailsActivity(long exerciseId) {
+        ExerciseDetailsActivity.start(this, exerciseId);
     }
 
     @Override
@@ -80,23 +51,8 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
         InsertExerciseActivity.start(this);
     }
 
-    @Override
-    public void showDialog(String message) {
-        MessageDialog.showMessage(getFragmentManager(), message, null);
-    }
-
-    @Override
-    public void updateExerciseRemoved(int position) {
-        recycler.getAdapter().notifyItemRemoved(position);
-    }
-
     public void onClickFab() {
         getPresenter().onClickNewExercise();
-    }
-
-    @Override
-    public Context getActivityContext() {
-        return getActivity();
     }
 
     @Override

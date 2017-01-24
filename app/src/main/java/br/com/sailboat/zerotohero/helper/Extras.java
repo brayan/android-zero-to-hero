@@ -10,13 +10,12 @@ import br.com.sailboat.zerotohero.model.Exercise;
 public class Extras {
 
     private static final String WORKOUT_ID = "WORKOUT_ID";
-    private static final String EXERCISE = "EXERCISE";
+    private static final String EXERCISE_ID = "EXERCISE_ID";
     private static final String LIST_EXERCISES = "LIST_EXERCISES";
-    private static final String DELETE_WORKOUT = "DELETE_WORKOUT";
     private static final String DELETE_EXERCISE = "DELETE_EXERCISE";
 
-    public static void putExercise(Exercise exercise, Intent intent) {
-        intent.putExtra(EXERCISE, exercise);
+    public static void putExerciseId(long exerciseId, Intent intent) {
+        intent.putExtra(EXERCISE_ID, exerciseId);
     }
 
     public static void putWorkoutId(long workoutId, Intent intent) {
@@ -35,16 +34,8 @@ public class Extras {
         return (List) intent.getSerializableExtra(LIST_EXERCISES);
     }
 
-    public static Exercise getExercise(Intent intent) {
-        return (Exercise) intent.getSerializableExtra(EXERCISE);
-    }
-
-    public static void deleteWorkout(Intent intent) {
-        intent.putExtra(DELETE_WORKOUT, true);
-    }
-
-    public static boolean hasWorkoutToDelete(Intent intent) {
-        return intent.hasExtra(DELETE_WORKOUT);
+    public static long getExerciseId(Intent intent) {
+        return intent.getLongExtra(EXERCISE_ID, -1);
     }
 
     public static boolean hasExerciseToDelete(Intent intent) {

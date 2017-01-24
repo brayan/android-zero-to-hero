@@ -33,6 +33,17 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     }
 
     @Override
+    protected InsertExercisePresenter newPresenterInstance() {
+        return new InsertExercisePresenter(this);
+    }
+
+    @Override
+    protected void initViews(View view) {
+        inflateViews(view);
+        initToolbar();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_insert_edit, menu);
     }
@@ -51,39 +62,8 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     }
 
     @Override
-    protected InsertExercisePresenter newPresenterInstance() {
-        return new InsertExercisePresenter(this);
-    }
-
-    @Override
-    protected void initViews(View view) {
-        inflateViews(view);
-        initToolbar();
-    }
-
-    @Override
-    public void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-    }
-
-
-    @Override
     public String getName() {
         return etName.getText().toString();
-    }
-
-    @Override
-    public void showDialog(String message) {
-        MessageDialog.showMessage(getFragmentManager(), message, null);
-    }
-
-    @Override
-    public void closeActivityWithResultOk(Exercise exercise) {
-        Intent intent = new Intent();
-        Extras.putExercise(exercise, intent);
-
-        getActivity().setResult(Activity.RESULT_OK, intent);
-        getActivity().finish();
     }
 
     @Override
@@ -123,18 +103,8 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     }
 
     @Override
-    public void hideKeyboard() {
-        UIHelper.hideKeyboard(getActivity());
-    }
-
-    @Override
     public void updateToolbarTitle(String title) {
         toolbar.setTitle(title);
-    }
-
-    @Override
-    public Context getActivityContext() {
-        return getActivity();
     }
 
     private void inflateViews(View view) {

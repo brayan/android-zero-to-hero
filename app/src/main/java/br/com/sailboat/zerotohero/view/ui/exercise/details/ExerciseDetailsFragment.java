@@ -1,6 +1,5 @@
 package br.com.sailboat.zerotohero.view.ui.exercise.details;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
@@ -14,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import br.com.sailboat.canoe.base.BaseFragment;
+import br.com.sailboat.canoe.dialog.TwoOptionsDialog;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.ui.exercise.insert.InsertExerciseActivity;
 
@@ -59,13 +58,8 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     }
 
     @Override
-    protected void onActivityResultOk(int requestCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_EDIT_EXERCISE: {
-                getPresenter().onResultOkEditExercise(data);
-                return;
-            }
-        }
+    protected void postActivityResult(int requestCode, Intent data) {
+        getPresenter().postActivityResult();
     }
 
     @Override
@@ -83,35 +77,14 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPresenter().onClickNavigation();
+                getActivity().onBackPressed();
             }
         });
     }
 
     @Override
-    public void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void startEditExerciseActivity(Exercise exercise) {
         InsertExerciseActivity.start(this, exercise);
-    }
-
-    @Override
-    public void closeActivityWithResultCanceled() {
-        getActivity().setResult(Activity.RESULT_CANCELED);
-        getActivity().finish();
-    }
-
-    @Override
-    public void closeActivityWithResultOkAndDeleteExercise(Exercise exercise) {
-        Intent intent = new Intent();
-        Extras.putExercise(exercise, intent);
-        Extras.deleteExercise(intent);
-
-        getActivity().setResult(Activity.RESULT_OK, intent);
-        getActivity().finish();
     }
 
     @Override
@@ -135,8 +108,17 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     }
 
     @Override
-    public Context getActivityContext() {
-        return getActivity();
+    public void showDialogDeleteExercise() {
+        TwoOptionsDialog dialog = new TwoOptionsDialog();
+        dialog.setMessage(getString(R.string.delete_exercise));
+        dialog.setPositiveMsg(getString(R.string.delete));
+        dialog.setPositiveCallback(new TwoOptionsDialog.PositiveCallback() {
+            @Override
+            public void onClickPositiveOption() {
+                getPresenter().onClickDeleteExercise();
+            }
+        });
+        dialog.show(getFragmentManager(), "DELETE_DIALOG");
     }
 
     private void inflateViews(View view) {

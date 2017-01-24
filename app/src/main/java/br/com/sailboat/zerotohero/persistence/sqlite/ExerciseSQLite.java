@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteStatement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.sailboat.canoe.exception.EntityNotFoundException;
 import br.com.sailboat.zerotohero.base.BaseSQLite;
 import br.com.sailboat.zerotohero.model.Exercise;
 
@@ -28,6 +29,22 @@ public class ExerciseSQLite extends BaseSQLite {
         sb.append(" ); ");
 
         return  sb.toString();
+    }
+
+    public Exercise getExerciseById(long exerciseId) throws EntityNotFoundException {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" SELECT Exercise.* FROM Exercise ");
+        sb.append(" WHERE Exercise.id = " + exerciseId);
+
+        Cursor cursor = performQuery(sb.toString());
+
+        if (cursor.moveToNext()) {
+            Exercise exercise = buildFromCursor(cursor);
+            cursor.close();
+            return exercise;
+        }
+
+        throw new EntityNotFoundException();
     }
 
     public List<Exercise> getAll() throws Exception {
@@ -89,7 +106,7 @@ public class ExerciseSQLite extends BaseSQLite {
         List<Exercise> exercises = new ArrayList<>();
 
         while (cursor.moveToNext()) {
-            Exercise exercise = getExerciseFromCursor(cursor);
+            Exercise exercise = buildFromCursor(cursor);
             exercises.add(exercise);
         }
 
@@ -98,7 +115,7 @@ public class ExerciseSQLite extends BaseSQLite {
         return exercises;
     }
 
-    private Exercise getExerciseFromCursor(Cursor cursor) {
+    private Exercise buildFromCursor(Cursor cursor) {
         Exercise exercise = new Exercise();
         exercise.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
         exercise.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
