@@ -1,6 +1,5 @@
 package br.com.sailboat.zerotohero.view.ui.exercise.details;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -10,12 +9,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.TwoOptionsDialog;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.ui.exercise.insert.InsertExerciseActivity;
 
 public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresenter> implements ExerciseDetailsPresenter.View {
@@ -83,8 +80,8 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     }
 
     @Override
-    public void startEditExerciseActivity(Exercise exercise) {
-        InsertExerciseActivity.start(this, exercise);
+    public void startEditExerciseActivity(long exerciseId) {
+        InsertExerciseActivity.start(this, exerciseId);
     }
 
     @Override

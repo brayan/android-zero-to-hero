@@ -27,7 +27,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frame_recycler;
+        return R.layout.frg_workout_list;
     }
 
     @Override

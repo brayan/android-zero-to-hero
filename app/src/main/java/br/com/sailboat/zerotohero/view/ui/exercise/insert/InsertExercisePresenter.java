@@ -3,11 +3,14 @@ package br.com.sailboat.zerotohero.view.ui.exercise.insert;
 import android.content.Intent;
 
 import br.com.sailboat.canoe.base.BasePresenter;
+import br.com.sailboat.canoe.exception.EntityNotFoundException;
+import br.com.sailboat.canoe.exception.RequiredFieldNotFilledException;
 import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.Exercise;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 
 public class InsertExercisePresenter extends BasePresenter<InsertExercisePresenter.View> {
 
@@ -30,20 +33,84 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
         }
     }
 
+    @Override
+    protected void postResume() {
+        updateContentViews();
+    }
+
+    public void onClickMenuSave() {
+        try {
+            closeKeyboard();
+            extractInfoFromViews();
+            performValidations();
+            saveExercise();
+
+        } catch (RequiredFieldNotFilledException e) {
+            showMessage(e.getMessage());
+
+        } catch (Exception e) {
+            printLogAndShowDialog(e);
+        }
+    }
+
+    private void saveExercise() {
+
+        AsyncHelper.execute(new AsyncHelper.Callback() {
+
+            @Override
+            public void doInBackground() throws Exception {
+                prepareAndExercise();
+            }
+
+            @Override
+            public void onSuccess() {
+                closeActivityWithResultOk();
+            }
+
+            @Override
+            public void onFail(Exception e) {
+                printLogAndShowDialog(e);
+            }
+
+            private void prepareAndExercise() throws Exception {
+                Exercise exercise = new Exercise();
+                exercise.setId(getViewModel().getExerciseId());
+                exercise.setName(getViewModel().getName());
+                exercise.setWeight(getViewModel().getWeight());
+                exercise.setSet(getViewModel().getSet());
+                exercise.setRepetition(getViewModel().getRepetition());
+
+                if (hasExerciseToEdit()) {
+                    new ExerciseSQLite(getContext()).update(exercise);
+                } else {
+                    new ExerciseSQLite(getContext()).save(exercise);
+                }
+
+            }
+
+        });
+    }
+
+    private void extractInfoFromViews() {
+        getViewModel().setName(getView().getName());
+        getViewModel().setWeight(getDoubleFromView(getView().getWeight()));
+        getViewModel().setSet(getIntFromView(getView().getSets()));
+        getViewModel().setRepetition(getIntFromView(getView().getReps()));
+    }
+
     private void startEditingExercise() {
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
             @Override
             public void doInBackground() throws Exception {
                 long exerciseId = getViewModel().getExerciseId();
-
                 loadExerciseInfo(exerciseId);
             }
 
             @Override
             public void onSuccess() {
                 getView().setActivityToHideKeyboard();
-                getView().updateWorkoutNameView(getViewModel().getName());
+                bindExerciseToView();
                 updateContentViews();
             }
 
@@ -56,31 +123,19 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
         });
     }
 
-    private void loadExerciseInfo(long exerciseId) {
-        // TODO
-    }
-
-    @Override
-    protected void postResume() {
-        updateContentViews();
-    }
-
-    public void onClickMenuSave() {
-        // TODO
-
-        try {
-            checkRequiredComponents();
-            buildAndReturnExercise();
-        } catch (Exception e) {
-            getView().showDialog(e.getMessage());
-        }
+    private void loadExerciseInfo(long exerciseId) throws EntityNotFoundException {
+        Exercise exercise = new ExerciseSQLite(getContext()).getExerciseById(exerciseId);
+        getViewModel().setName(exercise.getName());
+        getViewModel().setWeight(exercise.getWeight());
+        getViewModel().setSet(exercise.getSet());
+        getViewModel().setRepetition(exercise.getRepetition());
     }
 
     private void bindExerciseToView() {
-        getView().setName(getViewModel().getExercise().getName());
-        getView().setWeight(String.valueOf(getViewModel().getExercise().getWeight()));
-        getView().setSet(String.valueOf(getViewModel().getExercise().getSet()));
-        getView().setRepetition(String.valueOf(getViewModel().getExercise().getRepetition()));
+        getView().setName(getViewModel().getName());
+        getView().setWeight(String.valueOf(getViewModel().getWeight()));
+        getView().setSet(String.valueOf(getViewModel().getSet()));
+        getView().setRepetition(String.valueOf(getViewModel().getRepetition()));
         closeKeyboard();
     }
 
@@ -101,62 +156,34 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
     }
 
     private boolean hasExerciseToEdit() {
-        return getViewModel().getExercise() != null;
+        return getViewModel().getExerciseId() != -1;
     }
 
     private InsertExerciseViewModel getViewModel() {
         return viewModel;
     }
 
-    private void buildAndReturnExercise() {
-        Exercise exercise = getViewModel().getExercise();
+    private void performValidations() throws Exception {
 
-        if (exercise == null) {
-            exercise = new Exercise();
-            exercise.setId(-1);
+        if (StringHelper.isNullOrEmpty(getViewModel().getName())) {
+            throw new RequiredFieldNotFilledException(getString(R.string.exeption_exercise_name));
         }
 
-        exercise.setName(getView().getName());
-        exercise.setWeight(Double.valueOf(getView().getWeight()));
-        exercise.setSet(Integer.valueOf(getView().getSets()));
-        exercise.setRepetition(Integer.valueOf(getView().getReps()));
+        if (getViewModel().getSet() == 0) {
+            throw new RequiredFieldNotFilledException(getString(R.string.exeption_exercise_sets));
+        }
 
-        getView().closeActivityWithResultOk(exercise);
+        if (getViewModel().getRepetition() == 0) {
+            throw new RequiredFieldNotFilledException(getString(R.string.exeption_exercise_reps));
+        }
+
     }
-
-    private void checkRequiredComponents() throws Exception {
-        String name = getView().getName();
-
-        if (StringHelper.isNullOrEmpty(name)) {
-            throw new Exception(getString(R.string.exeption_exercise_name));
-        }
-
-        String weight = getView().getWeight();
-
-        if (StringHelper.isNullOrEmpty(weight)) {
-            throw new Exception(getString(R.string.exeption_exercise_weight));
-        }
-
-        String sets = getView().getSets();
-
-        if (StringHelper.isNullOrEmpty(sets)) {
-            throw new Exception(getString(R.string.exeption_exercise_sets));
-        }
-
-        String reps = getView().getReps();
-
-        if (StringHelper.isNullOrEmpty(reps)) {
-            throw new Exception(getString(R.string.exeption_exercise_reps));
-        }
-    }
-
 
 
     public interface View extends BasePresenter.View {
         String getName();
         void setName(String name);
         void updateToolbarTitle(String title);
-        void closeActivityWithResultOk(Exercise exercise);
         String getWeight();
         String getSets();
         String getReps();

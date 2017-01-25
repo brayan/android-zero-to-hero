@@ -3,7 +3,6 @@ package br.com.sailboat.zerotohero.view.ui.workout.list;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,7 +24,6 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private View emptyList;
-    private FloatingActionButton fab;
 
     @Override
     protected int getLayoutId() {
@@ -47,7 +45,6 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
         initToolbar(view);
         initRecyclerView(view);
         initEmptyView(view);
-        initFab(view);
     }
 
     @Override
@@ -113,16 +110,6 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
 
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
-    }
-
-    private void initFab(View view) {
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new android.view.View.OnClickListener() {
-            @Override
-            public void onClick(android.view.View v) {
-                getPresenter().onClickNewWorkout();
-            }
-        });
     }
 
     private void updateVisibilityOfViews() {

@@ -19,6 +19,4 @@
 
     <include layout="@layout/recycler_padding" />
 
-    <include layout="@layout/fab" />
-
 </android.support.design.widget.CoordinatorLayout>

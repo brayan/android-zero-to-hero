@@ -39,7 +39,7 @@ public class SaveExerciseAsyncTask extends BaseAsyncTask {
     }
 
     private void saveNewExercise() throws Exception {
-        long exerciseId = new ExerciseSQLite(getContext()).saveAndGetId(getExercise());
+        long exerciseId = new ExerciseSQLite(getContext()).save(getExercise());
         getExercise().setId(exerciseId);
     }
 

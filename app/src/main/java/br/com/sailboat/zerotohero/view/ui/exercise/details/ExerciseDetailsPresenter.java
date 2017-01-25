@@ -31,7 +31,7 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
 
     public void onClickEditExercise() {
         Exercise exercise = getViewModel().getExercise();
-        getView().startEditExerciseActivity(exercise);
+        getView().startEditExerciseActivity(exercise.getId());
     }
 
     public void postActivityResult() {
@@ -126,7 +126,7 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
 
 
     public interface View extends BasePresenter.View {
-        void startEditExerciseActivity(Exercise exercise);
+        void startEditExerciseActivity(long exerciseId);
         void setRepetition(String name);
         void setWeight(String weight);
         void setSet(String set);
