@@ -50,6 +50,7 @@ public class ExerciseSQLite extends BaseSQLite {
     public List<Exercise> getAll() throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT Exercise.* FROM Exercise ");
+        sb.append(" ORDER BY Exercise.name COLLATE NOCASE ");
 
         return getExerciseList(sb.toString());
     }
@@ -60,6 +61,7 @@ public class ExerciseSQLite extends BaseSQLite {
         sb.append(" INNER JOIN WorkoutExercise ");
         sb.append(" ON Exercise.id = WorkoutExercise.exerciseId ");
         sb.append(" WHERE WorkoutExercise.workoutId = " + workoutId);
+        sb.append(" ORDER BY WorkoutExercise.position ");
 
         return getExerciseList(sb.toString());
     }

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +26,7 @@ import br.com.sailboat.canoe.dialog.MessageDialog;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
+import br.com.sailboat.zerotohero.view.adapter.SwipeExercise;
 import br.com.sailboat.zerotohero.view.ui.exercise.selector.ExerciseChooserActivity;
 
 public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> implements InsertWorkoutPresenter.View {
@@ -137,6 +139,10 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter().getExercises(), null);
         recyclerView.setAdapter(adapter);
+
+        ItemTouchHelper.Callback callback = new SwipeExercise(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
     }
 
     private void initToolbar() {

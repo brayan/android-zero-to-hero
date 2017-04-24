@@ -5,12 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Collections;
 import java.util.List;
 
 import br.com.sailboat.zerotohero.model.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.view_holder.ExerciseViewHolder;
 
-public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolder> {
+public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolder> implements ItemTouchHelperAdapter {
 
     private List<Exercise> exerciseList;
     private ExercisesListAdapter.Callback callback;
@@ -35,6 +36,27 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
     @Override
     public int getItemCount() {
         return getExerciseList().size();
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(getExerciseList(), i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(getExerciseList(), i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        getExerciseList().remove(position);
+        notifyItemRemoved(position);
     }
 
     private View inflateLayout(ViewGroup parent, int layoutId) {
@@ -62,4 +84,6 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
     public interface Callback extends ExerciseViewHolder.Callback {
 
     }
+
+
 }

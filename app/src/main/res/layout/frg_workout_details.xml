@@ -11,7 +11,10 @@
 
         <include layout="@layout/appbar" />
 
-        <include layout="@layout/card_recycler" />
+        <include layout="@layout/recycler" />
+
+        <include layout="@layout/ept_list" />
+
 
     </LinearLayout>
 

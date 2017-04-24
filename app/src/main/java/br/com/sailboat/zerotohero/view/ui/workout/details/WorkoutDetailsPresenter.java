@@ -1,6 +1,5 @@
 package br.com.sailboat.zerotohero.view.ui.workout.details;
 
-import android.content.Context;
 import android.content.Intent;
 
 import java.util.List;
@@ -13,8 +12,9 @@ import br.com.sailboat.zerotohero.model.Workout;
 import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
+import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 
-public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresenter.View> {
+public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresenter.View> implements ExercisesListAdapter.Callback {
 
     private WorkoutDetailsViewModel viewModel = new WorkoutDetailsViewModel();
 
@@ -67,6 +67,16 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
             }
 
         });
+    }
+
+    @Override
+    public void onClickExercise(int position) {
+        Exercise exercise = getExercises().get(position);
+        getView().startExerciseDetailsActivity(exercise.getId());
+    }
+
+    public void postActivityResult() {
+        loadDetails();
     }
 
     private void loadDetails() {
@@ -123,23 +133,14 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
         return getViewModel().getExerciseList();
     }
 
-    public Context getContext() {
-        return getView().getActivityContext();
-    }
-
 
     public interface View extends BasePresenter.View {
-        Context getActivityContext();
-
         void updateExerciseListView();
-
         void setTitle(String title);
-
         void updateVisibilityOfViews();
-
         void startEditWorkoutActivity(long workoutId);
-
         void showDialogDeleteWorkout();
+        void startExerciseDetailsActivity(long exerciseId);
     }
 
 }

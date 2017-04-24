@@ -1,7 +1,7 @@
 package br.com.sailboat.zerotohero.view.ui.workout.details;
 
 import android.app.Activity;
-import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +16,7 @@ import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.TwoOptionsDialog;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
+import br.com.sailboat.zerotohero.view.ui.exercise.details.ExerciseDetailsActivity;
 import br.com.sailboat.zerotohero.view.ui.workout.insert.InsertWorkoutActivity;
 
 public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsPresenter.View {
@@ -120,14 +121,19 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     }
 
     @Override
-    public void closeActivityWithResultCanceled() {
-        getActivity().setResult(Activity.RESULT_CANCELED);
-        getActivity().finish();
+    public void startExerciseDetailsActivity(long exerciseId) {
+        ExerciseDetailsActivity.start(this, exerciseId);
     }
 
     @Override
-    public Context getActivityContext() {
-        return getActivity();
+    protected void postActivityResult(int requestCode, Intent data) {
+        getPresenter().postActivityResult();
+    }
+
+    @Override
+    public void closeActivityWithResultCanceled() {
+        getActivity().setResult(Activity.RESULT_CANCELED);
+        getActivity().finish();
     }
 
     private void inflateViews(View view) {
@@ -139,7 +145,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     private void initRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter().getExercises(), null);
+        ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter().getExercises(), getPresenter());
         recyclerView.setAdapter(adapter);
     }
 

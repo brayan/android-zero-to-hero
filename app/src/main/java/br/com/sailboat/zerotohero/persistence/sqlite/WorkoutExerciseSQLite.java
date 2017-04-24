@@ -17,6 +17,7 @@ public class WorkoutExerciseSQLite extends BaseSQLite {
         sb.append(" CREATE TABLE WorkoutExercise ( ");
         sb.append(" workoutId INTEGER, ");
         sb.append(" exerciseId INTEGER, ");
+        sb.append(" position INTEGER, ");
         sb.append(" PRIMARY KEY(workoutId, exerciseId), ");
         sb.append(" FOREIGN KEY(workoutId) REFERENCES Workout(id),");
         sb.append(" FOREIGN KEY(exerciseId) REFERENCES Exercise(id) ");
@@ -25,15 +26,16 @@ public class WorkoutExerciseSQLite extends BaseSQLite {
         return  sb.toString();
     }
 
-    public long save(long workoutId, long exerciseId) throws Exception {
+    public long save(long workoutId, long exerciseId, long position) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" INSERT INTO WorkoutExercise ");
-        sb.append(" (workoutId, exerciseId) ");
-        sb.append(" VALUES (?, ?); ");
+        sb.append(" (workoutId, exerciseId, position) ");
+        sb.append(" VALUES (?, ?, ?); ");
 
         SQLiteStatement statement = compileStatement(sb.toString());
         statement.bindLong(1, workoutId);
         statement.bindLong(2, exerciseId);
+        statement.bindLong(3, position);
 
         long id = executeInsert(statement);
 

@@ -17,8 +17,6 @@ import br.com.sailboat.zerotohero.view.ui.exercise.insert.InsertExerciseActivity
 
 public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresenter> implements ExerciseDetailsPresenter.View {
 
-    private static final int REQUEST_EDIT_EXERCISE = 0;
-
     private Toolbar toolbar;
     private TextView tvName;
     private TextView tvWeight;

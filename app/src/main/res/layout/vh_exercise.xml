@@ -6,6 +6,7 @@
     android:background="?selectableItemBackground">
 
     <FrameLayout
+        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp">

@@ -90,8 +90,9 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
                 WorkoutExerciseSQLite dao = new WorkoutExerciseSQLite(getContext());
                 dao.deleteFromWorkout(workout.getId());
 
-                for (Exercise e : getViewModel().getExercises()) {
-                    dao.save(workout.getId(), e.getId());
+                for (int i = 0 ; i < getViewModel().getExercises().size(); i++) {
+                    Exercise exercise = getViewModel().getExercises().get(i);
+                    dao.save(workout.getId(), exercise.getId(), i);
                 }
 
             }
