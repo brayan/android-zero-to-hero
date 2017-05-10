@@ -1,17 +1,20 @@
 package br.com.sailboat.zerotohero.helper;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.sailboat.zerotohero.model.Exercise;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
+import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
 public class Extras {
 
     private static final String WORKOUT_ID = "WORKOUT_ID";
     private static final String EXERCISE_ID = "EXERCISE_ID";
-    private static final String LIST_EXERCISES = "LIST_EXERCISES";
+    private static final String LIST_EXERCISE = "LIST_EXERCISE";
+    private static final String LIST_EXERCISE_VIEW = "LIST_EXERCISE_VIEW";
     private static final String DELETE_EXERCISE = "DELETE_EXERCISE";
 
     public static void putExerciseId(long exerciseId, Intent intent) {
@@ -23,7 +26,15 @@ public class Extras {
     }
 
     public static void putExercises(List<Exercise> exercises, Intent intent) {
-        intent.putExtra(LIST_EXERCISES, (ArrayList) exercises);
+        intent.putExtra(LIST_EXERCISE, (ArrayList) exercises);
+    }
+
+    public static void putExerciseViewList(List<ExerciseView> exercises, Intent intent) {
+        intent.putExtra(LIST_EXERCISE_VIEW, (ArrayList) exercises);
+    }
+
+    public static void putExerciseViewList(List<ExerciseView> exercises, Bundle bundle) {
+        bundle.putSerializable(LIST_EXERCISE_VIEW, (ArrayList) exercises);
     }
 
     public static long getWorkoutId(Intent intent) {
@@ -31,7 +42,15 @@ public class Extras {
     }
 
     public static List<Exercise> getExercises(Intent intent) {
-        return (List) intent.getSerializableExtra(LIST_EXERCISES);
+        return (List) intent.getSerializableExtra(LIST_EXERCISE);
+    }
+
+    public static List<ExerciseView> getExerciseViewList(Intent intent) {
+        return (List) intent.getSerializableExtra(LIST_EXERCISE_VIEW);
+    }
+
+    public static List<ExerciseView> getExerciseViewList(Bundle bundle) {
+        return (List) bundle.getSerializable(LIST_EXERCISE_VIEW);
     }
 
     public static long getExerciseId(Intent intent) {

@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.model.Workout;
+import br.com.sailboat.zerotohero.model.sqlite.Workout;
 
 public class WorkoutViewHolder extends RecyclerView.ViewHolder {
 

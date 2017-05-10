@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import br.com.sailboat.zerotohero.model.Workout;
+import br.com.sailboat.zerotohero.model.sqlite.Workout;
 import br.com.sailboat.zerotohero.view.adapter.view_holder.WorkoutViewHolder;
 
 public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutViewHolder> {

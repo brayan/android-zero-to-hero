@@ -7,7 +7,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.model.Exercise;
+import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
 public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
 
@@ -28,20 +28,20 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
         checkCallbackAndBindListeners(itemView);
     }
 
-    public void onBindViewHolder(Exercise exercise, LongSparseArray<Exercise> selectedExercises) {
+    public void onBindViewHolder(ExerciseView exercise, LongSparseArray<ExerciseView> selectedExercises) {
         bindTextViews(exercise);
         bindCheckboxSelected(exercise, selectedExercises);
     }
 
-    private void bindTextViews(Exercise exercise) {
+    private void bindTextViews(ExerciseView exercise) {
         tvName.setText(exercise.getName());
         tvWeight.setText(String.valueOf(exercise.getWeight()) + " KG ");
         tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");
-        tvReps.setText(String.valueOf(exercise.getRepetition()) + " reps");
+        tvReps.setText(String.valueOf(exercise.getRep()) + " reps");
     }
 
-    private void bindCheckboxSelected(Exercise exercise, LongSparseArray<Exercise> selectedExercises) {
-        Exercise selectedExercise = selectedExercises.get(exercise.getId());
+    private void bindCheckboxSelected(ExerciseView exercise, LongSparseArray<ExerciseView> selectedExercises) {
+        ExerciseView selectedExercise = selectedExercises.get(exercise.getExerciseId());
         boolean isSelected = (selectedExercise != null);
         cbSelected.setChecked(isSelected);
     }

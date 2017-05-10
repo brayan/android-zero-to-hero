@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.model.Exercise;
+import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
 public class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
@@ -20,20 +20,20 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
 
     public ExerciseViewHolder(View itemView, ExerciseViewHolder.Callback callback) {
         super(itemView);
-        setCallback(callback);
+        this.callback = callback;
         initViews(itemView);
         checkCallbackAndBindListeners(itemView);
     }
 
-    public void onBindViewHolder(Exercise exercise) {
+    public void onBindViewHolder(ExerciseView exercise) {
         bindTextViews(exercise);
     }
 
-    private void bindTextViews(Exercise exercise) {
+    private void bindTextViews(ExerciseView exercise) {
         tvName.setText(exercise.getName());
         tvWeight.setText(String.valueOf(exercise.getWeight()) + " KG ");
         tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");
-        tvReps.setText(String.valueOf(exercise.getRepetition()) + " reps");
+        tvReps.setText(String.valueOf(exercise.getRep()) + " reps");
     }
 
     private void initViews(View view) {
@@ -44,7 +44,7 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
     }
 
     private void checkCallbackAndBindListeners(View itemView) {
-        if (getCallback() != null) {
+        if (callback != null) {
             bindListeners(itemView);
         }
     }
@@ -53,19 +53,10 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getCallback().onClickExercise(getAdapterPosition());
+                callback.onClickExercise(getAdapterPosition());
             }
         });
     }
-
-    public Callback getCallback() {
-        return callback;
-    }
-
-    public void setCallback(Callback callback) {
-        this.callback = callback;
-    }
-
 
 
     public interface Callback {

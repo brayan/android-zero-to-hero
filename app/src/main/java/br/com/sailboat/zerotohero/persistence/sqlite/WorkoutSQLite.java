@@ -2,27 +2,35 @@ package br.com.sailboat.zerotohero.persistence.sqlite;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import br.com.sailboat.canoe.base.BaseSQLite;
 import br.com.sailboat.canoe.exception.EntityNotFoundException;
-import br.com.sailboat.zerotohero.base.BaseSQLite;
-import br.com.sailboat.zerotohero.model.Workout;
+import br.com.sailboat.zerotohero.model.sqlite.Workout;
+import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
 
 public class WorkoutSQLite extends BaseSQLite {
 
-    public WorkoutSQLite(Context context) {
-        super(context);
+    public WorkoutSQLite(SQLiteOpenHelper database) {
+        super(database);
+    }
+
+    public static WorkoutSQLite newInstance(Context ctx) {
+        return new WorkoutSQLite(DatabaseOpenHelper.getInstance(ctx));
     }
 
     @Override
-    public String getQueryCreateTable() {
+    public String getCreateTableStatement() {
         StringBuilder sb = new StringBuilder();
         sb.append(" CREATE TABLE Workout ( ");
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ");
-        sb.append(" name TEXT NOT NULL ");
+        sb.append(" name TEXT NOT NULL, ");
+        sb.append(" lastModified TEXT ");
         sb.append(" ); ");
 
         return sb.toString();
@@ -54,13 +62,13 @@ public class WorkoutSQLite extends BaseSQLite {
     public long save(Workout workout) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" INSERT INTO Workout ");
-        sb.append(" (name) ");
-        sb.append(" VALUES (?); ");
+        sb.append(" (name, lastModified) ");
+        sb.append(" VALUES (?, ?); ");
 
         SQLiteStatement statement = compileStatement(sb.toString());
         statement.bindString(1, workout.getName());
 
-        long id = executeInsert(statement);
+        long id = insert(statement);
         workout.setId(id);
 
         return id;
@@ -69,14 +77,16 @@ public class WorkoutSQLite extends BaseSQLite {
     public void update(Workout workout) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE Workout SET ");
-        sb.append(" name = ? ");
+        sb.append(" name = ?, ");
+        sb.append(" lastModified = ? ");
         sb.append(" WHERE id = ? ");
 
         SQLiteStatement statement = compileStatement(sb.toString());
         statement.bindString(1, workout.getName());
-        statement.bindLong(2, workout.getId());
+        statement.bindString(2, parseCalendarToString(Calendar.getInstance()));
+        statement.bindLong(3, workout.getId());
 
-        executeUpdateOrDelete(statement);
+        update(statement);
     }
 
     public void delete(long workoutId) throws Exception {
@@ -84,7 +94,7 @@ public class WorkoutSQLite extends BaseSQLite {
         SQLiteStatement statement = compileStatement(query);
         statement.bindLong(1, workoutId);
 
-        executeUpdateOrDelete(statement);
+        delete(statement);
     }
 
     private List<Workout> getWorkoutList(StringBuilder query) {
@@ -105,6 +115,7 @@ public class WorkoutSQLite extends BaseSQLite {
         Workout workout = new Workout();
         workout.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
         workout.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+        workout.setLastModified(cursor.getString(cursor.getColumnIndexOrThrow("lastModified")));
 
         return workout;
     }

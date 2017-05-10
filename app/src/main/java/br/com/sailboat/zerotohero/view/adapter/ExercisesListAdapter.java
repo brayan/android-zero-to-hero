@@ -8,45 +8,43 @@ import android.view.ViewGroup;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.sailboat.zerotohero.model.Exercise;
+import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.view.adapter.view_holder.ExerciseViewHolder;
 
 public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolder> implements ItemTouchHelperAdapter {
 
-    private List<Exercise> exerciseList;
     private ExercisesListAdapter.Callback callback;
 
-    public ExercisesListAdapter(List<Exercise> items, ExercisesListAdapter.Callback callback) {
-        setExerciseList(items);
-        setCallback(callback);
+    public ExercisesListAdapter(ExercisesListAdapter.Callback callback) {
+        this.callback = callback;
     }
 
     @Override
     public ExerciseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflateLayout(parent, ExerciseViewHolder.LAYOUT_ID);
-        return new ExerciseViewHolder(view, getCallback());
+        return new ExerciseViewHolder(view, callback);
     }
 
     @Override
     public void onBindViewHolder(ExerciseViewHolder holder, int position) {
-        Exercise exercise = getExerciseList().get(position);
+        ExerciseView exercise = callback.getExercises().get(position);
         holder.onBindViewHolder(exercise);
     }
 
     @Override
     public int getItemCount() {
-        return getExerciseList().size();
+        return callback.getExercises().size();
     }
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition) {
         if (fromPosition < toPosition) {
             for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(getExerciseList(), i, i + 1);
+                Collections.swap(callback.getExercises(), i, i + 1);
             }
         } else {
             for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(getExerciseList(), i, i - 1);
+                Collections.swap(callback.getExercises(), i, i - 1);
             }
         }
         notifyItemMoved(fromPosition, toPosition);
@@ -55,7 +53,7 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
 
     @Override
     public void onItemDismiss(int position) {
-        getExerciseList().remove(position);
+        callback.getExercises().remove(position);
         notifyItemRemoved(position);
     }
 
@@ -63,26 +61,9 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
         return LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
     }
 
-    public List<Exercise> getExerciseList() {
-        return exerciseList;
-    }
-
-    public void setExerciseList(List<Exercise> exerciseList) {
-        this.exerciseList = exerciseList;
-    }
-
-    public Callback getCallback() {
-        return callback;
-    }
-
-    public void setCallback(Callback callback) {
-        this.callback = callback;
-    }
-
-
 
     public interface Callback extends ExerciseViewHolder.Callback {
-
+        List<ExerciseView> getExercises();
     }
 
 

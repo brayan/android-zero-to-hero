@@ -8,7 +8,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".view.ui.launch.LaunchActivity">
+        <activity android:name=".view.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,19 +16,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".view.ui.main.MainActivity" />
+        <activity android:name=".view.main.MainActivity" />
 
-        <activity android:name=".view.ui.workout.insert.InsertWorkoutActivity" />
+        <activity android:name=".view.workout.insert.InsertWorkoutActivity" />
 
-        <activity android:name=".view.ui.workout.list.WorkoutListActivity" />
+        <activity android:name=".view.workout.list.WorkoutListActivity" />
 
-        <activity android:name=".view.ui.workout.details.WorkoutDetailsActivity" />
+        <activity android:name=".view.workout.details.WorkoutDetailsActivity" />
 
-        <activity android:name=".view.ui.exercise.selector.ExerciseChooserActivity" />
+        <activity android:name=".view.exercise.selector.ExerciseChooserActivity" />
 
-        <activity android:name=".view.ui.exercise.insert.InsertExerciseActivity" />
+        <activity android:name=".view.exercise.insert.InsertExerciseActivity" />
 
-        <activity android:name=".view.ui.exercise.details.ExerciseDetailsActivity" />
+        <activity android:name=".view.exercise.details.ExerciseDetailsActivity" />
 
     </application>
 

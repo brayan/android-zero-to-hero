@@ -2,30 +2,35 @@ package br.com.sailboat.zerotohero.persistence.sqlite;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import br.com.sailboat.canoe.base.BaseSQLite;
 import br.com.sailboat.canoe.exception.EntityNotFoundException;
-import br.com.sailboat.zerotohero.base.BaseSQLite;
-import br.com.sailboat.zerotohero.model.Exercise;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
+import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
 
 public class ExerciseSQLite extends BaseSQLite {
 
-    public ExerciseSQLite(Context context) {
-        super(context);
+    public ExerciseSQLite(SQLiteOpenHelper database) {
+        super(database);
+    }
+
+    public static ExerciseSQLite newInstance(Context ctx) {
+        return new ExerciseSQLite(DatabaseOpenHelper.getInstance(ctx));
     }
 
     @Override
-    public String getQueryCreateTable() {
+    public String getCreateTableStatement() {
         StringBuilder sb = new StringBuilder();
         sb.append(" CREATE TABLE Exercise ( ");
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ");
         sb.append(" name TEXT, ");
-        sb.append(" weight REAL, ");
-        sb.append(" exerciseSet INTEGER, ");
-        sb.append(" repetition INTEGER ");
+        sb.append(" lastModified TEXT ");
         sb.append(" ); ");
 
         return  sb.toString();
@@ -67,15 +72,12 @@ public class ExerciseSQLite extends BaseSQLite {
     }
 
     public long save(Exercise exercise) throws Exception {
-        StringBuilder sb = new StringBuilder();
-        sb.append(" INSERT INTO Exercise ");
-        sb.append(" (name, weight, exerciseSet, repetition) ");
-        sb.append(" VALUES (?, ?, ?, ?); ");
+        String stmt = "INSERT INTO Exercise (name, lastModified) VALUES (?, ?);";
 
-        SQLiteStatement statement = compileStatement(sb.toString());
+        SQLiteStatement statement = compileStatement(stmt);
         bindExerciseToInsertStatement(exercise, statement);
 
-        long id = executeInsert(statement);
+        long id = insert(statement);
 
         return id;
     }
@@ -84,23 +86,21 @@ public class ExerciseSQLite extends BaseSQLite {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE Exercise SET ");
         sb.append(" name = ?, ");
-        sb.append(" weight = ?, ");
-        sb.append(" exerciseSet = ?, ");
-        sb.append(" repetition = ? ");
-        sb.append(" WHERE id = ? ");
+        sb.append(" lastModified = ? ");
+        sb.append(" WHERE id = ?; ");
 
         SQLiteStatement statement = compileStatement(sb.toString());
         bindExerciseToUpdateStatement(exercise, statement);
 
-        executeUpdateOrDelete(statement);
+        update(statement);
     }
 
     public void delete(long exerciseId) throws Exception {
-        String query = "DELETE FROM Exercise WHERE Exercise.id = ?";
-        SQLiteStatement statement = compileStatement(query);
+        String stmt = "DELETE FROM Exercise WHERE Exercise.id = ?;";
+        SQLiteStatement statement = compileStatement(stmt);
         statement.bindLong(1, exerciseId);
 
-        executeUpdateOrDelete(statement);
+        delete(statement);
     }
 
     private List<Exercise> getExerciseList(String query) {
@@ -121,23 +121,21 @@ public class ExerciseSQLite extends BaseSQLite {
         Exercise exercise = new Exercise();
         exercise.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
         exercise.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
-        exercise.setRepetition(cursor.getInt(cursor.getColumnIndexOrThrow("repetition")));
-        exercise.setSet(cursor.getInt(cursor.getColumnIndexOrThrow("exerciseSet")));
-        exercise.setWeight(cursor.getDouble(cursor.getColumnIndexOrThrow("weight")));
+        exercise.setLastModified(cursor.getString(cursor.getColumnIndexOrThrow("lastModified")));
 
         return exercise;
     }
 
     private void bindExerciseToInsertStatement(Exercise exercise, SQLiteStatement statement) {
         statement.bindString(1, exercise.getName());
-        statement.bindDouble(2, exercise.getWeight());
-        statement.bindLong(3, exercise.getSet());
-        statement.bindLong(4, exercise.getRepetition());
+        statement.bindString(2, parseCalendarToString(Calendar.getInstance()));
     }
 
     private void bindExerciseToUpdateStatement(Exercise exercise, SQLiteStatement statement) {
         bindExerciseToInsertStatement(exercise, statement);
-        statement.bindLong(5, exercise.getId());
+        statement.bindString(1, exercise.getName());
+        statement.bindString(2, parseCalendarToString(Calendar.getInstance()));
+        statement.bindLong(3, exercise.getId());
     }
 
 }
