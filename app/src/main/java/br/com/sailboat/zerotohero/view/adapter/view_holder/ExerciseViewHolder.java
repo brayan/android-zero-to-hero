@@ -1,15 +1,14 @@
 package br.com.sailboat.zerotohero.view.adapter.view_holder;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import br.com.sailboat.canoe.base.BaseViewHolder;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
-public class ExerciseViewHolder extends RecyclerView.ViewHolder {
-
-    public static final int LAYOUT_ID = R.layout.vh_exercise;
+public class ExerciseViewHolder extends BaseViewHolder {
 
     private TextView tvName;
     private TextView tvWeight;
@@ -17,6 +16,13 @@ public class ExerciseViewHolder extends RecyclerView.ViewHolder {
     private TextView tvReps;
 
     private ExerciseViewHolder.Callback callback;
+
+
+    public static ExerciseViewHolder newInstance(ViewGroup parent, ExerciseViewHolder.Callback callback) {
+        View view = inflateLayout(parent, R.layout.vh_exercise);
+        return new ExerciseViewHolder(view, callback);
+    }
+
 
     public ExerciseViewHolder(View itemView, ExerciseViewHolder.Callback callback) {
         super(itemView);

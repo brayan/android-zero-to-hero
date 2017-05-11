@@ -21,8 +21,7 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
 
     @Override
     public ExerciseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflateLayout(parent, ExerciseViewHolder.LAYOUT_ID);
-        return new ExerciseViewHolder(view, callback);
+        return ExerciseViewHolder.newInstance(parent, callback);
     }
 
     @Override

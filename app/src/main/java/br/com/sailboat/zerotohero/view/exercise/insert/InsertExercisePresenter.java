@@ -33,7 +33,13 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
     protected void onResumeFirstSession() {
         if (hasExerciseToEdit()) {
             startEditingExercise();
+        } else {
+            showKeyboard();
         }
+    }
+
+    private void showKeyboard() {
+        getView().showKeyboard();
     }
 
     @Override
@@ -92,6 +98,7 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
                 Exercise exercise = new Exercise();
                 exercise.setId(getViewModel().getExerciseId());
                 exercise.setName(getViewModel().getName());
+                exercise.setNotes(getViewModel().getNotes());
 
                 return exercise;
             }
@@ -119,6 +126,7 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
         getViewModel().setWeight(getDoubleFromString(getView().getWeight()));
         getViewModel().setSet(getIntFromString(getView().getSets()));
         getViewModel().setRepetition(getIntFromString(getView().getReps()));
+        getViewModel().setNotes(getView().getNotes());
     }
 
     private void startEditingExercise() {
@@ -149,6 +157,7 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
     private void loadExerciseInfo(long exerciseId) throws EntityNotFoundException {
         Exercise exercise = new ExerciseSQLite(DatabaseOpenHelper.getInstance(getContext())).getExerciseById(exerciseId);
         getViewModel().setName(exercise.getName());
+        getViewModel().setNotes(exercise.getNotes());
 
         ExerciseHistory history = getLastHistory(exerciseId);
 
@@ -161,9 +170,10 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
 
     private void bindExerciseToView() {
         getView().setName(getViewModel().getName());
-        getView().setWeight(String.valueOf(getViewModel().getWeight()));
+        getView().setWeight(formatValue(getViewModel().getWeight(), 1));
         getView().setSet(String.valueOf(getViewModel().getSet()));
         getView().setRepetition(String.valueOf(getViewModel().getRepetition()));
+        getView().setNotes(String.valueOf(getViewModel().getNotes()));
         closeKeyboard();
     }
 
@@ -223,9 +233,12 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
         String getWeight();
         String getSets();
         String getReps();
+        String getNotes();
         void setWeight(String weight);
         void setSet(String set);
         void setRepetition(String repetition);
+        void setNotes(String notes);
+        void showKeyboard();
     }
 
 }

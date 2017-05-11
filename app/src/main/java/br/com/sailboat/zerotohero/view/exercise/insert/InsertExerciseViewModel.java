@@ -8,6 +8,7 @@ public class InsertExerciseViewModel  {
     private double weight;
     private int set;
     private int repetition;
+    private String notes;
 
     public long getExerciseId() {
         return exerciseId;
@@ -49,4 +50,11 @@ public class InsertExerciseViewModel  {
         this.repetition = repetition;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 }

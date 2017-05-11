@@ -2,15 +2,20 @@ package br.com.sailboat.zerotohero.view.exercise.details;
 
 import android.content.Intent;
 
+import java.util.List;
+
 import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.sqlite.Exercise;
+import br.com.sailboat.zerotohero.model.sqlite.ExerciseHistory;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseHistorySQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
+import br.com.sailboat.zerotohero.view.adapter.ExerciseDetailsAdapter;
 
-public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPresenter.View> {
+public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPresenter.View> implements ExerciseDetailsAdapter.Callback {
 
     private ExerciseDetailsViewModel viewModel = new ExerciseDetailsViewModel();
 
@@ -65,13 +70,15 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
         });
     }
 
+    @Override
+    public List<ExerciseHistory> getExerciseHistoryList() {
+        return viewModel.getExerciseHistoryList();
+    }
+
     private void updateContentViews() {
         Exercise exercise = getViewModel().getExercise();
         getView().setTitle(exercise.getName());
-        // TODO: REMOVE AND BIND TO RECYCLERVIEW ADAPTER
-//        getView().setWeight(String.valueOf(exercise.getWeight()));
-//        getView().setSet(String.valueOf(exercise.getSet()));
-//        getView().setRepetition(String.valueOf(exercise.getRepetition()));
+        getView().updateList();
     }
 
     private ExerciseDetailsViewModel getViewModel() {
@@ -82,16 +89,20 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
             Exercise exercise;
+            List<ExerciseHistory> exerciseHistoryList;
 
             @Override
             public void doInBackground() throws Exception {
                 long exerciseId = getViewModel().getExerciseId();
-                exercise = new ExerciseSQLite(DatabaseOpenHelper.getInstance(getContext())).getExerciseById(exerciseId);
+                exercise = ExerciseSQLite.newInstance(getContext()).getExerciseById(exerciseId);
+                exerciseHistoryList = ExerciseHistorySQLite.newInstance(getContext()).getMostRecentByExercise(exerciseId);
             }
 
             @Override
             public void onSuccess() {
                 getViewModel().setExercise(exercise);
+                getViewModel().getExerciseHistoryList().clear();
+                getViewModel().getExerciseHistoryList().addAll(exerciseHistoryList);
                 updateContentViews();
             }
 
@@ -111,11 +122,9 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
 
     public interface View extends BasePresenter.View {
         void startEditExerciseActivity(long exerciseId);
-        void setRepetition(String name);
-        void setWeight(String weight);
-        void setSet(String set);
         void showDialogDeleteExercise();
         void setTitle(String title);
+        void updateList();
     }
 
 }

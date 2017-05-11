@@ -4,8 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
+import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import br.com.sailboat.canoe.base.BaseSQLite;
 import br.com.sailboat.canoe.exception.EntityNotFoundException;
@@ -55,6 +58,15 @@ public class ExerciseHistorySQLite extends BaseSQLite {
         throw new EntityNotFoundException();
     }
 
+    public List<ExerciseHistory> getMostRecentByExercise(long exerciseId) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" SELECT ExerciseHistory.* FROM ExerciseHistory ");
+        sb.append(" WHERE ExerciseHistory.exerciseId = " + exerciseId);
+        sb.append(" ORDER BY ExerciseHistory.lastModified DESC");
+
+        return getList(sb.toString());
+    }
+
     public void save(ExerciseHistory history) {
         StringBuilder sb = new StringBuilder();
         sb.append(" INSERT INTO ExerciseHistory ");
@@ -71,6 +83,21 @@ public class ExerciseHistorySQLite extends BaseSQLite {
         insert(statement);
     }
 
+    @NonNull
+    private List<ExerciseHistory> getList(String query) throws Exception {
+        Cursor cursor = performQuery(query.toString());
+        List<ExerciseHistory> tasks = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            ExerciseHistory task = buildFromCursor(cursor);
+            tasks.add(task);
+        }
+
+        cursor.close();
+
+        return tasks;
+    }
+
     private ExerciseHistory buildFromCursor(Cursor cursor) {
         ExerciseHistory history = new ExerciseHistory();
         history.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
@@ -82,6 +109,5 @@ public class ExerciseHistorySQLite extends BaseSQLite {
 
         return history;
     }
-
 
 }

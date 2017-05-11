@@ -19,4 +19,8 @@
     <string name="new_exercise">New Exercise</string>
     <string name="delete_workout">Delete workout?</string>
     <string name="delete_exercise">Delete exercise?</string>
+    <string name="name">Name</string>
+    <string name="weight">Weight</string>
+    <string name="sets">Sets</string>
+    <string name="reps">Reps</string>
 </resources>

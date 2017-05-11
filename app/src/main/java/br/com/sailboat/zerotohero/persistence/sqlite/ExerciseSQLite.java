@@ -30,6 +30,7 @@ public class ExerciseSQLite extends BaseSQLite {
         sb.append(" CREATE TABLE Exercise ( ");
         sb.append(" id INTEGER PRIMARY KEY AUTOINCREMENT, ");
         sb.append(" name TEXT, ");
+        sb.append(" notes TEXT, ");
         sb.append(" lastModified TEXT ");
         sb.append(" ); ");
 
@@ -72,7 +73,7 @@ public class ExerciseSQLite extends BaseSQLite {
     }
 
     public long save(Exercise exercise) throws Exception {
-        String stmt = "INSERT INTO Exercise (name, lastModified) VALUES (?, ?);";
+        String stmt = "INSERT INTO Exercise (name, notes, lastModified) VALUES (?, ?, ?);";
 
         SQLiteStatement statement = compileStatement(stmt);
         bindExerciseToInsertStatement(exercise, statement);
@@ -86,6 +87,7 @@ public class ExerciseSQLite extends BaseSQLite {
         StringBuilder sb = new StringBuilder();
         sb.append(" UPDATE Exercise SET ");
         sb.append(" name = ?, ");
+        sb.append(" notes = ?, ");
         sb.append(" lastModified = ? ");
         sb.append(" WHERE id = ?; ");
 
@@ -121,6 +123,7 @@ public class ExerciseSQLite extends BaseSQLite {
         Exercise exercise = new Exercise();
         exercise.setId(cursor.getLong(cursor.getColumnIndexOrThrow("id")));
         exercise.setName(cursor.getString(cursor.getColumnIndexOrThrow("name")));
+        exercise.setNotes(cursor.getString(cursor.getColumnIndexOrThrow("notes")));
         exercise.setLastModified(cursor.getString(cursor.getColumnIndexOrThrow("lastModified")));
 
         return exercise;
@@ -128,14 +131,16 @@ public class ExerciseSQLite extends BaseSQLite {
 
     private void bindExerciseToInsertStatement(Exercise exercise, SQLiteStatement statement) {
         statement.bindString(1, exercise.getName());
-        statement.bindString(2, parseCalendarToString(Calendar.getInstance()));
+        statement.bindString(2, exercise.getNotes());
+        statement.bindString(3, parseCalendarToString(Calendar.getInstance()));
     }
 
     private void bindExerciseToUpdateStatement(Exercise exercise, SQLiteStatement statement) {
         bindExerciseToInsertStatement(exercise, statement);
         statement.bindString(1, exercise.getName());
-        statement.bindString(2, parseCalendarToString(Calendar.getInstance()));
-        statement.bindLong(3, exercise.getId());
+        statement.bindString(2, exercise.getNotes());
+        statement.bindString(3, parseCalendarToString(Calendar.getInstance()));
+        statement.bindLong(4, exercise.getId());
     }
 
 }

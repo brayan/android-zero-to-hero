@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import br.com.sailboat.canoe.base.BaseFragment;
+import br.com.sailboat.canoe.helper.UIHelper;
 import br.com.sailboat.zerotohero.R;
 
 public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter> implements InsertExercisePresenter.View {
@@ -18,6 +19,7 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     private EditText etWeight;
     private EditText etSets;
     private EditText etReps;
+    private EditText etNotes;
 
     @Override
     protected int getLayoutId() {
@@ -74,6 +76,11 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     }
 
     @Override
+    public String getNotes() {
+        return etNotes.getText().toString();
+    }
+
+    @Override
     public void setWeight(String weight) {
         etWeight.setText(weight);
     }
@@ -86,6 +93,16 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     @Override
     public void setRepetition(String repetition) {
         etReps.setText(repetition);
+    }
+
+    @Override
+    public void setNotes(String notes) {
+        etNotes.setText(notes);
+    }
+
+    @Override
+    public void showKeyboard() {
+        UIHelper.openKeyboard(getActivity(), etName);
     }
 
     @Override
@@ -105,6 +122,7 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
         etWeight = (EditText) view.findViewById(R.id.frg_insert_exercise__et__weight);
         etReps = (EditText) view.findViewById(R.id.frg_insert_exercise__et__reps);
         etSets = (EditText) view.findViewById(R.id.frg_insert_exercise__et__sets);
+        etNotes = (EditText) view.findViewById(R.id.frg_insert_exercise__et__notes);
     }
 
     private void initToolbar() {

@@ -6,6 +6,7 @@ public class Exercise implements Serializable {
 
     private long id;
     private String name;
+    private String notes;
     private String lastModified;
 
     public long getId() {
@@ -22,6 +23,14 @@ public class Exercise implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public String getLastModified() {

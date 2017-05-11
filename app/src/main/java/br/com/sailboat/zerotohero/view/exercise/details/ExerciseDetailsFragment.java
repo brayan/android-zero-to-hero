@@ -3,24 +3,24 @@ package br.com.sailboat.zerotohero.view.exercise.details;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.TwoOptionsDialog;
 import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.zerotohero.view.adapter.ExerciseDetailsAdapter;
 import br.com.sailboat.zerotohero.view.exercise.insert.InsertExerciseActivity;
 
 public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresenter> implements ExerciseDetailsPresenter.View {
 
     private Toolbar toolbar;
-    private TextView tvWeight;
-    private TextView tvSets;
-    private TextView tvReps;
+    private RecyclerView recycler;
     private FloatingActionButton fab;
 
     @Override
@@ -58,9 +58,9 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
 
     @Override
     protected void initViews(View view) {
-        inflateViews(view);
-        initToolbar();
-        initFab();
+        initRecyclerView(view);
+        initToolbar(view);
+        initFab(view);
     }
 
     @Override
@@ -74,18 +74,8 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     }
 
     @Override
-    public void setRepetition(String reps) {
-        tvReps.setText(reps);
-    }
-
-    @Override
-    public void setWeight(String weight) {
-        tvWeight.setText(weight);
-    }
-
-    @Override
-    public void setSet(String set) {
-        tvSets.setText(set);
+    public void updateList() {
+        recycler.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -102,15 +92,8 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
         dialog.show(getFragmentManager(), "DELETE_DIALOG");
     }
 
-    private void inflateViews(View view) {
+    private void initToolbar(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        tvWeight = (TextView) view.findViewById(R.id.frg_exercise_details__tv__weight);
-        tvSets = (TextView) view.findViewById(R.id.frg_exercise_details__tv__sets);
-        tvReps = (TextView) view.findViewById(R.id.frg_exercise_details__tv__reps);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
-    }
-
-    private void initToolbar() {
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -123,7 +106,14 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
         });
     }
 
-    private void initFab() {
+    private void initRecyclerView(View view) {
+        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler.setAdapter(new ExerciseDetailsAdapter(getPresenter()));
+    }
+
+    private void initFab(View view) {
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_edit_white_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

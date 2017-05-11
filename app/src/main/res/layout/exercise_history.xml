@@ -3,7 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:layout_marginTop="1dp"
+    android:minHeight="64dp"
     android:orientation="vertical">
 
     <TextView
@@ -12,11 +15,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:gravity="end"
+        android:layout_marginTop="4dp"
         android:paddingRight="16dp"
         android:textSize="12sp"
         tools:text="25/04/2017"/>
 
     <LinearLayout
+        android:paddingBottom="18dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -53,7 +58,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/exercise_history__tv__reps"
+                android:id="@+id/exercise_history__tv__sets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -62,7 +67,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="REPS"/>
+                tools:text="SETS"/>
 
         </LinearLayout>
 
@@ -74,7 +79,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/exercise_history__tv__sets"
+                android:id="@+id/exercise_history__tv__reps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -83,7 +88,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="SETS"/>
+                tools:text="REPS"/>
 
         </LinearLayout>
 
