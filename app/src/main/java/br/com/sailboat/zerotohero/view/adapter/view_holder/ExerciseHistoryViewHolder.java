@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.text.ParseException;
+import java.util.Calendar;
 
 import br.com.sailboat.canoe.base.BaseViewHolder;
 import br.com.sailboat.canoe.helper.DateHelper;
@@ -22,7 +23,7 @@ public class ExerciseHistoryViewHolder extends BaseViewHolder {
 
 
     public static ExerciseHistoryViewHolder newInstance(ViewGroup parent) {
-        View view = inflateLayout(parent, R.layout.exercise_history);
+        View view = inflateLayout(parent, R.layout.vh_exercise_history);
         return new ExerciseHistoryViewHolder(view);
     }
 
@@ -41,8 +42,17 @@ public class ExerciseHistoryViewHolder extends BaseViewHolder {
 
     private void setDateTime(ExerciseHistory item) {
         try {
-            String date = DateHelper.parseStringWithDatabaseFormatToSimpleDate(itemView.getContext(), item.getLastModified());
-            tvDateTime.setText(date);
+
+            Calendar calendar = DateHelper.parseStringWithDatabaseFormatToCalendar(item.getLastModified());
+
+            if (DateHelper.isCurrentYear(calendar)) {
+                tvDateTime.setText(DateHelper.getMonthAndDayShort(itemView.getContext(), calendar));
+
+            } else {
+                tvDateTime.setText(DateHelper.getShortDate(itemView.getContext(), calendar));
+            }
+
+
         } catch (ParseException e) {
             LogHelper.logException(e);
             tvDateTime.setText("");

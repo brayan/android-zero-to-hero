@@ -3,14 +3,12 @@ package br.com.sailboat.zerotohero.view.exercise.details;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.sailboat.zerotohero.model.sqlite.Exercise;
-import br.com.sailboat.zerotohero.model.sqlite.ExerciseHistory;
+import br.com.sailboat.canoe.recycler.RecyclerItem;
 
 public class ExerciseDetailsViewModel {
 
     private long exerciseId = -1;
-    private Exercise exercise;
-    private final List<ExerciseHistory> exerciseHistoryList = new ArrayList<>();
+    private final List<RecyclerItem> exerciseDetails = new ArrayList<>();
 
     public long getExerciseId() {
         return exerciseId;
@@ -20,15 +18,7 @@ public class ExerciseDetailsViewModel {
         this.exerciseId = exerciseId;
     }
 
-    public Exercise getExercise() {
-        return exercise;
-    }
-
-    public void setExercise(Exercise exercise) {
-        this.exercise = exercise;
-    }
-
-    public List<ExerciseHistory> getExerciseHistoryList() {
-        return exerciseHistoryList;
+    public List<RecyclerItem> getExerciseDetails() {
+        return exerciseDetails;
     }
 }

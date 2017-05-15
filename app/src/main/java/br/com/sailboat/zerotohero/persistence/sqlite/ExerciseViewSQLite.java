@@ -26,23 +26,55 @@ public class ExerciseViewSQLite extends BaseSQLite {
         return "";
     }
 
-    // TODO: TESTAR MUITO BEM!
     public List<ExerciseView> getAll() throws Exception {
         StringBuilder sb = new StringBuilder();
-        sb.append(" SELECT Exercise.id AS id, Exercise.name AS name, ");
-        sb.append(" ExerciseHistory.weight AS weight, ExerciseHistory.sets AS sets, ");
-        sb.append(" ExerciseHistory.reps AS reps FROM Exercise ");
-        sb.append(" INNER JOIN ( SELECT * FROM ExerciseHistory ");
-        sb.append(" ORDER BY ExerciseHistory.lastModified ASC ) ExerciseHistory ");
-        sb.append(" ON ExerciseHistory.exerciseId = Exercise.id ");
-        sb.append(" GROUP BY ExerciseHistory.exerciseId ");
+        createSelect(sb);
+        createInnerJoinExerciseHistory(sb);
+        createGroupByExerciseId(sb);
+        createOrderByName(sb);
 
         return getExerciseList(sb.toString());
     }
 
-    // TODO IMPLEMENTAR
     public List<ExerciseView> getFromWorkout(long workoutId) {
-        return new ArrayList<>();
+        StringBuilder sb = new StringBuilder();
+        createSelect(sb);
+        createInnerJoinExerciseHistory(sb);
+        createInnerJoinWorkoutExercise(workoutId, sb);
+        createGroupByExerciseId(sb);
+        createOrderByPosition(sb);
+
+        return getExerciseList(sb.toString());
+    }
+
+    private void createOrderByName(StringBuilder sb) {
+        sb.append(" ORDER BY Exercise.name COLLATE NOCASE ");
+    }
+
+    private void createGroupByExerciseId(StringBuilder sb) {
+        sb.append(" GROUP BY ExerciseHistory.exerciseId ");
+    }
+
+    private void createOrderByPosition(StringBuilder sb) {
+        sb.append(" ORDER BY WorkoutExercise.position");
+    }
+
+    private void createInnerJoinWorkoutExercise(long workoutId, StringBuilder sb) {
+        sb.append(" INNER JOIN WorkoutExercise ");
+        sb.append(" ON Exercise.id = WorkoutExercise.exerciseId ");
+        sb.append(" WHERE WorkoutExercise.workoutId = " + workoutId);
+    }
+
+    private void createInnerJoinExerciseHistory(StringBuilder sb) {
+        sb.append(" INNER JOIN ( SELECT * FROM ExerciseHistory ");
+        sb.append(" ORDER BY ExerciseHistory.lastModified ASC ) ExerciseHistory ");
+        sb.append(" ON ExerciseHistory.exerciseId = Exercise.id ");
+    }
+
+    private void createSelect(StringBuilder sb) {
+        sb.append(" SELECT Exercise.id AS id, Exercise.name AS name, ");
+        sb.append(" ExerciseHistory.weight AS weight, ExerciseHistory.sets AS sets, ");
+        sb.append(" ExerciseHistory.reps AS reps FROM Exercise ");
     }
 
     private List<ExerciseView> getExerciseList(String query) {

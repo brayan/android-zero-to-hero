@@ -3,10 +3,8 @@ package br.com.sailboat.zerotohero.view.workout.list;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +18,6 @@ import br.com.sailboat.zerotohero.view.workout.insert.InsertWorkoutActivity;
 
 public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> implements WorkoutListPresenter.View, WorkoutListAdapter.Callback {
 
-    private Toolbar toolbar;
     private RecyclerView recyclerView;
     private View emptyList;
 
@@ -41,7 +38,6 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
 
     @Override
     protected void initViews(View view) {
-        initToolbar(view);
         initRecyclerView(view);
         initEmptyView(view);
     }
@@ -96,14 +92,6 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
         tvMessage.setText("Create a new workout plan by tapping the + button");
 
         emptyList.setVisibility(View.GONE);
-    }
-
-    private void initToolbar(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.app_name);
-
-        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
-        appCompatActivity.setSupportActionBar(toolbar);
     }
 
     private void updateVisibilityOfViews() {

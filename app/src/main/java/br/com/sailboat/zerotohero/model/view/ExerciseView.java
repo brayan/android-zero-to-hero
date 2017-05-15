@@ -1,6 +1,8 @@
 package br.com.sailboat.zerotohero.model.view;
 
-public class ExerciseView {
+import java.io.Serializable;
+
+public class ExerciseView implements Serializable {
 
     private long exerciseId;
     private String name;

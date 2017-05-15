@@ -6,9 +6,10 @@ import java.util.List;
 
 import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.AsyncHelper;
+import br.com.sailboat.canoe.recycler.RecyclerItem;
+import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.Extras;
-import br.com.sailboat.zerotohero.model.sqlite.Exercise;
-import br.com.sailboat.zerotohero.model.sqlite.ExerciseHistory;
+import br.com.sailboat.zerotohero.interactor.LoadExerciseDetails;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
 import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseHistorySQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
@@ -35,8 +36,8 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
     }
 
     public void onClickEditExercise() {
-        Exercise exercise = getViewModel().getExercise();
-        getView().startEditExerciseActivity(exercise.getId());
+        long exerciseId = getViewModel().getExerciseId();
+        getView().startEditExerciseActivity(exerciseId);
     }
 
     public void postActivityResult() {
@@ -55,6 +56,7 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
                 long exerciseId = getViewModel().getExerciseId();
                 new ExerciseSQLite(DatabaseOpenHelper.getInstance(getContext())).delete(exerciseId);
                 new WorkoutExerciseSQLite(DatabaseOpenHelper.getInstance(getContext())).deleteFromExercise(exerciseId);
+                ExerciseHistorySQLite.newInstance(getContext()).deleteFromExercise(exerciseId);
             }
 
             @Override
@@ -71,13 +73,12 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
     }
 
     @Override
-    public List<ExerciseHistory> getExerciseHistoryList() {
-        return viewModel.getExerciseHistoryList();
+    public List<RecyclerItem> getExerciseDetails() {
+        return viewModel.getExerciseDetails();
     }
 
     private void updateContentViews() {
-        Exercise exercise = getViewModel().getExercise();
-        getView().setTitle(exercise.getName());
+        getView().setTitle(getContext().getString(R.string.exercise_details));
         getView().updateList();
     }
 
@@ -88,21 +89,18 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
     private void loadDetails() {
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
-            Exercise exercise;
-            List<ExerciseHistory> exerciseHistoryList;
+            List<RecyclerItem> exerciseDetails;
 
             @Override
             public void doInBackground() throws Exception {
                 long exerciseId = getViewModel().getExerciseId();
-                exercise = ExerciseSQLite.newInstance(getContext()).getExerciseById(exerciseId);
-                exerciseHistoryList = ExerciseHistorySQLite.newInstance(getContext()).getMostRecentByExercise(exerciseId);
+                exerciseDetails = LoadExerciseDetails.loadExerciseDetails(getContext(), exerciseId);
             }
 
             @Override
             public void onSuccess() {
-                getViewModel().setExercise(exercise);
-                getViewModel().getExerciseHistoryList().clear();
-                getViewModel().getExerciseHistoryList().addAll(exerciseHistoryList);
+                getViewModel().getExerciseDetails().clear();
+                getViewModel().getExerciseDetails().addAll(exerciseDetails);
                 updateContentViews();
             }
 
@@ -113,10 +111,6 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
             }
 
         });
-    }
-
-    public Exercise getExercise() {
-        return getViewModel().getExercise();
     }
 
 

@@ -57,11 +57,11 @@ public class WorkoutExerciseSQLite extends BaseSQLite {
         deleteFromID(query, workoutId);
     }
 
+
     public void deleteFromExercise(long exerciseId) throws Exception {
         String query = "DELETE FROM WorkoutExercise WHERE WorkoutExercise.exerciseId = ?";
         deleteFromID(query, exerciseId);
     }
-
     private void deleteFromID(String query, long id) {
         SQLiteStatement statement = compileStatement(query);
         statement.bindLong(1, id);

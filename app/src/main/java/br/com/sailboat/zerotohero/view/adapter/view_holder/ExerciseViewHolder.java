@@ -5,6 +5,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import br.com.sailboat.canoe.base.BaseViewHolder;
+import br.com.sailboat.canoe.helper.DecimalHelper;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
@@ -37,7 +38,7 @@ public class ExerciseViewHolder extends BaseViewHolder {
 
     private void bindTextViews(ExerciseView exercise) {
         tvName.setText(exercise.getName());
-        tvWeight.setText(String.valueOf(exercise.getWeight()) + " KG ");
+        tvWeight.setText(String.valueOf(DecimalHelper.formatValue(exercise.getWeight(), 1)) + " KG ");
         tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");
         tvReps.setText(String.valueOf(exercise.getRep()) + " reps");
     }

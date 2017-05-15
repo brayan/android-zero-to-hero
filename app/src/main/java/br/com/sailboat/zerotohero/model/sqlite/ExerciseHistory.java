@@ -1,8 +1,9 @@
 package br.com.sailboat.zerotohero.model.sqlite;
 
-import java.io.Serializable;
+import br.com.sailboat.canoe.recycler.RecyclerItem;
+import br.com.sailboat.zerotohero.helper.ViewType;
 
-public class ExerciseHistory implements Serializable {
+public class ExerciseHistory implements RecyclerItem {
 
     private long id = -1;
     private long exerciseId;
@@ -10,6 +11,11 @@ public class ExerciseHistory implements Serializable {
     private int sets;
     private int reps;
     private String lastModified;
+
+    @Override
+    public int getViewType() {
+        return ViewType.EXERCISE_HISTORY;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -81,4 +87,5 @@ public class ExerciseHistory implements Serializable {
     public void setLastModified(String lastModified) {
         this.lastModified = lastModified;
     }
+
 }

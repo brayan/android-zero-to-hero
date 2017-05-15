@@ -15,6 +15,8 @@ import br.com.sailboat.canoe.exception.EntityNotFoundException;
 import br.com.sailboat.zerotohero.model.sqlite.ExerciseHistory;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
 
+import static android.R.attr.id;
+
 public class ExerciseHistorySQLite extends BaseSQLite {
 
     public ExerciseHistorySQLite(SQLiteOpenHelper database) {
@@ -81,6 +83,14 @@ public class ExerciseHistorySQLite extends BaseSQLite {
         statement.bindString(5, parseCalendarToString(Calendar.getInstance()));
 
         insert(statement);
+    }
+
+    public void deleteFromExercise(long exerciseId) throws Exception {
+        String query = "DELETE FROM ExerciseHistory WHERE ExerciseHistory.exerciseId = ?";
+        SQLiteStatement statement = compileStatement(query);
+        statement.bindLong(1, id);
+
+        delete(statement);
     }
 
     @NonNull
