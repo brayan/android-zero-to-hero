@@ -6,10 +6,14 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import br.com.sailboat.canoe.helper.AnimationHelper;
+import br.com.sailboat.canoe.view.info.InfoActivity;
 import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.zerotohero.helper.InfoHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +28,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
         initViews();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_item_info: {
+                startInfoScreen();
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+
+
+    }
+
+    private void startInfoScreen() {
+        InfoActivity.start(this, InfoHelper.getInfo(this));
     }
 
     private void initViews() {

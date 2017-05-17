@@ -33,7 +33,7 @@ public class ExerciseHistoryViewHolder extends BaseViewHolder {
         initViews();
     }
 
-    public void bindToView(ExerciseHistory item) {
+    public void bindItem(ExerciseHistory item) {
         tvWeight.setText(DecimalHelper.formatValue(item.getWeight(), 1) + " KG");
         tvReps.setText(item.getReps() + " reps");
         tvSets.setText(item.getSets() + " sets");

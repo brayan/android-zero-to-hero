@@ -97,7 +97,7 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Exercise Details");
+        toolbar.setTitle(R.string.exercise_details);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

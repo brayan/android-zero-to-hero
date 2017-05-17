@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/md_orange_400"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 tools:text="30 KG"/>
 
         </LinearLayout>
@@ -49,8 +49,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/md_blue_grey_500"
-                android:textSize="@dimen/text_size_medium"
-                tools:text="300"/>
+                android:textSize="@dimen/text_size_small"
+                tools:text="3 sets"/>
 
 
         </LinearLayout>
@@ -67,8 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/md_blue_grey_500"
-                android:textSize="@dimen/text_size_medium"
-                tools:text="3"/>
+                android:textSize="@dimen/text_size_small"
+                tools:text="3 reps"/>
 
 
         </LinearLayout>

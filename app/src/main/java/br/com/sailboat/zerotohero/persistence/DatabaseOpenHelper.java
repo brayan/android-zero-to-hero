@@ -41,7 +41,7 @@ public class DatabaseOpenHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database) {
         try {
-            CreateTablesHelper.createTables(context, database, getZeroToHeroTables());
+            CreateTablesHelper.createTables(database, getZeroToHeroTables());
         } catch (Exception e) {
             LogHelper.logException(e);
             Toast.makeText(context, R.string.msg_error, Toast.LENGTH_LONG).show();

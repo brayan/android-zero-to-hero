@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zero to Hero!</string>
+    <string name="app_name">Zero to Hero</string>
     <string name="tab_workouts">Workouts</string>
     <string name="tab_exercises">Exercises</string>
     <string name="workout_details">Workout Details</string>
@@ -24,4 +24,9 @@
     <string name="sets">Sets</string>
     <string name="reps">Reps</string>
     <string name="exercise_details">Exercise Details</string>
+    <string name="hint_exercise_name">Bench press</string>
+    <string name="hint_weight">10KG</string>
+    <string name="hint_notes">Add some additional info here</string>
+    <string name="workout">Workout</string>
+    <string name="hint_workout_name">What\'s the name of the workout?</string>
 </resources>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="exercise_details">Detalhes do Exercício</string>
+    <string name="hint_exercise_name">Bench press</string>
+    <string name="hint_weight">10KG</string>
+    <string name="hint_notes">Add some additional info here</string>
+    <string name="workout">Treino</string>
+    <string name="hint_workout_name">Qual o nome do treino?</string>
+</resources>
