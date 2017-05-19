@@ -1,9 +1,10 @@
 package br.com.sailboat.zerotohero.view.exercise.selector;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,11 +25,21 @@ import br.com.sailboat.zerotohero.helper.Extras;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.view.adapter.ExerciseChooserAdapter;
 
-public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresenter> implements ExerciseChooserPresenter.View {
+public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPresenter> implements ExerciseSelectorPresenter.View {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private View emptyList;
+    private FloatingActionButton fab;
+
+    public static ExerciseSelectorFragment newInstance(List<ExerciseView> exercises) {
+        Bundle args = new Bundle();
+        Extras.putExerciseViewList(exercises, args);
+        ExerciseSelectorFragment fragment = new ExerciseSelectorFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -37,27 +47,14 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
     }
 
     @Override
-    protected ExerciseChooserPresenter newPresenterInstance() {
-        return new ExerciseChooserPresenter(this);
+    protected ExerciseSelectorPresenter newPresenterInstance() {
+        return new ExerciseSelectorPresenter(this);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_exercise_chooser, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_save: {
-                getPresenter().onClickMenuSave();
-                return true;
-            }
-            default: {
-                return super.onOptionsItemSelected(item);
-            }
-        }
-
+        inflater.inflate(R.menu.menu_exercise_selector, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -66,6 +63,17 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         initToolbar();
         initRecyclerView();
         initEmptyView();
+        initFab();
+    }
+
+    private void initFab() {
+        fab.setImageResource(R.drawable.ic_check_white_24dp);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPresenter().onClickFabSave();
+            }
+        });
     }
 
     private void initToolbar() {
@@ -132,19 +140,10 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         getActivity().finish();
     }
 
-    @Override
-    public void updateMenu() {
-        getActivity().invalidateOptionsMenu();
-    }
-
-    @Override
-    public Context getActivityContext() {
-        return getActivity();
-    }
-
     private void inflateViews(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         emptyList = view.findViewById(R.id.emptyList);
     }
 
@@ -159,7 +158,7 @@ public class ExerciseChooserFragment extends BaseFragment<ExerciseChooserPresent
         imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_blue_300), PorterDuff.Mode.SRC_ATOP);
 
         TextView tvTitle = (TextView) emptyList.findViewById(R.id.tvEmptyListTitle);
-        tvTitle.setText("No exercises");
+        tvTitle.setText(R.string.no_exercises);
 
         TextView tvMessage = (TextView) emptyList.findViewById(R.id.tvEmptyListMessage);
         tvMessage.setVisibility(View.GONE);

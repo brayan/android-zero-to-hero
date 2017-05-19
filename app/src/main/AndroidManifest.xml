@@ -24,7 +24,7 @@
 
         <activity android:name=".view.workout.details.WorkoutDetailsActivity" />
 
-        <activity android:name=".view.exercise.selector.ExerciseChooserActivity" />
+        <activity android:name=".view.exercise.selector.ExerciseSelectorActivity" />
 
         <activity android:name=".view.exercise.insert.InsertExerciseActivity" />
 

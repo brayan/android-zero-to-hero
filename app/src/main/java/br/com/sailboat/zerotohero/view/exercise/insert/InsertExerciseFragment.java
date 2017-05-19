@@ -57,27 +57,27 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
 
     @Override
     public String getName() {
-        return etName.getText().toString();
+        return etName.getText().toString().trim();
     }
 
     @Override
     public String getWeight() {
-        return etWeight.getText().toString();
+        return etWeight.getText().toString().trim();
     }
 
     @Override
     public String getSets() {
-        return etSets.getText().toString();
+        return etSets.getText().toString().trim();
     }
 
     @Override
     public String getReps() {
-        return etReps.getText().toString();
+        return etReps.getText().toString().trim();
     }
 
     @Override
     public String getNotes() {
-        return etNotes.getText().toString();
+        return etNotes.getText().toString().trim();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package br.com.sailboat.zerotohero.view.exercise.selector;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.LongSparseArray;
@@ -16,12 +15,18 @@ import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseViewSQLite;
 import br.com.sailboat.zerotohero.view.adapter.ExerciseChooserAdapter;
 
-public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPresenter.View> implements ExerciseChooserAdapter.Callback {
+public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPresenter.View> implements ExerciseChooserAdapter.Callback {
 
-    private ExerciseChooserViewModel viewModel = new ExerciseChooserViewModel();
+    private ExerciseSelectorViewModel viewModel = new ExerciseSelectorViewModel();
 
-    public ExerciseChooserPresenter(ExerciseChooserPresenter.View view) {
+    public ExerciseSelectorPresenter(ExerciseSelectorPresenter.View view) {
         super(view);
+    }
+
+    @Override
+    public void extractExtrasFromArguments(Bundle arguments) {
+        List<ExerciseView> exercises = Extras.getExerciseViewList(arguments);
+        addSelectedExercises(exercises);
     }
 
     @Override
@@ -34,13 +39,7 @@ public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPrese
         updateContentViews();
     }
 
-    @Override
-    public void extractExtrasFromArguments(Bundle arguments) {
-        List<ExerciseView> exercises = Extras.getExerciseViewList(arguments);
-        addSelectedExercises(exercises);
-    }
-
-    public void onClickMenuSave() {
+    public void onClickFabSave() {
         List<ExerciseView> exercises = getExercisesListFromLongSparseArray();
         getView().closeActivityResultOk(exercises);
     }
@@ -56,7 +55,6 @@ public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPrese
         updateSelectedExercisesArray(exercise);
         updateTitle();
         updateExerciseView(position);
-        updateMenu();
     }
 
     @Override
@@ -69,7 +67,14 @@ public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPrese
         return getViewModel().getSelectedExercises();
     }
 
+    @Override
+    protected void onQueryTextChange() {
+        loadExercises();
+    }
+
     private void loadExercises() {
+
+        final String searchText = getView().getSearchText();
 
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
@@ -77,7 +82,7 @@ public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPrese
 
             @Override
             public void doInBackground() throws Exception {
-                exercises = ExerciseViewSQLite.newInstance(getContext()).getAll();
+                exercises = ExerciseViewSQLite.newInstance(getContext()).getAll(searchText);
             }
 
             @Override
@@ -101,17 +106,18 @@ public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPrese
         String title = null;
 
         if (size == 0) {
-            title = getString(R.string.select_exercise);
+            title = getString(R.string.no_items_selected);
         } else if (size == 1) {
-            title = "1 " + getString(R.string.exercise);
+            title = "1 " + getString(R.string.item);
         } else {
-            title = size + " " + getString(R.string.exercises);
+            title = size + " " + getString(R.string.items);
         }
 
         getView().updateTitle(title);
     }
 
     private void updateContentViews() {
+        updateTitle();
         getView().updateExerciseListView();
         getView().updateVisibilityOfViews();
     }
@@ -122,10 +128,6 @@ public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPrese
         for (ExerciseView e : exercises) {
             selectedExercises.put(e.getExerciseId(), e);
         }
-    }
-
-    private void updateMenu() {
-        getView().updateMenu();
     }
 
     private void updateExerciseView(int position) {
@@ -158,12 +160,11 @@ public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPrese
         return exercises;
     }
 
-    private ExerciseChooserViewModel getViewModel() {
+    private ExerciseSelectorViewModel getViewModel() {
         return viewModel;
     }
 
     public interface View extends BasePresenter.View {
-        Context getActivityContext();
         void updateExerciseListView();
         void showToast(String message);
         void updateTitle(String title);
@@ -171,7 +172,6 @@ public class ExerciseChooserPresenter extends BasePresenter<ExerciseChooserPrese
         void updateExerciseView(int position);
         void closeActivityResultCanceled();
         void closeActivityResultOk(List<ExerciseView> exercises);
-        void updateMenu();
     }
 
 }

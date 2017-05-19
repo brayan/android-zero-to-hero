@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.sailboat.canoe.base.BaseSQLite;
+import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
 
@@ -34,6 +35,23 @@ public class ExerciseViewSQLite extends BaseSQLite {
         createOrderByName(sb);
 
         return getExerciseList(sb.toString());
+    }
+
+    public List<ExerciseView> getAll(String termoPesquisa) throws Exception {
+        StringBuilder sb = new StringBuilder();
+        createSelect(sb);
+        createInnerJoinExerciseHistory(sb);
+        createWhereTermoPesquisa(sb, termoPesquisa);
+        createGroupByExerciseId(sb);
+        createOrderByName(sb);
+
+        return getExerciseList(sb.toString());
+    }
+
+    private void createWhereTermoPesquisa(StringBuilder sb, String termoPesquisa) {
+        if (StringHelper.isNotEmpty(termoPesquisa)) {
+            sb.append(" WHERE Exercise.name LIKE '%" + termoPesquisa.trim() + "%' ");
+        }
     }
 
     public List<ExerciseView> getFromWorkout(long workoutId) {

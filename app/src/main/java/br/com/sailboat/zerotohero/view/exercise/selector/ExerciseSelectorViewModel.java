@@ -7,12 +7,12 @@ import java.util.List;
 
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
-public class ExerciseChooserViewModel {
+public class ExerciseSelectorViewModel {
 
     private final LongSparseArray<ExerciseView> selectedExercises;
     private final List<ExerciseView> exerciseList;
 
-    public ExerciseChooserViewModel() {
+    public ExerciseSelectorViewModel() {
         this.exerciseList = new ArrayList<>();
         this.selectedExercises = new LongSparseArray<>();
     }
@@ -24,4 +24,5 @@ public class ExerciseChooserViewModel {
     public LongSparseArray<ExerciseView> getSelectedExercises() {
         return selectedExercises;
     }
+
 }

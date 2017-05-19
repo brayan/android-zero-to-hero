@@ -1,6 +1,5 @@
 package br.com.sailboat.zerotohero.view.workout.insert;
 
-import android.content.Context;
 import android.content.Intent;
 
 import java.util.ArrayList;
@@ -13,7 +12,6 @@ import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.Extras;
-import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.model.sqlite.Workout;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
@@ -216,13 +214,11 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
 
 
     public interface View extends BasePresenter.View {
-        Context getActivityContext();
         void updateVisibilityOfViews();
         void updateExercisesListAndVisibility();
         void showToast(String message);
-        void startExercisesChooserActivity(ArrayList<Exercise> exercises);
+        void startExercisesChooserActivity(ArrayList<ExerciseView> exercises);
         String getTextFromWorkoutName();
-        void showDialog(String message);
         void updateWorkoutNameView(String name);
         void updateToolbarTitle(String title);
     }

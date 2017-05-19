@@ -6,4 +6,5 @@
     <string name="hint_notes">Add some additional info here</string>
     <string name="workout">Treino</string>
     <string name="hint_workout_name">Qual o nome do treino?</string>
+    <string name="no_exercises">Nenhum exercício adicionado</string>
 </resources>
