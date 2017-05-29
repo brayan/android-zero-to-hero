@@ -17,8 +17,13 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
     }
 
     @Override
-    protected void postResume() {
+    protected void onResumeFirstSession() {
         loadWorkouts();
+    }
+
+    @Override
+    protected void onResumeAfterRestart() {
+        updateContentViews();
     }
 
     public void onClickNewWorkout() {
@@ -34,6 +39,10 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
         loadWorkouts();
     }
 
+    public List<Workout> getWorkouts() {
+        return viewModel.getWorkoutList();
+    }
+
     private void loadWorkouts() {
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
@@ -46,33 +55,44 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
 
             @Override
             public void onSuccess() {
-                getViewModel().getWorkoutList().clear();
-                getViewModel().getWorkoutList().addAll(workouts);
-                getView().updateContentViews();
+                viewModel.getWorkoutList().clear();
+                viewModel.getWorkoutList().addAll(workouts);
+                updateContentViews();
             }
 
             @Override
             public void onFail(Exception e) {
                 printLogAndShowDialog(e);
-                getView().updateContentViews();
+                updateContentViews();
             }
         });
 
     }
 
-    private WorkoutListViewModel getViewModel() {
-        return viewModel;
+    private void updateContentViews() {
+        getView().updateWorkoutList();
+        updateVisibilityOfViews();
     }
 
-    public List<Workout> getWorkouts() {
-        return getViewModel().getWorkoutList();
+    private void updateVisibilityOfViews() {
+        if (getWorkouts().isEmpty()) {
+            getView().hideWorkouts();
+            getView().showEmptyList();
+        } else {
+            getView().showWorkouts();
+            getView().hideEmptyList();
+        }
     }
 
 
     public interface View extends BasePresenter.View{
-        void updateContentViews();
+        void updateWorkoutList();
         void startNewWorkoutActivity();
         void startWorkoutDetailsActivity(long workoutId);
+        void hideWorkouts();
+        void showEmptyList();
+        void showWorkouts();
+        void hideEmptyList();
     }
 
 }

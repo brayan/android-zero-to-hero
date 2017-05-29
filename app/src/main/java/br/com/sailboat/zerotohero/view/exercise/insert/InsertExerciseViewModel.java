@@ -1,9 +1,11 @@
 package br.com.sailboat.zerotohero.view.exercise.insert;
 
 
+import br.com.sailboat.canoe.helper.EntityHelper;
+
 public class InsertExerciseViewModel  {
 
-    private long exerciseId = -1;
+    private long exerciseId = EntityHelper.NO_ID;
     private String name;
     private double weight;
     private int set;

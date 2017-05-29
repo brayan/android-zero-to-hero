@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.menu_item_info: {
                 startInfoScreen();
@@ -47,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
             }
         }
-
-
     }
 
     private void startInfoScreen() {
@@ -56,54 +53,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        inflateViews();
         initToolbar();
         initViewPager();
-        bindListeners();
-    }
-
-    private void inflateViews() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        initFab();
     }
 
     private void initToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.app_name);
         setSupportActionBar(toolbar);
     }
 
     private void initViewPager() {
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         adapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+
+        setViewPagerListener();
     }
 
-    private void bindListeners() {
-        bindListenerToFab();
-        bindListenerToViewPager();
-    }
-
-    private void bindListenerToFab() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (getCurrentTabPosition()) {
-                    case MainFragmentPagerAdapter.POSITION_WORKOUT: {
-                        adapter.getWorkoutListFragment().onClickFab();
-                        return;
-                    }
-                    case MainFragmentPagerAdapter.POSITION_EXERCISE: {
-                        adapter.getExerciseListFragment().onClickFab();
-                        return;
-                    }
-                }
-            }
-        });
-    }
-
-    private void bindListenerToViewPager() {
+    private void setViewPagerListener() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -126,18 +97,23 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void onClickFab() {
-
-        switch (getCurrentTabPosition()) {
-            case MainFragmentPagerAdapter.POSITION_WORKOUT: {
-                adapter.getWorkoutListFragment().onClickFab();
-                return;
+    private void initFab() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (getCurrentTabPosition()) {
+                    case MainFragmentPagerAdapter.POSITION_WORKOUT: {
+                        adapter.getWorkoutListFragment().onClickFab();
+                        return;
+                    }
+                    case MainFragmentPagerAdapter.POSITION_EXERCISE: {
+                        adapter.getExerciseListFragment().onClickFab();
+                        return;
+                    }
+                }
             }
-            case MainFragmentPagerAdapter.POSITION_EXERCISE: {
-                adapter.getExerciseListFragment().onClickFab();
-                return;
-            }
-        }
+        });
     }
 
     private int getCurrentTabPosition() {

@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.zerotohero.R;
@@ -18,7 +17,7 @@ import br.com.sailboat.zerotohero.view.workout.insert.InsertWorkoutActivity;
 
 public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> implements WorkoutListPresenter.View, WorkoutListAdapter.Callback {
 
-    private RecyclerView recyclerView;
+    private RecyclerView recycler;
     private View emptyList;
 
     @Override
@@ -43,14 +42,8 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     @Override
-    public void updateContentViews() {
-        recyclerView.getAdapter().notifyDataSetChanged();
-        updateVisibilityOfViews();
-    }
-
-    @Override
-    public void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+    public void updateWorkoutList() {
+        recycler.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -64,6 +57,26 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     @Override
+    public void hideWorkouts() {
+        recycler.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmptyList() {
+        emptyList.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showWorkouts() {
+        recycler.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyList() {
+        emptyList.setVisibility(View.GONE);
+    }
+
+    @Override
     public void onClickWorkout(int position) {
         getPresenter().onClickWorkout(position);
     }
@@ -73,10 +86,10 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     private void initRecyclerView(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         WorkoutListAdapter adapter = new WorkoutListAdapter(getPresenter().getWorkouts(), this);
-        recyclerView.setAdapter(adapter);
+        recycler.setAdapter(adapter);
     }
 
     private void initEmptyView(View view) {
@@ -92,20 +105,6 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
         tvMessage.setText("Create a new workout plan by tapping the + button");
 
         emptyList.setVisibility(View.GONE);
-    }
-
-    private void updateVisibilityOfViews() {
-        boolean emptyList = getPresenter().getWorkouts().isEmpty();
-
-        if (emptyList) {
-            recyclerView.setVisibility(View.GONE);
-            this.emptyList.setVisibility(View.VISIBLE);
-
-        } else {
-            this.emptyList.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-
     }
 
 }

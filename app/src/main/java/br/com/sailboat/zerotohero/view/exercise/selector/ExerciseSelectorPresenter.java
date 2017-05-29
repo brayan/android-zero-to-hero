@@ -2,20 +2,19 @@ package br.com.sailboat.zerotohero.view.exercise.selector;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.LongSparseArray;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.Extras;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseViewSQLite;
-import br.com.sailboat.zerotohero.view.adapter.ExerciseChooserAdapter;
 
-public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPresenter.View> implements ExerciseChooserAdapter.Callback {
+public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPresenter.View> {
 
     private ExerciseSelectorViewModel viewModel = new ExerciseSelectorViewModel();
 
@@ -25,30 +24,26 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
 
     @Override
     public void extractExtrasFromArguments(Bundle arguments) {
-        List<ExerciseView> exercises = Extras.getExerciseViewList(arguments);
+        List<ExerciseView> exercises = ExtrasHelper.getExerciseViewList(arguments);
         addSelectedExercises(exercises);
     }
 
     @Override
     protected void onResumeFirstSession() {
-        loadExercises();
+        String searchText = getView().getSearchText();
+        loadExercises(searchText);
     }
 
     @Override
-    protected void postResume() {
+    protected void onResumeAfterRestart() {
         updateContentViews();
     }
 
     public void onClickFabSave() {
-        List<ExerciseView> exercises = getExercisesListFromLongSparseArray();
+        List<ExerciseView> exercises = getExercisesListFromLinkedHashMap();
         getView().closeActivityResultOk(exercises);
     }
 
-    public void onClickNavigationIcon() {
-        getView().closeActivityResultCanceled();
-    }
-
-    @Override
     public void onClickExercise(int position) {
         ExerciseView exercise = getExerciseList().get(position);
 
@@ -57,24 +52,30 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
         updateExerciseView(position);
     }
 
-    @Override
     public List<ExerciseView> getExerciseList() {
         return viewModel.getExerciseList();
     }
 
-    @Override
-    public LongSparseArray<ExerciseView> getSelectedExercises() {
-        return getViewModel().getSelectedExercises();
+    public LinkedHashMap<Long, ExerciseView> getSelectedExercises() {
+        return viewModel.getSelectedExercises();
+    }
+
+    public boolean isExerciseSelected(ExerciseView exercise) {
+        return (getSelectedExercises().get(exercise.getExerciseId()) != null);
+    }
+
+    @NonNull
+    private List<ExerciseView> getExercisesListFromLinkedHashMap() {
+        LinkedHashMap<Long, ExerciseView> selectedExercises = viewModel.getSelectedExercises();
+        return new ArrayList<>(selectedExercises.values());
     }
 
     @Override
-    protected void onQueryTextChange() {
-        loadExercises();
+    protected void onQueryTextChange(String text) {
+        loadExercises(text);
     }
 
-    private void loadExercises() {
-
-        final String searchText = getView().getSearchText();
+    private void loadExercises(final String searchText) {
 
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
@@ -87,9 +88,9 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
 
             @Override
             public void onSuccess() {
-                getViewModel().getExerciseList().clear();
-                getViewModel().getExerciseList().addAll(exercises);
-                getView().updateExerciseListView();
+                viewModel.getExerciseList().clear();
+                viewModel.getExerciseList().addAll(exercises);
+                updateContentViews();
             }
 
             @Override
@@ -101,7 +102,7 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
     }
 
     private void updateTitle() {
-        int size = getViewModel().getSelectedExercises().size();
+        int size = viewModel.getSelectedExercises().size();
 
         String title = null;
 
@@ -113,17 +114,27 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
             title = size + " " + getString(R.string.items);
         }
 
-        getView().updateTitle(title);
+        getView().setTitle(title);
     }
 
     private void updateContentViews() {
         updateTitle();
-        getView().updateExerciseListView();
-        getView().updateVisibilityOfViews();
+        getView().updateExerciseList();
+        updateVisibilityOfViews();
+    }
+
+    private void updateVisibilityOfViews() {
+        if (getExerciseList().isEmpty()) {
+            getView().hideRecycler();
+            getView().showEmptyView();
+        } else {
+            getView().showRecycler();
+            getView().hideEmptyView();
+        }
     }
 
     private void addSelectedExercises(List<ExerciseView> exercises) {
-        LongSparseArray<ExerciseView> selectedExercises = getViewModel().getSelectedExercises();
+        LinkedHashMap<Long, ExerciseView> selectedExercises = viewModel.getSelectedExercises();
 
         for (ExerciseView e : exercises) {
             selectedExercises.put(e.getExerciseId(), e);
@@ -135,7 +146,7 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
     }
 
     private void updateSelectedExercisesArray(ExerciseView exercise) {
-        LongSparseArray<ExerciseView> selectedExercises = getViewModel().getSelectedExercises();
+        LinkedHashMap<Long, ExerciseView> selectedExercises = viewModel.getSelectedExercises();
 
         if (isExerciseSelected(exercise)) {
             selectedExercises.remove(exercise.getExerciseId());
@@ -144,34 +155,16 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
         }
     }
 
-    private boolean isExerciseSelected(ExerciseView exercise) {
-        return (getSelectedExercises().get(exercise.getExerciseId()) != null);
-    }
-
-    @NonNull
-    private List<ExerciseView> getExercisesListFromLongSparseArray() {
-        List<ExerciseView> exercises = new ArrayList<>();
-        LongSparseArray<ExerciseView> selectedExercises = getViewModel().getSelectedExercises();
-
-        for (int i = 0; i < selectedExercises.size(); i++) {
-            exercises.add(selectedExercises.valueAt(i));
-        }
-
-        return exercises;
-    }
-
-    private ExerciseSelectorViewModel getViewModel() {
-        return viewModel;
-    }
 
     public interface View extends BasePresenter.View {
-        void updateExerciseListView();
-        void showToast(String message);
-        void updateTitle(String title);
-        void updateVisibilityOfViews();
+        void updateExerciseList();
+        void setTitle(String title);
         void updateExerciseView(int position);
-        void closeActivityResultCanceled();
-        void closeActivityResultOk(List<ExerciseView> exercises);
+        void closeActivityResultOk(List<ExerciseView> exercise);
+        void hideRecycler();
+        void showEmptyView();
+        void showRecycler();
+        void hideEmptyView();
     }
 
 }

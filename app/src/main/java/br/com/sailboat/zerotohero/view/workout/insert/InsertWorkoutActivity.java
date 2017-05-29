@@ -6,26 +6,27 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import br.com.sailboat.canoe.base.BaseActivitySingleFragment;
-import br.com.sailboat.zerotohero.helper.Extras;
-import br.com.sailboat.zerotohero.helper.RequestCodes;
+import br.com.sailboat.canoe.helper.EntityHelper;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.RequestCodeHelper;
 
 public class InsertWorkoutActivity extends BaseActivitySingleFragment<InsertWorkoutFragment> {
 
     public static void start(Fragment fragment) {
-        start(fragment, -1);
+        start(fragment, EntityHelper.NO_ID);
     }
 
     public static void start(Fragment fragment, long workoutId) {
         Intent starter = getStartIntent(fragment.getActivity(), workoutId);
-        fragment.startActivityForResult(starter, RequestCodes.INSERT_WORKOUT);
+        fragment.startActivityForResult(starter, RequestCodeHelper.INSERT_WORKOUT);
     }
 
     @NonNull
     private static Intent getStartIntent(Context context, long workoutId) {
         Intent starter = new Intent(context, InsertWorkoutActivity.class);
 
-        if (workoutId != -1) {
-            Extras.putWorkoutId(workoutId, starter);
+        if (workoutId != EntityHelper.NO_ID) {
+            ExtrasHelper.putWorkoutId(workoutId, starter);
         }
 
         return starter;
@@ -33,6 +34,8 @@ public class InsertWorkoutActivity extends BaseActivitySingleFragment<InsertWork
 
     @Override
     protected InsertWorkoutFragment newFragmentInstance() {
-        return new InsertWorkoutFragment();
+        long workoutId = ExtrasHelper.getWorkoutId(getIntent());
+        return InsertWorkoutFragment.newInstance(workoutId);
     }
+
 }

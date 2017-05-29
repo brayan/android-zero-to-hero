@@ -36,12 +36,6 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     }
 
     @Override
-    public void updateContentViews() {
-        recycler.getAdapter().notifyDataSetChanged();
-        updateVisibilityOfViews();
-    }
-
-    @Override
     public void startExerciseDetailsActivity(long exerciseId) {
         ExerciseDetailsActivity.start(this, exerciseId);
     }
@@ -49,6 +43,31 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     @Override
     public void startNewExerciseActivity() {
         InsertExerciseActivity.start(this);
+    }
+
+    @Override
+    public void updateExercises() {
+        recycler.getAdapter().notifyDataSetChanged();
+    }
+
+    @Override
+    public void showExercises() {
+        recycler.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideExercises() {
+        recycler.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmptyState() {
+        emptyList.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyState() {
+        emptyList.setVisibility(View.GONE);
     }
 
     public void onClickFab() {
@@ -78,26 +97,12 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
         imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_blue_300), PorterDuff.Mode.SRC_ATOP);
 
         TextView tvTitle = (TextView) emptyList.findViewById(R.id.tvEmptyListTitle);
-        tvTitle.setText("No exercises");
+        tvTitle.setText(R.string.no_exercises);
 
         TextView tvMessage = (TextView) emptyList.findViewById(R.id.tvEmptyListMessage);
-        tvMessage.setText("Create a new exercise by tapping the + button");
+        tvMessage.setText(R.string.click_plus_to_add);
 
         emptyList.setVisibility(View.GONE);
-    }
-
-    private void updateVisibilityOfViews() {
-        boolean emptyList = getPresenter().getExercises().isEmpty();
-
-        if (emptyList) {
-            recycler.setVisibility(View.GONE);
-            this.emptyList.setVisibility(View.VISIBLE);
-
-        } else {
-            this.emptyList.setVisibility(View.GONE);
-            recycler.setVisibility(View.VISIBLE);
-        }
-
     }
 
 }

@@ -1,6 +1,6 @@
 package br.com.sailboat.zerotohero.view.exercise.details;
 
-import android.content.Intent;
+import android.os.Bundle;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.canoe.recycler.RecyclerItem;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.Extras;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.interactor.LoadExerciseDetails;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
 import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseHistorySQLite;
@@ -25,14 +25,19 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
     }
 
     @Override
-    public void extractExtrasFromIntent(Intent intent) {
-        long exerciseId = Extras.getExerciseId(intent);
+    public void extractExtrasFromArguments(Bundle arguments) {
+        long exerciseId = ExtrasHelper.getExerciseId(arguments);
         getViewModel().setExerciseId(exerciseId);
     }
 
     @Override
-    protected void postResume() {
+    protected void onResumeFirstSession() {
         loadDetails();
+    }
+
+    @Override
+    protected void onResumeAfterRestart() {
+        updateContentViews();
     }
 
     public void onClickEditExercise() {

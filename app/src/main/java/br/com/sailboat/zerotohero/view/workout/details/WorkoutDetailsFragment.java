@@ -2,6 +2,7 @@ package br.com.sailboat.zerotohero.view.workout.details;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.view.View;
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.TwoOptionsDialog;
 import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.exercise.details.ExerciseDetailsActivity;
 import br.com.sailboat.zerotohero.view.workout.insert.InsertWorkoutActivity;
@@ -22,9 +24,19 @@ import br.com.sailboat.zerotohero.view.workout.insert.InsertWorkoutActivity;
 public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsPresenter.View {
 
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+    private RecyclerView recycler;
     private FloatingActionButton fab;
-    private View emptyList;
+
+
+    public static WorkoutDetailsFragment newInstance(long workoutId) {
+        Bundle args = new Bundle();
+        ExtrasHelper.putWorkoutId(workoutId, args);
+        WorkoutDetailsFragment fragment = new WorkoutDetailsFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
 
     @Override
     protected int getLayoutId() {
@@ -56,29 +68,14 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
 
     @Override
     protected void initViews(View view) {
-        inflateViews(view);
-        initToolbar();
-        initRecyclerView();
-        initFab();
-        initVisibilityOfViews();
-    }
-
-    private void initToolbar() {
-        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
-        appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPresenter().onClickNavigation();
-            }
-        });
+        initToolbar(view);
+        initRecyclerView(view);
+        initFab(view);
     }
 
     @Override
-    public void updateExerciseListView() {
-        recyclerView.getAdapter().notifyDataSetChanged();
-        updateVisibilityOfViews();
+    public void updateExerciseList() {
+        recycler.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -89,21 +86,6 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     @Override
     public void setSubtitle(String subtitle) {
         toolbar.setSubtitle(subtitle);
-    }
-
-    @Override
-    public void updateVisibilityOfViews() {
-        boolean isEmpty = getPresenter().getExercises().isEmpty();
-
-        if (isEmpty) {
-            recyclerView.setVisibility(View.GONE);
-            emptyList.setVisibility(View.VISIBLE);
-
-        } else {
-            emptyList.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-
     }
 
     @Override
@@ -122,7 +104,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
                 getPresenter().onClickDeleteWorkout();
             }
         });
-        dialog.show(getFragmentManager(), "DELETE_DIALOG");
+        dialog.show(getFragmentManager(), TwoOptionsDialog.class.getName());
     }
 
     @Override
@@ -141,24 +123,27 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
         getActivity().finish();
     }
 
-    private void inflateViews(View view) {
+    private void initToolbar(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        emptyList = view.findViewById(R.id.emptyList);
+        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
+        appCompatActivity.setSupportActionBar(toolbar);
+        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+    }
+
+    private void initRecyclerView(View view) {
+        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler.setAdapter(new ExercisesListAdapter(getPresenter()));
+    }
+
+    private void initFab(View view) {
         fab = (FloatingActionButton) view.findViewById(R.id.fab);
-    }
-
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter());
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void initVisibilityOfViews() {
-        emptyList.setVisibility(View.GONE);
-    }
-
-    private void initFab() {
         fab.setImageResource(R.drawable.ic_edit_white_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,11 +3,12 @@ package br.com.sailboat.zerotohero.view.exercise.details;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.sailboat.canoe.helper.EntityHelper;
 import br.com.sailboat.canoe.recycler.RecyclerItem;
 
 public class ExerciseDetailsViewModel {
 
-    private long exerciseId = -1;
+    private long exerciseId = EntityHelper.NO_ID;
     private final List<RecyclerItem> exerciseDetails = new ArrayList<>();
 
     public long getExerciseId() {

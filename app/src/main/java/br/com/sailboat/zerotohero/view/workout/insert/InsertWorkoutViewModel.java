@@ -3,11 +3,12 @@ package br.com.sailboat.zerotohero.view.workout.insert;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.sailboat.canoe.helper.EntityHelper;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
 public class InsertWorkoutViewModel {
 
-    private long workoutId = -1;
+    private long workoutId = EntityHelper.NO_ID;
     private String name;
     private final List<ExerciseView> exercises;
 

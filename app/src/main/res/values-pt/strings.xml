@@ -7,4 +7,6 @@
     <string name="workout">Treino</string>
     <string name="hint_workout_name">Qual o nome do treino?</string>
     <string name="no_exercises">Nenhum exercício adicionado</string>
+    <string name="click_plus_to_add">Clique no botão + para adicionar</string>
+    <string name="exercises">exercícios</string>
 </resources>

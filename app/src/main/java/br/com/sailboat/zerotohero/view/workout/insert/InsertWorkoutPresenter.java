@@ -1,6 +1,7 @@
 package br.com.sailboat.zerotohero.view.workout.insert;
 
 import android.content.Intent;
+import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +10,18 @@ import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.exception.EntityNotFoundException;
 import br.com.sailboat.canoe.exception.RequiredFieldNotFilledException;
 import br.com.sailboat.canoe.helper.AsyncHelper;
+import br.com.sailboat.canoe.helper.EntityHelper;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.Extras;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.model.sqlite.Workout;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
 import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseViewSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
-import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 
-public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter.View> implements ExercisesListAdapter.Callback {
+public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter.View> {
 
     private InsertWorkoutViewModel viewModel = new InsertWorkoutViewModel();
 
@@ -29,9 +30,9 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
     }
 
     @Override
-    public void extractExtrasFromIntent(Intent intent) {
-        long workoutId = Extras.getWorkoutId(intent);
-        getViewModel().setWorkoutId(workoutId);
+    public void extractExtrasFromArguments(Bundle arguments) {
+        long workoutId = ExtrasHelper.getWorkoutId(arguments);
+        viewModel.setWorkoutId(workoutId);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
     }
 
     public void onClickAddExercises() {
-        ArrayList array = (ArrayList) getViewModel().getExercises();
+        ArrayList array = (ArrayList) viewModel.getExercises();
         getView().startExercisesChooserActivity(array);
     }
 
@@ -66,9 +67,8 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
         }
     }
 
-    @Override
-    public void onClickExercise(int position) {
-        // TODO
+    public List<ExerciseView> getExercises() {
+        return viewModel.getExercises();
     }
 
     private void saveWorkout() {
@@ -96,8 +96,8 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
                 WorkoutExerciseSQLite dao = new WorkoutExerciseSQLite(DatabaseOpenHelper.getInstance(getContext()));
                 dao.deleteFromWorkout(workout.getId());
 
-                for (int i = 0 ; i < getViewModel().getExercises().size(); i++) {
-                    ExerciseView exercise = getViewModel().getExercises().get(i);
+                for (int i = 0; i < viewModel.getExercises().size(); i++) {
+                    ExerciseView exercise = viewModel.getExercises().get(i);
                     dao.save(workout.getId(), exercise.getExerciseId(), i);
                 }
 
@@ -121,18 +121,18 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
 
     private void extractInfoFromViews() {
         String name = getView().getTextFromWorkoutName();
-        getViewModel().setName(name);
+        viewModel.setName(name);
     }
 
     public void onResultOkExerciseChooser(Intent data) {
-        List<ExerciseView> exercises = Extras.getExerciseViewList(data);
+        List<ExerciseView> exercises = ExtrasHelper.getExerciseViewList(data);
         getExercises().clear();
         getExercises().addAll(exercises);
-        getView().updateExercisesListAndVisibility();
+        updateContentViews();
     }
 
     private void loadExercises() throws Exception {
-        long workoutId = getViewModel().getWorkoutId();
+        long workoutId = viewModel.getWorkoutId();
 
         getExercises().clear();
         getExercises().addAll(ExerciseViewSQLite.newInstance(getContext()).getFromWorkout(workoutId));
@@ -140,33 +140,40 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
 
     private void updateContentViews() {
         updateToolbarTitle();
-        getView().updateExercisesListAndVisibility();
+        updateVisibilityOfViews();
+        getView().updateExercises();
+    }
+
+    private void updateVisibilityOfViews() {
+        if (getExercises().isEmpty()) {
+            getView().hideExercises();
+            getView().showEmptyView();
+        } else {
+            getView().showExercises();
+            getView().hideEmptyView();
+        }
     }
 
     private void updateToolbarTitle() {
-        String title = null;
-
         if (hasWorkoutToEdit()) {
-            title = getString(R.string.edit_workout);
+            getView().setTitle(getString(R.string.edit_workout));
         } else {
-            title = getString(R.string.new_workout);
+            getView().setTitle(getString(R.string.new_workout));
         }
-
-        getView().updateToolbarTitle(title);
     }
 
     private boolean hasWorkoutToEdit() {
-        return getViewModel().getWorkoutId() != -1;
+        return viewModel.getWorkoutId() != EntityHelper.NO_ID;
     }
 
     private void performValidations() throws Exception {
-        String name = getViewModel().getName();
+        String name = viewModel.getName();
 
         if (StringHelper.isNullOrEmpty(name)) {
             throw new Exception(getString(R.string.exeption_workout_name));
         }
 
-        if (getViewModel().getExercises().size() == 0) {
+        if (viewModel.getExercises().isEmpty()) {
             throw new Exception(getString(R.string.exeption_selected_exercises));
         }
     }
@@ -176,7 +183,7 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
 
             @Override
             public void doInBackground() throws Exception {
-                long workoutId = getViewModel().getWorkoutId();
+                long workoutId = viewModel.getWorkoutId();
 
                 loadWorkoutInfo(workoutId);
                 loadExercises();
@@ -185,7 +192,7 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
             @Override
             public void onSuccess() {
                 getView().setActivityToHideKeyboard();
-                getView().updateWorkoutNameView(getViewModel().getName());
+                getView().setWorkoutName(viewModel.getName());
                 updateContentViews();
             }
 
@@ -200,27 +207,20 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
 
     private void loadWorkoutInfo(long workoutId) throws EntityNotFoundException {
         Workout workout = new WorkoutSQLite(DatabaseOpenHelper.getInstance(getContext())).getWorkoutById(workoutId);
-        getViewModel().setName(workout.getName());
-    }
-
-    private InsertWorkoutViewModel getViewModel() {
-        return viewModel;
-    }
-
-    @Override
-    public List<ExerciseView> getExercises() {
-        return getViewModel().getExercises();
+        viewModel.setName(workout.getName());
     }
 
 
     public interface View extends BasePresenter.View {
-        void updateVisibilityOfViews();
-        void updateExercisesListAndVisibility();
-        void showToast(String message);
         void startExercisesChooserActivity(ArrayList<ExerciseView> exercises);
         String getTextFromWorkoutName();
-        void updateWorkoutNameView(String name);
-        void updateToolbarTitle(String title);
+        void setWorkoutName(String name);
+        void setTitle(String title);
+        void updateExercises();
+        void hideExercises();
+        void showEmptyView();
+        void showExercises();
+        void hideEmptyView();
     }
 
 }

@@ -1,6 +1,6 @@
 package br.com.sailboat.zerotohero.view.exercise.insert;
 
-import android.content.Intent;
+import android.os.Bundle;
 
 import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.exception.EntityNotFoundException;
@@ -8,7 +8,7 @@ import br.com.sailboat.canoe.exception.RequiredFieldNotFilledException;
 import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.Extras;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.model.sqlite.ExerciseHistory;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
@@ -24,8 +24,8 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
     }
 
     @Override
-    public void extractExtrasFromIntent(Intent intent) {
-        long exerciseId = Extras.getExerciseId(intent);
+    public void extractExtrasFromArguments(Bundle arguments) {
+        long exerciseId = ExtrasHelper.getExerciseId(arguments);
         getViewModel().setExerciseId(exerciseId);
     }
 
@@ -36,10 +36,6 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
         } else {
             showKeyboard();
         }
-    }
-
-    private void showKeyboard() {
-        getView().showKeyboard();
     }
 
     @Override
@@ -113,9 +109,6 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
                 return history;
             }
 
-            private boolean hasExerciseChange(ExerciseHistory history1, ExerciseHistory history2) {
-                return (history1.getReps() == history2.getReps() && history1.getSets() == history2.getSets() && history1.getWeight() == history2.getWeight());
-            }
 
         });
 
@@ -171,8 +164,8 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
     private void bindExerciseToView() {
         getView().setName(getViewModel().getName());
         getView().setWeight(formatValue(getViewModel().getWeight(), 1));
-        getView().setSet(String.valueOf(getViewModel().getSet()));
-        getView().setRepetition(String.valueOf(getViewModel().getRepetition()));
+        getView().setSets(String.valueOf(getViewModel().getSet()));
+        getView().setReps(String.valueOf(getViewModel().getRepetition()));
         getView().setNotes(String.valueOf(getViewModel().getNotes()));
         closeKeyboard();
     }
@@ -225,6 +218,10 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
         }
     }
 
+    private void showKeyboard() {
+        getView().showKeyboard();
+    }
+
 
     public interface View extends BasePresenter.View {
         String getName();
@@ -235,8 +232,8 @@ public class InsertExercisePresenter extends BasePresenter<InsertExercisePresent
         String getReps();
         String getNotes();
         void setWeight(String weight);
-        void setSet(String set);
-        void setRepetition(String repetition);
+        void setSets(String set);
+        void setReps(String repetition);
         void setNotes(String notes);
         void showKeyboard();
     }

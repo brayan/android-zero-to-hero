@@ -2,6 +2,7 @@ package br.com.sailboat.zerotohero.view.workout.insert;
 
 import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,26 +17,34 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.RequestCodeHelper;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.adapter.SwipeExercise;
 import br.com.sailboat.zerotohero.view.exercise.selector.ExerciseSelectorActivity;
 
-public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> implements InsertWorkoutPresenter.View {
-
-    private static final int REQUEST_EXERCISE_CHOOSER = 0;
+public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> implements InsertWorkoutPresenter.View, ExercisesListAdapter.Callback {
 
     private Toolbar toolbar;
     private RecyclerView recycler;
     private FloatingActionButton fab;
     private EditText etWorkoutName;
     private View emptyList;
+
+    public static InsertWorkoutFragment newInstance(long workoutId) {
+        Bundle args = new Bundle();
+        ExtrasHelper.putWorkoutId(workoutId, args);
+        InsertWorkoutFragment fragment = new InsertWorkoutFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -68,7 +77,7 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
     @Override
     protected void onActivityResultOk(int requestCode, Intent data) {
         switch (requestCode) {
-            case REQUEST_EXERCISE_CHOOSER: {
+            case RequestCodeHelper.EXERCISE_SELECTOR: {
                 getPresenter().onResultOkExerciseChooser(data);
             }
         }
@@ -76,56 +85,72 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
 
     @Override
     protected void initViews(View view) {
-        inflateViews(view);
-        initToolbar();
-        initRecyclerView();
-        initFab();
-        initEmptyView();
+        initToolbar(view);
+        initEditTexts(view);
+        initRecyclerView(view);
+        initFab(view);
+        initEmptyView(view);
     }
 
     @Override
-    public void updateExercisesListAndVisibility() {
+    public void updateExercises() {
         recycler.getAdapter().notifyDataSetChanged();
-        updateVisibilityOfViews();
-    }
-
-    @Override
-    public void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void startExercisesChooserActivity(ArrayList<ExerciseView> exercises) {
-        ExerciseSelectorActivity.start(this, exercises, REQUEST_EXERCISE_CHOOSER);
+        ExerciseSelectorActivity.start(this, exercises);
     }
 
     @Override
     public String getTextFromWorkoutName() {
-        return etWorkoutName.getText().toString();
+        return etWorkoutName.getText().toString().trim();
     }
 
     @Override
-    public void updateWorkoutNameView(String name) {
+    public void setWorkoutName(String name) {
         etWorkoutName.setText(name);
         etWorkoutName.setSelection(etWorkoutName.getText().length());
     }
 
     @Override
-    public void updateToolbarTitle(String title) {
+    public void setTitle(String title) {
         toolbar.setTitle(title);
     }
 
-    private void inflateViews(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recycler = (RecyclerView) view.findViewById(R.id.recycler);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        etWorkoutName = (EditText) view.findViewById(R.id.frg_insert_workout__et__name);
-        emptyList = view.findViewById(R.id.emptyList);
+    @Override
+    public void hideExercises() {
+        recycler.setVisibility(View.GONE);
     }
 
-    private void initRecyclerView() {
+    @Override
+    public void showEmptyView() {
+        emptyList.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showExercises() {
+        recycler.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyView() {
+        emptyList.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClickExercise(int position) {
+    }
+
+    @Override
+    public List<ExerciseView> getExercises() {
+        return getPresenter().getExercises();
+    }
+
+    private void initRecyclerView(View view) {
+        recycler = (RecyclerView) view.findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter());
+        ExercisesListAdapter adapter = new ExercisesListAdapter(this);
         recycler.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback = new SwipeExercise(getActivity(), adapter);
@@ -133,11 +158,8 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         touchHelper.attachToRecyclerView(recycler);
     }
 
-    private void initToolbar() {
-        initAppCompatActivity();
-    }
-
-    protected void initAppCompatActivity() {
+    private void initToolbar(View view) {
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -150,7 +172,12 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         });
     }
 
-    private void initFab() {
+    private void initEditTexts(View view) {
+        etWorkoutName = (EditText) view.findViewById(R.id.frg_insert_workout__et__name);
+    }
+
+    private void initFab(View view) {
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,32 +186,19 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         });
     }
 
-    private void initEmptyView() {
+    private void initEmptyView(View view) {
+        emptyList = view.findViewById(R.id.emptyList);
+
         ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
         imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_teal_300), PorterDuff.Mode.SRC_ATOP);
 
         TextView tvTitle = (TextView) emptyList.findViewById(R.id.tvEmptyListTitle);
-        tvTitle.setText("No exercises");
+        tvTitle.setText(R.string.no_exercises);
 
         TextView tvMessage = (TextView) emptyList.findViewById(R.id.tvEmptyListMessage);
-        tvMessage.setText("Add exercises by tapping the + button");
+        tvMessage.setText(R.string.click_plus_to_add);
 
         emptyList.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void updateVisibilityOfViews() {
-        boolean emptyList = getPresenter().getExercises().isEmpty();
-
-        if (emptyList) {
-            recycler.setVisibility(View.GONE);
-            this.emptyList.setVisibility(View.VISIBLE);
-
-        } else {
-            this.emptyList.setVisibility(View.GONE);
-            recycler.setVisibility(View.VISIBLE);
-        }
-
     }
 
 }

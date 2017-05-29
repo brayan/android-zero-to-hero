@@ -14,12 +14,8 @@
 
         <include layout="@layout/recycler" />
 
-        <include layout="@layout/ept_list" />
-
-
     </LinearLayout>
 
     <include layout="@layout/fab" />
-
 
 </FrameLayout>

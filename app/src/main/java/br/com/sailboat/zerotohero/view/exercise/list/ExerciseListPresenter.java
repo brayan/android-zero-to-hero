@@ -18,8 +18,13 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
     }
 
     @Override
-    protected void postResume() {
+    protected void onResumeFirstSession() {
         loadExercises();
+    }
+
+    @Override
+    protected void onResumeAfterRestart() {
+        updateContentViews();
     }
 
     public void postActivityResult() {
@@ -38,7 +43,7 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
 
     @Override
     public List<ExerciseView> getExercises() {
-        return getViewModel().getExercises();
+        return viewModel.getExercises();
     }
 
     private void loadExercises() {
@@ -56,27 +61,42 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
             public void onSuccess() {
                 getExercises().clear();
                 getExercises().addAll(exercises);
-                getView().updateContentViews();
+                updateContentViews();
             }
 
             @Override
             public void onFail(Exception e) {
                 printLogAndShowDialog(e);
-                getView().updateContentViews();
+                updateContentViews();
             }
         });
 
     }
 
-    private ExerciseListViewModel getViewModel() {
-        return viewModel;
+    private void updateContentViews() {
+        getView().updateExercises();
+        updateVisibilityOfViews();
+    }
+
+    private void updateVisibilityOfViews() {
+        if (viewModel.getExercises().isEmpty()) {
+            getView().hideExercises();
+            getView().showEmptyState();
+        } else {
+            getView().showExercises();
+            getView().hideEmptyState();
+        }
     }
 
 
     public interface View extends BasePresenter.View{
-        void updateContentViews();
         void startExerciseDetailsActivity(long exerciseId);
         void startNewExerciseActivity();
+        void updateExercises();
+        void showExercises();
+        void hideExercises();
+        void showEmptyState();
+        void hideEmptyState();
     }
 
 }

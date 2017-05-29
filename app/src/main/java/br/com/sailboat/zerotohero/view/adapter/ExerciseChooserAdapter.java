@@ -1,9 +1,6 @@
 package br.com.sailboat.zerotohero.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.LongSparseArray;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -21,14 +18,13 @@ public class ExerciseChooserAdapter extends RecyclerView.Adapter<ExerciseChooser
 
     @Override
     public ExerciseChooserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflateLayout(parent, ExerciseChooserViewHolder.LAYOUT_ID);
-        return new ExerciseChooserViewHolder(view, callback);
+        return ExerciseChooserViewHolder.newInstance(parent, callback);
     }
 
     @Override
     public void onBindViewHolder(ExerciseChooserViewHolder holder, int position) {
         ExerciseView exercise = callback.getExerciseList().get(position);
-        holder.onBindViewHolder(exercise, callback.getSelectedExercises());
+        holder.onBindViewHolder(exercise);
     }
 
     @Override
@@ -36,13 +32,10 @@ public class ExerciseChooserAdapter extends RecyclerView.Adapter<ExerciseChooser
         return callback.getExerciseList().size();
     }
 
-    private View inflateLayout(ViewGroup parent, int layoutId) {
-        return LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-    }
-
 
     public interface Callback extends ExerciseChooserViewHolder.Callback {
-        LongSparseArray<ExerciseView> getSelectedExercises();
         List<ExerciseView> getExerciseList();
     }
+
+
 }

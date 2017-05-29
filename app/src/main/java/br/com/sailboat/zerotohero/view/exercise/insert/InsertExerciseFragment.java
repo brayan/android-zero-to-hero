@@ -1,5 +1,6 @@
 package br.com.sailboat.zerotohero.view.exercise.insert;
 
+import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.widget.EditText;
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.helper.UIHelper;
 import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 
 public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter> implements InsertExercisePresenter.View {
 
@@ -20,6 +22,16 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     private EditText etSets;
     private EditText etReps;
     private EditText etNotes;
+
+
+    public static InsertExerciseFragment newInstance(long exerciseId) {
+        Bundle args = new Bundle();
+        ExtrasHelper.putExerciseId(exerciseId, args);
+        InsertExerciseFragment fragment = new InsertExerciseFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -33,8 +45,8 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
 
     @Override
     protected void initViews(View view) {
-        inflateViews(view);
-        initToolbar();
+        initToolbar(view);
+        initEditTexts(view);
     }
 
     @Override
@@ -86,23 +98,18 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     }
 
     @Override
-    public void setSet(String set) {
-        etSets.setText(set);
+    public void setSets(String sets) {
+        etSets.setText(sets);
     }
 
     @Override
-    public void setRepetition(String repetition) {
-        etReps.setText(repetition);
+    public void setReps(String reps) {
+        etReps.setText(reps);
     }
 
     @Override
     public void setNotes(String notes) {
         etNotes.setText(notes);
-    }
-
-    @Override
-    public void showKeyboard() {
-        UIHelper.openKeyboard(getActivity(), etName);
     }
 
     @Override
@@ -116,20 +123,13 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
         toolbar.setTitle(title);
     }
 
-    private void inflateViews(View view) {
+    @Override
+    public void showKeyboard() {
+        UIHelper.openKeyboard(getActivity(), etName);
+    }
+
+    private void initToolbar(View view) {
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        etName = (EditText) view.findViewById(R.id.frg_insert_exercise__et__name);
-        etWeight = (EditText) view.findViewById(R.id.frg_insert_exercise__et__weight);
-        etReps = (EditText) view.findViewById(R.id.frg_insert_exercise__et__reps);
-        etSets = (EditText) view.findViewById(R.id.frg_insert_exercise__et__sets);
-        etNotes = (EditText) view.findViewById(R.id.frg_insert_exercise__et__notes);
-    }
-
-    private void initToolbar() {
-        initAppCompatActivity();
-    }
-
-    protected void initAppCompatActivity() {
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -140,6 +140,14 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
                 getActivity().onBackPressed();
             }
         });
+    }
+
+    private void initEditTexts(View view) {
+        etName = (EditText) view.findViewById(R.id.frg_insert_exercise__et__name);
+        etWeight = (EditText) view.findViewById(R.id.frg_insert_exercise__et__weight);
+        etReps = (EditText) view.findViewById(R.id.frg_insert_exercise__et__reps);
+        etSets = (EditText) view.findViewById(R.id.frg_insert_exercise__et__sets);
+        etNotes = (EditText) view.findViewById(R.id.frg_insert_exercise__et__notes);
     }
 
 }

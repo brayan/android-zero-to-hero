@@ -84,8 +84,8 @@ public class ExerciseDetailsAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         return callback.getExerciseDetails().get(position).getViewType();
     }
 
-    public interface Callback {
 
+    public interface Callback {
         List<RecyclerItem> getExerciseDetails();
     }
 

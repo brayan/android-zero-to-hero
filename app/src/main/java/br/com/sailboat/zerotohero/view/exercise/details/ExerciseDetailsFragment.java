@@ -1,6 +1,7 @@
 package br.com.sailboat.zerotohero.view.exercise.details;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.view.View;
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.TwoOptionsDialog;
 import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.view.adapter.ExerciseDetailsAdapter;
 import br.com.sailboat.zerotohero.view.exercise.insert.InsertExerciseActivity;
 
@@ -22,6 +24,15 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     private Toolbar toolbar;
     private RecyclerView recycler;
     private FloatingActionButton fab;
+
+    public static ExerciseDetailsFragment newInstance(long exerciseId) {
+        Bundle args = new Bundle();
+        ExtrasHelper.putExerciseId(exerciseId, args);
+        ExerciseDetailsFragment fragment = new ExerciseDetailsFragment();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Override
     protected int getLayoutId() {

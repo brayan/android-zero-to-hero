@@ -7,11 +7,7 @@ import br.com.sailboat.zerotohero.model.sqlite.Workout;
 
 public class WorkoutListViewModel {
 
-    private transient final List<Workout> workoutList;
-
-    public WorkoutListViewModel() {
-        this.workoutList = new ArrayList<>();
-    }
+    private final List<Workout> workoutList = new ArrayList<>();
 
     public List<Workout> getWorkoutList() {
         return workoutList;

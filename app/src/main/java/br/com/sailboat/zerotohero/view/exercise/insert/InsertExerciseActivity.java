@@ -6,8 +6,8 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
 import br.com.sailboat.canoe.base.BaseActivitySingleFragment;
-import br.com.sailboat.zerotohero.helper.Extras;
-import br.com.sailboat.zerotohero.helper.RequestCodes;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.RequestCodeHelper;
 
 public class InsertExerciseActivity extends BaseActivitySingleFragment<InsertExerciseFragment> {
 
@@ -17,7 +17,13 @@ public class InsertExerciseActivity extends BaseActivitySingleFragment<InsertExe
 
     public static void start(Fragment fragment, long exerciseId) {
         Intent starter = getStartIntent(fragment.getActivity(), exerciseId);
-        fragment.startActivityForResult(starter, RequestCodes.INSERT_EXERCISE);
+        fragment.startActivityForResult(starter, RequestCodeHelper.INSERT_EXERCISE);
+    }
+
+    @Override
+    protected InsertExerciseFragment newFragmentInstance() {
+        long exerciseId = ExtrasHelper.getExerciseId(getIntent());
+        return InsertExerciseFragment.newInstance(exerciseId);
     }
 
     @NonNull
@@ -25,14 +31,10 @@ public class InsertExerciseActivity extends BaseActivitySingleFragment<InsertExe
         Intent starter = new Intent(context, InsertExerciseActivity.class);
 
         if (exerciseId != -1) {
-            Extras.putExerciseId(exerciseId, starter);
+            ExtrasHelper.putExerciseId(exerciseId, starter);
         }
 
         return starter;
     }
 
-    @Override
-    protected InsertExerciseFragment newFragmentInstance() {
-        return new InsertExerciseFragment();
-    }
 }

@@ -1,17 +1,17 @@
 package br.com.sailboat.zerotohero.view.adapter.view_holder;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.LongSparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
-public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
+import static br.com.sailboat.canoe.base.BaseViewHolder.inflateLayout;
 
-    public static final int LAYOUT_ID = R.layout.vh_exercise_selector;
+public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
 
     private TextView tvName;
     private TextView tvWeight;
@@ -21,6 +21,13 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
 
     private ExerciseChooserViewHolder.Callback callback;
 
+
+    public static ExerciseChooserViewHolder newInstance(ViewGroup parent, ExerciseChooserViewHolder.Callback callback) {
+        View view = inflateLayout(parent, R.layout.vh_exercise_selector);
+        return new ExerciseChooserViewHolder(view, callback);
+    }
+
+
     public ExerciseChooserViewHolder(View itemView, ExerciseChooserViewHolder.Callback callback) {
         super(itemView);
         setCallback(callback);
@@ -28,9 +35,9 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
         checkCallbackAndBindListeners(itemView);
     }
 
-    public void onBindViewHolder(ExerciseView exercise, LongSparseArray<ExerciseView> selectedExercises) {
+    public void onBindViewHolder(ExerciseView exercise) {
         bindTextViews(exercise);
-        bindCheckboxSelected(exercise, selectedExercises);
+        bindCheckboxSelected(exercise);
     }
 
     private void bindTextViews(ExerciseView exercise) {
@@ -40,9 +47,8 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
         tvReps.setText(String.valueOf(exercise.getRep()) + " reps");
     }
 
-    private void bindCheckboxSelected(ExerciseView exercise, LongSparseArray<ExerciseView> selectedExercises) {
-        ExerciseView selectedExercise = selectedExercises.get(exercise.getExerciseId());
-        boolean isSelected = (selectedExercise != null);
+    private void bindCheckboxSelected(ExerciseView exercise) {
+        boolean isSelected = callback.isExerciseSelected(exercise);
         cbSelected.setChecked(isSelected);
     }
 
@@ -84,6 +90,7 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
 
     public interface Callback {
         void onClickExercise(int position);
+        boolean isExerciseSelected(ExerciseView exercise);
     }
 
 }

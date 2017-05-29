@@ -15,29 +15,28 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.helper.Extras;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.view.adapter.ExerciseChooserAdapter;
 
-public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPresenter> implements ExerciseSelectorPresenter.View {
+public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPresenter> implements ExerciseSelectorPresenter.View, ExerciseChooserAdapter.Callback {
 
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+    private RecyclerView recycler;
     private View emptyList;
     private FloatingActionButton fab;
 
     public static ExerciseSelectorFragment newInstance(List<ExerciseView> exercises) {
         Bundle args = new Bundle();
-        Extras.putExerciseViewList(exercises, args);
+        ExtrasHelper.putExerciseViewList(exercises, args);
         ExerciseSelectorFragment fragment = new ExerciseSelectorFragment();
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -59,24 +58,77 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
 
     @Override
     protected void initViews(View view) {
-        inflateViews(view);
-        initToolbar();
-        initRecyclerView();
-        initEmptyView();
-        initFab();
+        initToolbar(view);
+        initRecyclerView(view);
+        initEmptyView(view);
+        initFab(view);
     }
 
-    private void initFab() {
-        fab.setImageResource(R.drawable.ic_check_white_24dp);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPresenter().onClickFabSave();
-            }
-        });
+    @Override
+    public void updateExerciseList() {
+        recycler.getAdapter().notifyDataSetChanged();
     }
 
-    private void initToolbar() {
+    @Override
+    public void setTitle(String title) {
+        toolbar.setTitle(title);
+    }
+
+    @Override
+    public void updateExerciseView(int position) {
+        recycler.getAdapter().notifyItemChanged(position);
+    }
+
+    @Override
+    public void closeActivityResultOk(List<ExerciseView> exercises) {
+        Intent data = new Intent();
+        ExtrasHelper.putExerciseViewList(exercises, data);
+        getActivity().setResult(Activity.RESULT_OK, data);
+        getActivity().finish();
+    }
+
+    @Override
+    public void hideRecycler() {
+        recycler.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showEmptyView() {
+        emptyList.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showRecycler() {
+        recycler.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideEmptyView() {
+        emptyList.setVisibility(View.GONE);
+    }
+
+    @Override
+    public LinkedHashMap<Long, ExerciseView> getSelectedExercises() {
+        return getPresenter().getSelectedExercises();
+    }
+
+    @Override
+    public List<ExerciseView> getExerciseList() {
+        return getPresenter().getExerciseList();
+    }
+
+    @Override
+    public void onClickExercise(int position) {
+        getPresenter().onClickExercise(position);
+    }
+
+    @Override
+    public boolean isExerciseSelected(ExerciseView exercise) {
+        return getPresenter().isExerciseSelected(exercise);
+    }
+
+    private void initToolbar(View view) {
+        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -84,76 +136,22 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getPresenter().onClickNavigationIcon();
+                getActivity().onBackPressed();
             }
         });
         toolbar.setTitle(R.string.app_name);
     }
 
-    @Override
-    public void updateExerciseListView() {
-        recyclerView.getAdapter().notifyDataSetChanged();
-        updateVisibilityOfViews();
+    private void initRecyclerView(View view) {
+        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ExerciseChooserAdapter adapter = new ExerciseChooserAdapter(this);
+        recycler.setAdapter(adapter);
     }
 
-    @Override
-    public void showToast(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void updateTitle(String title) {
-        toolbar.setTitle(title);
-    }
-
-    @Override
-    public void updateVisibilityOfViews() {
-        boolean isEmpty = getPresenter().getExerciseList().isEmpty();
-
-        if (isEmpty) {
-            recyclerView.setVisibility(View.GONE);
-            emptyList.setVisibility(View.VISIBLE);
-
-        } else {
-            emptyList.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
-
-    }
-
-    @Override
-    public void updateExerciseView(int position) {
-        recyclerView.getAdapter().notifyItemChanged(position);
-    }
-
-    @Override
-    public void closeActivityResultCanceled() {
-        getActivity().setResult(Activity.RESULT_CANCELED);
-        getActivity().finish();
-    }
-
-    @Override
-    public void closeActivityResultOk(List<ExerciseView> exercises) {
-        Intent data = new Intent();
-        Extras.putExerciseViewList(exercises, data);
-        getActivity().setResult(Activity.RESULT_OK, data);
-        getActivity().finish();
-    }
-
-    private void inflateViews(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+    private void initEmptyView(View view) {
         emptyList = view.findViewById(R.id.emptyList);
-    }
 
-    private void initRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ExerciseChooserAdapter adapter = new ExerciseChooserAdapter(getPresenter());
-        recyclerView.setAdapter(adapter);
-    }
-
-    private void initEmptyView() {
         ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
         imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_blue_300), PorterDuff.Mode.SRC_ATOP);
 
@@ -164,6 +162,17 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
         tvMessage.setVisibility(View.GONE);
 
         emptyList.setVisibility(View.GONE);
+    }
+
+    private void initFab(View view) {
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setImageResource(R.drawable.ic_check_white_24dp);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPresenter().onClickFabSave();
+            }
+        });
     }
 
 }
