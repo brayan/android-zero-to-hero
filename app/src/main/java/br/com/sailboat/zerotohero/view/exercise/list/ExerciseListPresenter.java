@@ -5,16 +5,18 @@ import java.util.List;
 
 import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.AsyncHelper;
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
-import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseViewSQLite;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 
 public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.View> implements ExercisesListAdapter.Callback {
 
     private ExerciseListViewModel viewModel = new ExerciseListViewModel();
+    private int limit = 0;
 
     public ExerciseListPresenter(ExerciseListPresenter.View view) {
         super(view);
+        setLimit(50);
     }
 
     @Override
@@ -33,8 +35,8 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
 
     @Override
     public void onClickExercise(int position) {
-        ExerciseView exercise = getExercises().get(position);
-        getView().startExerciseDetailsActivity(exercise.getExerciseId());
+        Exercise exercise = getExercises().get(position);
+        getView().startExerciseDetailsActivity(exercise.getId());
     }
 
     public void onClickNewExercise() {
@@ -42,19 +44,27 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
     }
 
     @Override
-    public List<ExerciseView> getExercises() {
+    public List<Exercise> getExercises() {
         return viewModel.getExercises();
+    }
+
+    public void onLoadMoreExercises(int currentPage) {
+        // TODO
+
+        // TOTAL: 1000 EXERCISES;
+        // INITIAL LOAD: 50;
+        // CURRENT PAGE: 1;
     }
 
     private void loadExercises() {
 
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
-            List<ExerciseView> exercises = new ArrayList<>();
+            List<Exercise> exercises = new ArrayList<>();
 
             @Override
             public void doInBackground() throws Exception {
-                exercises = ExerciseViewSQLite.newInstance(getContext()).getAll();
+                exercises = ExerciseSQLite.newInstance(getContext()).getAll(null);
             }
 
             @Override
@@ -88,14 +98,28 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
         }
     }
 
+    public int getLimit() {
+        return limit;
+    }
 
-    public interface View extends BasePresenter.View{
+    public void setLimit(int limit) {
+        this.limit = limit;
+    }
+
+    public interface View extends BasePresenter.View {
+
         void startExerciseDetailsActivity(long exerciseId);
+
         void startNewExerciseActivity();
+
         void updateExercises();
+
         void showExercises();
+
         void hideExercises();
+
         void showEmptyState();
+
         void hideEmptyState();
     }
 

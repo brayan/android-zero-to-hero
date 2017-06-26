@@ -5,9 +5,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import br.com.sailboat.canoe.base.BaseViewHolder;
+import br.com.sailboat.canoe.exception.EntityNotFoundException;
 import br.com.sailboat.canoe.helper.DecimalHelper;
+import br.com.sailboat.canoe.helper.LogHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
+import br.com.sailboat.zerotohero.model.sqlite.ExerciseHistory;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseHistorySQLite;
 
 public class ExerciseViewHolder extends BaseViewHolder {
 
@@ -32,15 +36,23 @@ public class ExerciseViewHolder extends BaseViewHolder {
         checkCallbackAndBindListeners(itemView);
     }
 
-    public void onBindViewHolder(ExerciseView exercise) {
+    public void onBindViewHolder(Exercise exercise) {
         bindTextViews(exercise);
     }
 
-    private void bindTextViews(ExerciseView exercise) {
-        tvName.setText(exercise.getName());
-        tvWeight.setText(String.valueOf(DecimalHelper.formatValue(exercise.getWeight(), 1)) + " KG ");
-        tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");
-        tvReps.setText(String.valueOf(exercise.getRep()) + " reps");
+    private void bindTextViews(Exercise exercise) {
+
+        try {
+            tvName.setText(exercise.getName());
+            ExerciseHistory lastHistory = ExerciseHistorySQLite.newInstance(itemView.getContext()).getMostRecentExerciseHistory(exercise.getId());
+            tvWeight.setText(String.valueOf(DecimalHelper.formatValue(lastHistory.getWeight(), 1)));
+            tvSets.setText(String.valueOf(lastHistory.getSets()) + " sets ");
+            tvReps.setText(String.valueOf(lastHistory.getReps()) + " reps");
+
+        } catch (EntityNotFoundException e) {
+            LogHelper.logException(e);
+        }
+
     }
 
     private void initViews(View view) {

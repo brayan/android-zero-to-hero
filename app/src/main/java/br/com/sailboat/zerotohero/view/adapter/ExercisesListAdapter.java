@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import java.util.Collections;
 import java.util.List;
 
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.view_holder.ExerciseViewHolder;
 
 public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolder> implements ItemTouchHelperAdapter {
@@ -26,7 +26,7 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
 
     @Override
     public void onBindViewHolder(ExerciseViewHolder holder, int position) {
-        ExerciseView exercise = callback.getExercises().get(position);
+        Exercise exercise = callback.getExercises().get(position);
         holder.onBindViewHolder(exercise);
     }
 
@@ -62,7 +62,7 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
 
 
     public interface Callback extends ExerciseViewHolder.Callback {
-        List<ExerciseView> getExercises();
+        List<Exercise> getExercises();
     }
 
 

@@ -36,9 +36,9 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     @Override
-    protected void initViews(View view) {
-        initRecyclerView(view);
-        initEmptyView(view);
+    protected void initViews() {
+        initRecyclerView();
+        initEmptyView();
     }
 
     @Override
@@ -85,15 +85,15 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
         getPresenter().onClickNewWorkout();
     }
 
-    private void initRecyclerView(View view) {
-        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+    private void initRecyclerView() {
+        recycler = (RecyclerView) getView().findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         WorkoutListAdapter adapter = new WorkoutListAdapter(getPresenter().getWorkouts(), this);
         recycler.setAdapter(adapter);
     }
 
-    private void initEmptyView(View view) {
-        emptyList = view.findViewById(R.id.emptyList);
+    private void initEmptyView() {
+        emptyList = getView().findViewById(R.id.emptyList);
 
         ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
         imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_orange_300), PorterDuff.Mode.SRC_ATOP);

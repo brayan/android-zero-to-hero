@@ -25,7 +25,7 @@ import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.helper.RequestCodeHelper;
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.adapter.SwipeExercise;
 import br.com.sailboat.zerotohero.view.exercise.selector.ExerciseSelectorActivity;
@@ -84,12 +84,12 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
     }
 
     @Override
-    protected void initViews(View view) {
-        initToolbar(view);
-        initEditTexts(view);
-        initRecyclerView(view);
-        initFab(view);
-        initEmptyView(view);
+    protected void initViews() {
+        initToolbar();
+        initEditTexts();
+        initRecyclerView();
+        initFab();
+        initEmptyView();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
     }
 
     @Override
-    public void startExercisesChooserActivity(ArrayList<ExerciseView> exercises) {
+    public void startExercisesChooserActivity(ArrayList<Exercise> exercises) {
         ExerciseSelectorActivity.start(this, exercises);
     }
 
@@ -143,12 +143,12 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
     }
 
     @Override
-    public List<ExerciseView> getExercises() {
+    public List<Exercise> getExercises() {
         return getPresenter().getExercises();
     }
 
-    private void initRecyclerView(View view) {
-        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+    private void initRecyclerView() {
+        recycler = (RecyclerView) getView().findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         ExercisesListAdapter adapter = new ExercisesListAdapter(this);
         recycler.setAdapter(adapter);
@@ -158,8 +158,8 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         touchHelper.attachToRecyclerView(recycler);
     }
 
-    private void initToolbar(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+    private void initToolbar() {
+        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -172,12 +172,12 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         });
     }
 
-    private void initEditTexts(View view) {
-        etWorkoutName = (EditText) view.findViewById(R.id.frg_insert_workout__et__name);
+    private void initEditTexts() {
+        etWorkoutName = (EditText) getView().findViewById(R.id.frg_insert_workout__et__name);
     }
 
-    private void initFab(View view) {
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+    private void initFab() {
+        fab = (FloatingActionButton) getView().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -186,8 +186,8 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         });
     }
 
-    private void initEmptyView(View view) {
-        emptyList = view.findViewById(R.id.emptyList);
+    private void initEmptyView() {
+        emptyList = getView().findViewById(R.id.emptyList);
 
         ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
         imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_teal_300), PorterDuff.Mode.SRC_ATOP);

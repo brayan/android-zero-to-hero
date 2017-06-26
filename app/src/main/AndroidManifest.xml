@@ -18,6 +18,8 @@
 
         <activity android:name=".view.main.MainActivity" />
 
+        <activity android:name=".view.exercise.list.ExerciseListActivity" />
+
         <activity android:name=".view.workout.insert.InsertWorkoutActivity" />
 
         <activity android:name=".view.workout.list.WorkoutListActivity" />

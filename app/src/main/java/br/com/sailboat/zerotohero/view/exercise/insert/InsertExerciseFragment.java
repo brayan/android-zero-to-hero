@@ -44,9 +44,9 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     }
 
     @Override
-    protected void initViews(View view) {
-        initToolbar(view);
-        initEditTexts(view);
+    protected void initViews() {
+        initToolbar();
+        initEditTexts();
     }
 
     @Override
@@ -128,8 +128,8 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
         UIHelper.openKeyboard(getActivity(), etName);
     }
 
-    private void initToolbar(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+    private void initToolbar() {
+        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -142,12 +142,12 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
         });
     }
 
-    private void initEditTexts(View view) {
-        etName = (EditText) view.findViewById(R.id.frg_insert_exercise__et__name);
-        etWeight = (EditText) view.findViewById(R.id.frg_insert_exercise__et__weight);
-        etReps = (EditText) view.findViewById(R.id.frg_insert_exercise__et__reps);
-        etSets = (EditText) view.findViewById(R.id.frg_insert_exercise__et__sets);
-        etNotes = (EditText) view.findViewById(R.id.frg_insert_exercise__et__notes);
+    private void initEditTexts() {
+        etName = (EditText) getView().findViewById(R.id.frg_insert_exercise__et__name);
+        etWeight = (EditText) getView().findViewById(R.id.frg_insert_exercise__et__weight);
+        etReps = (EditText) getView().findViewById(R.id.frg_insert_exercise__et__reps);
+        etSets = (EditText) getView().findViewById(R.id.frg_insert_exercise__et__sets);
+        etNotes = (EditText) getView().findViewById(R.id.frg_insert_exercise__et__notes);
     }
 
 }

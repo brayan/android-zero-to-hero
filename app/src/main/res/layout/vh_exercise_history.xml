@@ -41,9 +41,9 @@
                 android:id="@+id/exercise_history__tv__weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/md_orange_400"
+                android:textColor="@color/md_orange_300"
                 android:textSize="@dimen/text_size_small"
-                tools:text="30 KG"/>
+                tools:text="30kg"/>
 
         </LinearLayout>
 
@@ -58,7 +58,7 @@
                 android:id="@+id/exercise_history__tv__sets"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/md_blue_grey_500"
+                android:textColor="@color/md_blue_grey_300"
                 android:textSize="@dimen/text_size_small"
                 tools:text="3 sets"/>
 
@@ -76,7 +76,7 @@
                 android:id="@+id/exercise_history__tv__reps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/md_blue_grey_500"
+                android:textColor="@color/md_blue_grey_300"
                 android:textSize="@dimen/text_size_small"
                 tools:text="3 reps"/>
 

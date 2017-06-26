@@ -16,25 +16,24 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
-import br.com.sailboat.zerotohero.view.adapter.ExerciseChooserAdapter;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
+import br.com.sailboat.zerotohero.view.adapter.ExerciseSelectorAdapter;
 
-public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPresenter> implements ExerciseSelectorPresenter.View, ExerciseChooserAdapter.Callback {
+public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPresenter> implements ExerciseSelectorPresenter.View, ExerciseSelectorAdapter.Callback {
 
     private Toolbar toolbar;
     private RecyclerView recycler;
     private View emptyList;
     private FloatingActionButton fab;
 
-    public static ExerciseSelectorFragment newInstance(List<ExerciseView> exercises) {
+    public static ExerciseSelectorFragment newInstance(List<Exercise> exercises) {
         Bundle args = new Bundle();
-        ExtrasHelper.putExerciseViewList(exercises, args);
+        ExtrasHelper.putExercises(exercises, args);
         ExerciseSelectorFragment fragment = new ExerciseSelectorFragment();
         fragment.setArguments(args);
         return fragment;
@@ -57,11 +56,11 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
     }
 
     @Override
-    protected void initViews(View view) {
-        initToolbar(view);
-        initRecyclerView(view);
-        initEmptyView(view);
-        initFab(view);
+    protected void initViews() {
+        initToolbar();
+        initRecyclerView();
+        initEmptyView();
+        initFab();
     }
 
     @Override
@@ -80,9 +79,9 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
     }
 
     @Override
-    public void closeActivityResultOk(List<ExerciseView> exercises) {
+    public void closeActivityResultOk(List<Exercise> exercises) {
         Intent data = new Intent();
-        ExtrasHelper.putExerciseViewList(exercises, data);
+        ExtrasHelper.putExercises(exercises, data);
         getActivity().setResult(Activity.RESULT_OK, data);
         getActivity().finish();
     }
@@ -108,12 +107,7 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
     }
 
     @Override
-    public LinkedHashMap<Long, ExerciseView> getSelectedExercises() {
-        return getPresenter().getSelectedExercises();
-    }
-
-    @Override
-    public List<ExerciseView> getExerciseList() {
+    public List<Exercise> getExerciseList() {
         return getPresenter().getExerciseList();
     }
 
@@ -123,12 +117,12 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
     }
 
     @Override
-    public boolean isExerciseSelected(ExerciseView exercise) {
+    public boolean isExerciseSelected(Exercise exercise) {
         return getPresenter().isExerciseSelected(exercise);
     }
 
-    private void initToolbar(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+    private void initToolbar() {
+        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -142,15 +136,15 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
         toolbar.setTitle(R.string.app_name);
     }
 
-    private void initRecyclerView(View view) {
-        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+    private void initRecyclerView() {
+        recycler = (RecyclerView) getView().findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ExerciseChooserAdapter adapter = new ExerciseChooserAdapter(this);
+        ExerciseSelectorAdapter adapter = new ExerciseSelectorAdapter(this);
         recycler.setAdapter(adapter);
     }
 
-    private void initEmptyView(View view) {
-        emptyList = view.findViewById(R.id.emptyList);
+    private void initEmptyView() {
+        emptyList = getView().findViewById(R.id.emptyList);
 
         ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
         imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_blue_300), PorterDuff.Mode.SRC_ATOP);
@@ -164,8 +158,8 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
         emptyList.setVisibility(View.GONE);
     }
 
-    private void initFab(View view) {
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+    private void initFab() {
+        fab = (FloatingActionButton) getView().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_check_white_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

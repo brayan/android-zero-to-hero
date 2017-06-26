@@ -68,10 +68,10 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     }
 
     @Override
-    protected void initViews(View view) {
-        initRecyclerView(view);
-        initToolbar(view);
-        initFab(view);
+    protected void initViews() {
+        initRecyclerView();
+        initToolbar();
+        initFab();
     }
 
     @Override
@@ -103,8 +103,8 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
         dialog.show(getFragmentManager(), "DELETE_DIALOG");
     }
 
-    private void initToolbar(View view) {
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+    private void initToolbar() {
+        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
         AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
         appCompatActivity.setSupportActionBar(toolbar);
         appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -117,14 +117,14 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
         });
     }
 
-    private void initRecyclerView(View view) {
-        recycler = (RecyclerView) view.findViewById(R.id.recycler);
+    private void initRecyclerView() {
+        recycler = (RecyclerView) getView().findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         recycler.setAdapter(new ExerciseDetailsAdapter(getPresenter()));
     }
 
-    private void initFab(View view) {
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+    private void initFab() {
+        fab = (FloatingActionButton) getView().findViewById(R.id.fab);
         fab.setImageResource(R.drawable.ic_edit_white_24dp);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

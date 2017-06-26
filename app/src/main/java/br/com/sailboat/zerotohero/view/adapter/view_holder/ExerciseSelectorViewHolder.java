@@ -1,17 +1,20 @@
 package br.com.sailboat.zerotohero.view.adapter.view_holder;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import br.com.sailboat.canoe.base.BaseViewHolder;
+import br.com.sailboat.canoe.exception.EntityNotFoundException;
+import br.com.sailboat.canoe.helper.DecimalHelper;
+import br.com.sailboat.canoe.helper.LogHelper;
 import br.com.sailboat.zerotohero.R;
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
+import br.com.sailboat.zerotohero.model.sqlite.ExerciseHistory;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseHistorySQLite;
 
-import static br.com.sailboat.canoe.base.BaseViewHolder.inflateLayout;
-
-public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
+public class ExerciseSelectorViewHolder extends BaseViewHolder {
 
     private TextView tvName;
     private TextView tvWeight;
@@ -19,35 +22,40 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
     private TextView tvReps;
     private CheckBox cbSelected;
 
-    private ExerciseChooserViewHolder.Callback callback;
+    private ExerciseSelectorViewHolder.Callback callback;
 
 
-    public static ExerciseChooserViewHolder newInstance(ViewGroup parent, ExerciseChooserViewHolder.Callback callback) {
+    public static ExerciseSelectorViewHolder newInstance(ViewGroup parent, ExerciseSelectorViewHolder.Callback callback) {
         View view = inflateLayout(parent, R.layout.vh_exercise_selector);
-        return new ExerciseChooserViewHolder(view, callback);
+        return new ExerciseSelectorViewHolder(view, callback);
     }
 
 
-    public ExerciseChooserViewHolder(View itemView, ExerciseChooserViewHolder.Callback callback) {
+    public ExerciseSelectorViewHolder(View itemView, ExerciseSelectorViewHolder.Callback callback) {
         super(itemView);
         setCallback(callback);
         initViews(itemView);
         checkCallbackAndBindListeners(itemView);
     }
 
-    public void onBindViewHolder(ExerciseView exercise) {
+    public void onBindViewHolder(Exercise exercise) {
         bindTextViews(exercise);
         bindCheckboxSelected(exercise);
     }
 
-    private void bindTextViews(ExerciseView exercise) {
-        tvName.setText(exercise.getName());
-        tvWeight.setText(String.valueOf(exercise.getWeight()) + " KG ");
-        tvSets.setText(String.valueOf(exercise.getSet()) + " sets ");
-        tvReps.setText(String.valueOf(exercise.getRep()) + " reps");
+    private void bindTextViews(Exercise exercise) {
+        try {
+            tvName.setText(exercise.getName());
+            ExerciseHistory lastHistory = ExerciseHistorySQLite.newInstance(itemView.getContext()).getMostRecentExerciseHistory(exercise.getId());
+            tvWeight.setText(DecimalHelper.formatValue(lastHistory.getWeight(), 1));
+            tvSets.setText(String.valueOf(lastHistory.getSets()) + " sets ");
+            tvReps.setText(String.valueOf(lastHistory.getReps()) + " reps");
+        } catch (EntityNotFoundException e) {
+            LogHelper.logException(e);
+        }
     }
 
-    private void bindCheckboxSelected(ExerciseView exercise) {
+    private void bindCheckboxSelected(Exercise exercise) {
         boolean isSelected = callback.isExerciseSelected(exercise);
         cbSelected.setChecked(isSelected);
     }
@@ -87,10 +95,11 @@ public class ExerciseChooserViewHolder extends RecyclerView.ViewHolder {
     }
 
 
-
     public interface Callback {
+
         void onClickExercise(int position);
-        boolean isExerciseSelected(ExerciseView exercise);
+
+        boolean isExerciseSelected(Exercise exercise);
     }
 
 }

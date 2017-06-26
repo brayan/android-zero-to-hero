@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.sailboat.canoe.helper.EntityHelper;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.model.sqlite.Workout;
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
 public class WorkoutDetailsViewModel {
 
     private long workoutId = EntityHelper.NO_ID;
     private Workout workout;
-    private final List<ExerciseView> exerciseList = new ArrayList<>();
+    private final List<Exercise> exerciseList = new ArrayList<>();
 
     public long getWorkoutId() {
         return workoutId;
@@ -29,7 +29,7 @@ public class WorkoutDetailsViewModel {
         this.workout = workout;
     }
 
-    public List<ExerciseView> getExerciseList() {
+    public List<Exercise> getExerciseList() {
         return exerciseList;
     }
 

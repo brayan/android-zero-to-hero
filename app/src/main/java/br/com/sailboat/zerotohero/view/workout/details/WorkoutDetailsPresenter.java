@@ -8,10 +8,10 @@ import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.model.sqlite.Workout;
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
-import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseViewSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
@@ -74,8 +74,8 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
 
     @Override
     public void onClickExercise(int position) {
-        ExerciseView exercise = getExercises().get(position);
-        getView().startExerciseDetailsActivity(exercise.getExerciseId());
+        Exercise exercise = getExercises().get(position);
+        getView().startExerciseDetailsActivity(exercise.getId());
     }
 
     public void postActivityResult() {
@@ -87,14 +87,14 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
             Workout workout;
-            List<ExerciseView> exercises;
+            List<Exercise> exercises;
 
             @Override
             public void doInBackground() throws Exception {
                 long workoutId = viewModel.getWorkoutId();
 
                 workout = WorkoutSQLite.newInstance(getContext()).getWorkoutById(workoutId);
-                exercises = ExerciseViewSQLite.newInstance(getContext()).getFromWorkout(workoutId);
+                exercises = ExerciseSQLite.newInstance(getContext()).getFromWorkout(workoutId);
             }
 
             @Override
@@ -128,7 +128,7 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
         getView().setTitle(viewModel.getWorkout().getName());
     }
 
-    public List<ExerciseView> getExercises() {
+    public List<Exercise> getExercises() {
         return viewModel.getExerciseList();
     }
 

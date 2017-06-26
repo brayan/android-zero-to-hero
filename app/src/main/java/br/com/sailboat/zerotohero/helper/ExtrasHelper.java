@@ -8,7 +8,6 @@ import java.util.List;
 
 import br.com.sailboat.canoe.helper.EntityHelper;
 import br.com.sailboat.zerotohero.model.sqlite.Exercise;
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
 
 public class ExtrasHelper {
 
@@ -39,12 +38,8 @@ public class ExtrasHelper {
         intent.putExtra(LIST_EXERCISE, (ArrayList) exercises);
     }
 
-    public static void putExerciseViewList(List<ExerciseView> exercises, Intent intent) {
-        intent.putExtra(LIST_EXERCISE_VIEW, (ArrayList) exercises);
-    }
-
-    public static void putExerciseViewList(List<ExerciseView> exercises, Bundle bundle) {
-        bundle.putSerializable(LIST_EXERCISE_VIEW, (ArrayList) exercises);
+    public static void putExercises(List<Exercise> exercises, Bundle bundle) {
+        bundle.putSerializable(LIST_EXERCISE, (ArrayList) exercises);
     }
 
     public static long getWorkoutId(Intent intent) {
@@ -59,12 +54,8 @@ public class ExtrasHelper {
         return (List) intent.getSerializableExtra(LIST_EXERCISE);
     }
 
-    public static List<ExerciseView> getExerciseViewList(Intent intent) {
-        return (List) intent.getSerializableExtra(LIST_EXERCISE_VIEW);
-    }
-
-    public static List<ExerciseView> getExerciseViewList(Bundle bundle) {
-        return (List) bundle.getSerializable(LIST_EXERCISE_VIEW);
+    public static List<Exercise> getExercises(Bundle bundle) {
+        return (List) bundle.getSerializable(LIST_EXERCISE);
     }
 
     public static long getExerciseId(Intent intent) {
@@ -83,12 +74,5 @@ public class ExtrasHelper {
         intent.putExtra(DELETE_EXERCISE, true);
     }
 
-    public static void putExerciseView(ExerciseView exercise, Intent intent) {
-        intent.putExtra(EXERCISE_VIEW, exercise);
-    }
-
-    public static ExerciseView getExerciseView(Intent intent) {
-        return (ExerciseView) intent.getSerializableExtra(EXERCISE_VIEW);
-    }
 
 }

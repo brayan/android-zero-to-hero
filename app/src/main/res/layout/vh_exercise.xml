@@ -19,6 +19,4 @@
 
     </FrameLayout>
 
-    <include layout="@layout/divider" />
-
 </RelativeLayout>

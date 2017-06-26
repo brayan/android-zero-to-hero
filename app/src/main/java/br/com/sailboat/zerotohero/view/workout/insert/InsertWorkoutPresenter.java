@@ -14,10 +14,10 @@ import br.com.sailboat.canoe.helper.EntityHelper;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.model.sqlite.Workout;
-import br.com.sailboat.zerotohero.model.view.ExerciseView;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
-import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseViewSQLite;
+import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
 
@@ -67,7 +67,7 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
         }
     }
 
-    public List<ExerciseView> getExercises() {
+    public List<Exercise> getExercises() {
         return viewModel.getExercises();
     }
 
@@ -97,8 +97,8 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
                 dao.deleteFromWorkout(workout.getId());
 
                 for (int i = 0; i < viewModel.getExercises().size(); i++) {
-                    ExerciseView exercise = viewModel.getExercises().get(i);
-                    dao.save(workout.getId(), exercise.getExerciseId(), i);
+                    Exercise exercise = viewModel.getExercises().get(i);
+                    dao.save(workout.getId(), exercise.getId(), i);
                 }
 
             }
@@ -125,7 +125,7 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
     }
 
     public void onResultOkExerciseChooser(Intent data) {
-        List<ExerciseView> exercises = ExtrasHelper.getExerciseViewList(data);
+        List<Exercise> exercises = ExtrasHelper.getExercises(data);
         getExercises().clear();
         getExercises().addAll(exercises);
         updateContentViews();
@@ -135,7 +135,7 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
         long workoutId = viewModel.getWorkoutId();
 
         getExercises().clear();
-        getExercises().addAll(ExerciseViewSQLite.newInstance(getContext()).getFromWorkout(workoutId));
+        getExercises().addAll(ExerciseSQLite.newInstance(getContext()).getFromWorkout(workoutId));
     }
 
     private void updateContentViews() {
@@ -212,7 +212,7 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
 
 
     public interface View extends BasePresenter.View {
-        void startExercisesChooserActivity(ArrayList<ExerciseView> exercises);
+        void startExercisesChooserActivity(ArrayList<Exercise> exercises);
         String getTextFromWorkoutName();
         void setWorkoutName(String name);
         void setTitle(String title);

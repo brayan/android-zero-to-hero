@@ -3,6 +3,7 @@ package br.com.sailboat.zerotohero.view.exercise.list;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import br.com.sailboat.canoe.base.BaseFragment;
+import br.com.sailboat.canoe.recycler.EndlessRecyclerOnScrollListener;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.exercise.details.ExerciseDetailsActivity;
@@ -75,24 +77,32 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     }
 
     @Override
-    protected void initViews(View view) {
-        inflateViews(view);
+    protected void initViews() {
         initRecyclerView();
         initEmptyView();
     }
 
-    private void inflateViews(View view) {
-        recycler = (RecyclerView) view.findViewById(R.id.recycler);
-        emptyList = view.findViewById(R.id.emptyList);
-    }
-
     private void initRecyclerView() {
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recycler = (RecyclerView) getView().findViewById(R.id.recycler);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        recycler.setLayoutManager(manager);
         ExercisesListAdapter adapter = new ExercisesListAdapter(getPresenter());
         recycler.setAdapter(adapter);
+        recycler.addOnScrollListener(new EndlessRecyclerOnScrollListener(manager) {
+            @Override
+            public void onLoadMore(int currentPage) {
+                // TODO
+                getPresenter().onLoadMoreExercises(currentPage);
+//                Log.e("RECYCLER", "onLoadMore(): current_page: " + currentPage);
+            }
+        });
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler.getContext(),
+                manager.getOrientation());
+        recycler.addItemDecoration(dividerItemDecoration);
     }
 
     private void initEmptyView() {
+        emptyList = getView().findViewById(R.id.emptyList);
         ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
         imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_blue_300), PorterDuff.Mode.SRC_ATOP);
 

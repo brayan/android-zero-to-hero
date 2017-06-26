@@ -55,6 +55,7 @@ public class WorkoutSQLite extends BaseSQLite {
     public List<Workout> getAll() throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT Workout.* FROM Workout ");
+        sb.append(" ORDER BY Workout.name COLLATE NOCASE ");
 
         return getWorkoutList(sb);
     }

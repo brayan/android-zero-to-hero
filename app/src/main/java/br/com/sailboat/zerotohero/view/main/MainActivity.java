@@ -10,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import br.com.sailboat.canoe.helper.AnimationHelper;
 import br.com.sailboat.canoe.view.info.InfoActivity;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.InfoHelper;
@@ -88,10 +87,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    AnimationHelper.performScaleUpAnimation(fab);
+//                    AnimationHelper.performScaleUpAnimation(fab);
+                    fab.show();
 
                 } else if (state == ViewPager.SCROLL_STATE_DRAGGING) {
-                    AnimationHelper.performScaleDownAnimation(fab);
+//                    AnimationHelper.performScaleDownAnimation(fab);
+                    fab.hide();
                 }
             }
         });
@@ -118,6 +119,10 @@ public class MainActivity extends AppCompatActivity {
 
     private int getCurrentTabPosition() {
         return tabLayout.getSelectedTabPosition();
+    }
+
+    public FloatingActionButton getFab() {
+        return this.fab;
     }
 
 }
