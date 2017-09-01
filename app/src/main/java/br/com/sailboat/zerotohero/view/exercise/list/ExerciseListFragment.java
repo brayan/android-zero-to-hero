@@ -3,7 +3,6 @@ package br.com.sailboat.zerotohero.view.exercise.list;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -96,9 +95,7 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 //                Log.e("RECYCLER", "onLoadMore(): current_page: " + currentPage);
             }
         });
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler.getContext(),
-                manager.getOrientation());
-        recycler.addItemDecoration(dividerItemDecoration);
+
     }
 
     private void initEmptyView() {

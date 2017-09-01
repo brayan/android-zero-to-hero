@@ -30,7 +30,7 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
 
     @Override
     protected void onResumeFirstSession() {
-        String searchText = getView().getSearchText();
+        String searchText = getSearchText();
         loadExercises(searchText);
     }
 
@@ -71,8 +71,8 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
     }
 
     @Override
-    protected void onQueryTextChange(String text) {
-        loadExercises(text);
+    protected void onQueryTextChange() {
+        loadExercises(getSearchText());
     }
 
     private void loadExercises(final String searchText) {
