@@ -1,10 +1,8 @@
 package br.com.sailboat.zerotohero.view.workout.insert;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +32,6 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
     private RecyclerView recycler;
     private FloatingActionButton fab;
     private EditText etWorkoutName;
-    private View emptyList;
 
     public static InsertWorkoutFragment newInstance(long workoutId) {
         Bundle args = new Bundle();
@@ -70,6 +65,12 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
     }
 
     @Override
+    protected void initEmptyViewMessages() {
+        setEmptyViewMessage1(getString(R.string.no_exercises));
+        setEmptyViewMessage2(getString(R.string.click_plus_to_add));
+    }
+
+    @Override
     protected InsertWorkoutPresenter newPresenterInstance() {
         return new InsertWorkoutPresenter(this);
     }
@@ -89,7 +90,6 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         initEditTexts();
         initRecyclerView();
         initFab();
-        initEmptyView();
     }
 
     @Override
@@ -124,18 +124,8 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
     }
 
     @Override
-    public void showEmptyView() {
-        emptyList.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void showExercises() {
         recycler.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideEmptyView() {
-        emptyList.setVisibility(View.GONE);
     }
 
     @Override
@@ -184,21 +174,6 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
                 getPresenter().onClickAddExercises();
             }
         });
-    }
-
-    private void initEmptyView() {
-        emptyList = getView().findViewById(R.id.emptyList);
-
-        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
-        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_teal_300), PorterDuff.Mode.SRC_ATOP);
-
-        TextView tvTitle = (TextView) emptyList.findViewById(R.id.tvEmptyListTitle);
-        tvTitle.setText(R.string.no_exercises);
-
-        TextView tvMessage = (TextView) emptyList.findViewById(R.id.tvEmptyListMessage);
-        tvMessage.setText(R.string.click_plus_to_add);
-
-        emptyList.setVisibility(View.GONE);
     }
 
 }

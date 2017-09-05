@@ -77,10 +77,10 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
     private void updateVisibilityOfViews() {
         if (getWorkouts().isEmpty()) {
             getView().hideWorkouts();
-            getView().showEmptyList();
+            getView().showEmptyView();
         } else {
             getView().showWorkouts();
-            getView().hideEmptyList();
+            getView().hideEmptyView();
         }
     }
 
@@ -90,9 +90,7 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
         void startNewWorkoutActivity();
         void startWorkoutDetailsActivity(long workoutId);
         void hideWorkouts();
-        void showEmptyList();
         void showWorkouts();
-        void hideEmptyList();
     }
 
 }

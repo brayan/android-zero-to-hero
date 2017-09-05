@@ -2,10 +2,8 @@ package br.com.sailboat.zerotohero.view.exercise.selector;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -28,7 +24,6 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
 
     private Toolbar toolbar;
     private RecyclerView recycler;
-    private View emptyList;
     private FloatingActionButton fab;
 
     public static ExerciseSelectorFragment newInstance(List<Exercise> exercises) {
@@ -59,7 +54,6 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
     protected void initViews() {
         initToolbar();
         initRecyclerView();
-        initEmptyView();
         initFab();
     }
 
@@ -92,18 +86,8 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
     }
 
     @Override
-    public void showEmptyView() {
-        emptyList.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void showRecycler() {
         recycler.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideEmptyView() {
-        emptyList.setVisibility(View.GONE);
     }
 
     @Override
@@ -141,21 +125,6 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         ExerciseSelectorAdapter adapter = new ExerciseSelectorAdapter(this);
         recycler.setAdapter(adapter);
-    }
-
-    private void initEmptyView() {
-        emptyList = getView().findViewById(R.id.emptyList);
-
-        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
-        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_blue_300), PorterDuff.Mode.SRC_ATOP);
-
-        TextView tvTitle = (TextView) emptyList.findViewById(R.id.tvEmptyListTitle);
-        tvTitle.setText(R.string.no_exercises);
-
-        TextView tvMessage = (TextView) emptyList.findViewById(R.id.tvEmptyListMessage);
-        tvMessage.setVisibility(View.GONE);
-
-        emptyList.setVisibility(View.GONE);
     }
 
     private void initFab() {

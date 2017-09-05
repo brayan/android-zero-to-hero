@@ -218,9 +218,7 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
         void setTitle(String title);
         void updateExercises();
         void hideExercises();
-        void showEmptyView();
         void showExercises();
-        void hideEmptyView();
     }
 
 }

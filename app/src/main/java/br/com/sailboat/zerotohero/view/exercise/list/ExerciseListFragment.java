@@ -1,25 +1,31 @@
 package br.com.sailboat.zerotohero.view.exercise.list;
 
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.AppBarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.recycler.EndlessRecyclerOnScrollListener;
+import br.com.sailboat.canoe.view.info.InfoActivity;
 import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.zerotohero.helper.InfoHelper;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 import br.com.sailboat.zerotohero.view.exercise.details.ExerciseDetailsActivity;
 import br.com.sailboat.zerotohero.view.exercise.insert.InsertExerciseActivity;
+import br.com.sailboat.zerotohero.view.workout.list.WorkoutListActivity;
 
 public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> implements ExerciseListPresenter.View {
 
+    private AppBarLayout appbar;
+    private Toolbar toolbar;
     private RecyclerView recycler;
-    private View emptyList;
 
     @Override
     protected ExerciseListPresenter newPresenterInstance() {
@@ -29,6 +35,37 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
     @Override
     protected int getLayoutId() {
         return R.layout.frg_exercise_list;
+    }
+
+    @Override
+    protected void initEmptyViewMessages() {
+        setEmptyViewMessage1(getString(R.string.no_exercises));
+        setEmptyViewMessage2(getString(R.string.click_plus_to_add));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_exercise_list, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.menu_workouts: {
+                WorkoutListActivity.start(this);
+                return true;
+            }
+            case R.id.menu_info: {
+                InfoActivity.start(getActivity(), InfoHelper.getInfo(getActivity()));
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
+
     }
 
     @Override
@@ -61,24 +98,20 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
         recycler.setVisibility(View.GONE);
     }
 
-    @Override
-    public void showEmptyState() {
-        emptyList.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideEmptyState() {
-        emptyList.setVisibility(View.GONE);
-    }
-
     public void onClickFab() {
         getPresenter().onClickNewExercise();
     }
 
     @Override
     protected void initViews() {
+        appbar = (AppBarLayout) getView().findViewById(R.id.appbar);
+        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.app_name);
+
+        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
+        appCompatActivity.setSupportActionBar(toolbar);
+
         initRecyclerView();
-        initEmptyView();
     }
 
     private void initRecyclerView() {
@@ -98,18 +131,5 @@ public class ExerciseListFragment extends BaseFragment<ExerciseListPresenter> im
 
     }
 
-    private void initEmptyView() {
-        emptyList = getView().findViewById(R.id.emptyList);
-        ImageView imgEmpty = (ImageView) emptyList.findViewById(R.id.imgEmptyList);
-        imgEmpty.setColorFilter(ContextCompat.getColor(getActivity(), R.color.md_blue_300), PorterDuff.Mode.SRC_ATOP);
-
-        TextView tvTitle = (TextView) emptyList.findViewById(R.id.tvEmptyListTitle);
-        tvTitle.setText(R.string.no_exercises);
-
-        TextView tvMessage = (TextView) emptyList.findViewById(R.id.tvEmptyListMessage);
-        tvMessage.setText(R.string.click_plus_to_add);
-
-        emptyList.setVisibility(View.GONE);
-    }
 
 }

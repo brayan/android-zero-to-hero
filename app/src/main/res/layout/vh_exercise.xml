@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:background="@android:color/white"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:minHeight="64dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:minHeight="64dp">
 
     <FrameLayout
-        android:paddingTop="10dp"
-        android:background="?selectableItemBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
         android:paddingBottom="18dp"
+        android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingLeft="16dp">
+        android:paddingTop="10dp">
 
-        <include layout="@layout/exercise" />
+        <include layout="@layout/exercise"/>
 
     </FrameLayout>
 

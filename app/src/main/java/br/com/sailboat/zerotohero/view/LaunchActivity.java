@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import br.com.sailboat.zerotohero.view.main.MainActivity;
+import br.com.sailboat.zerotohero.view.exercise.list.ExerciseListActivity;
 
 public class LaunchActivity extends AppCompatActivity {
 
@@ -28,7 +28,7 @@ public class LaunchActivity extends AppCompatActivity {
 //            LogHelper.logException(e);
 //            startActivity(new Intent(this, MainActivity.class));
 //        }
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, ExerciseListActivity.class));
         finish();
     }
 

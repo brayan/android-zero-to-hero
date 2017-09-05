@@ -91,10 +91,10 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
     private void updateVisibilityOfViews() {
         if (viewModel.getExercises().isEmpty()) {
             getView().hideExercises();
-            getView().showEmptyState();
+            getView().showEmptyView();
         } else {
             getView().showExercises();
-            getView().hideEmptyState();
+            getView().hideEmptyView();
         }
     }
 
@@ -106,21 +106,14 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
         this.limit = limit;
     }
 
+
     public interface View extends BasePresenter.View {
-
         void startExerciseDetailsActivity(long exerciseId);
-
         void startNewExerciseActivity();
-
         void updateExercises();
-
         void showExercises();
-
         void hideExercises();
-
-        void showEmptyState();
-
-        void hideEmptyState();
     }
+
 
 }
