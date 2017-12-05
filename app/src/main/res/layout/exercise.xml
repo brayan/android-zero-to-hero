@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/md_blue_grey_300"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_xsmall"
                 tools:text="3 sets"/>
 
 
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/md_blue_grey_300"
-                android:textSize="@dimen/text_size_small"
+                android:textSize="@dimen/text_size_xsmall"
                 tools:text="3 reps"/>
 
 

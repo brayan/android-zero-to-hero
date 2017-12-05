@@ -40,6 +40,11 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     }
 
     @Override
+    protected ExerciseDetailsPresenter newPresenterInstance() {
+        return new ExerciseDetailsPresenter(this);
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_details, menu);
     }
@@ -55,11 +60,6 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
                 return super.onOptionsItemSelected(item);
             }
         }
-    }
-
-    @Override
-    protected ExerciseDetailsPresenter newPresenterInstance() {
-        return new ExerciseDetailsPresenter(this);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class ExerciseDetailsFragment extends BaseFragment<ExerciseDetailsPresent
     @Override
     public void showDialogDeleteExercise() {
         TwoOptionsDialog dialog = new TwoOptionsDialog();
-        dialog.setMessage(getString(R.string.delete_exercise));
+        dialog.setMessage(getString(R.string.are_you_sure));
         dialog.setPositiveMsg(getString(R.string.delete));
         dialog.setPositiveCallback(new TwoOptionsDialog.PositiveCallback() {
             @Override

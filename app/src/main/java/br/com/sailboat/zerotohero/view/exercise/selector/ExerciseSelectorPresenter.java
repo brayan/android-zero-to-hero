@@ -39,7 +39,8 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
         updateContentViews();
     }
 
-    public void onClickFabSave() {
+    @Override
+    public void onClickFab() {
         List<Exercise> exercises = getExercisesListFromLinkedHashMap();
         getView().closeActivityResultOk(exercises);
     }
@@ -119,7 +120,7 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
 
     private void updateContentViews() {
         updateTitle();
-        getView().updateExerciseList();
+        getView().updateRecycler();
         updateVisibilityOfViews();
     }
 
@@ -142,7 +143,7 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
     }
 
     private void updateExerciseView(int position) {
-        getView().updateExerciseView(position);
+        getView().updateRecyclerItemChanged(position);
     }
 
     private void updateSelectedExercisesArray(Exercise exercise) {
@@ -157,14 +158,7 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
 
 
     public interface View extends BasePresenter.View {
-        void updateExerciseList();
-        void setTitle(String title);
-        void updateExerciseView(int position);
         void closeActivityResultOk(List<Exercise> exercise);
-        void hideRecycler();
-        void showEmptyView();
-        void showRecycler();
-        void hideEmptyView();
     }
 
 }

@@ -59,7 +59,7 @@ public class ExerciseSQLite extends BaseSQLite {
         sb.append(" SELECT Exercise.* FROM Exercise ");
 
         if (StringHelper.isNotEmpty(search)) {
-            sb.append(" WHERE Exercise.name LIKE '%" +search+ "%'" );
+            sb.append(" WHERE Exercise.name LIKE '%" + search + "%'" );
         }
 
         sb.append(" ORDER BY Exercise.name COLLATE NOCASE ");

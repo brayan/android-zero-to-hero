@@ -2,11 +2,6 @@ package br.com.sailboat.zerotohero.view.workout.insert;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,15 +18,14 @@ import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 import br.com.sailboat.zerotohero.helper.RequestCodeHelper;
 import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
+import br.com.sailboat.zerotohero.view.adapter.ItemTouchHelperAdapter;
 import br.com.sailboat.zerotohero.view.adapter.SwipeExercise;
 import br.com.sailboat.zerotohero.view.exercise.selector.ExerciseSelectorActivity;
 
 public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> implements InsertWorkoutPresenter.View, ExercisesListAdapter.Callback {
 
-    private Toolbar toolbar;
-    private RecyclerView recycler;
-    private FloatingActionButton fab;
     private EditText etWorkoutName;
+
 
     public static InsertWorkoutFragment newInstance(long workoutId) {
         Bundle args = new Bundle();
@@ -41,9 +35,15 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         return fragment;
     }
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.frg_insert_workout;
+    }
+
+    @Override
+    protected InsertWorkoutPresenter newPresenterInstance() {
+        return new InsertWorkoutPresenter(this);
     }
 
     @Override
@@ -66,13 +66,32 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
 
     @Override
     protected void initEmptyViewMessages() {
-        setEmptyViewMessage1(getString(R.string.no_exercises));
-        setEmptyViewMessage2(getString(R.string.click_plus_to_add));
+        setEmptyViewMessage1(getString(R.string.no_exercises_found));
+        setEmptyViewMessage2(getString(R.string.ept_click_to_add));
     }
 
     @Override
-    protected InsertWorkoutPresenter newPresenterInstance() {
-        return new InsertWorkoutPresenter(this);
+    protected void onInitToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    protected void onInitRecycler() {
+        recycler.setAdapter(new ExercisesListAdapter(this));
+        ItemTouchHelper.Callback callback = new SwipeExercise(getActivity(), (ItemTouchHelperAdapter) recycler.getAdapter());
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recycler);
+    }
+
+    @Override
+    protected void initViews() {
+        etWorkoutName = (EditText) getView().findViewById(R.id.frg_insert_workout__et__name);
     }
 
     @Override
@@ -82,19 +101,6 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
                 getPresenter().onResultOkExerciseChooser(data);
             }
         }
-    }
-
-    @Override
-    protected void initViews() {
-        initToolbar();
-        initEditTexts();
-        initRecyclerView();
-        initFab();
-    }
-
-    @Override
-    public void updateExercises() {
-        recycler.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -114,21 +120,6 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
     }
 
     @Override
-    public void setTitle(String title) {
-        toolbar.setTitle(title);
-    }
-
-    @Override
-    public void hideExercises() {
-        recycler.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showExercises() {
-        recycler.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void onClickExercise(int position) {
     }
 
@@ -137,43 +128,9 @@ public class InsertWorkoutFragment extends BaseFragment<InsertWorkoutPresenter> 
         return getPresenter().getExercises();
     }
 
-    private void initRecyclerView() {
-        recycler = (RecyclerView) getView().findViewById(R.id.recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ExercisesListAdapter adapter = new ExercisesListAdapter(this);
-        recycler.setAdapter(adapter);
-
-        ItemTouchHelper.Callback callback = new SwipeExercise(getActivity(), adapter);
-        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
-        touchHelper.attachToRecyclerView(recycler);
-    }
-
-    private void initToolbar() {
-        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
-        appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-    }
-
-    private void initEditTexts() {
-        etWorkoutName = (EditText) getView().findViewById(R.id.frg_insert_workout__et__name);
-    }
-
-    private void initFab() {
-        fab = (FloatingActionButton) getView().findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getPresenter().onClickAddExercises();
-            }
-        });
+    @Override
+    public void onItemDismiss() {
+        presenter.onItemDismiss();
     }
 
 }

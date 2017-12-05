@@ -26,8 +26,14 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
         updateContentViews();
     }
 
-    public void onClickNewWorkout() {
+    @Override
+    public void onClickFab() {
         getView().startNewWorkoutActivity();
+    }
+
+    @Override
+    protected void onQueryTextChange() {
+        loadWorkouts();
     }
 
     public void onClickWorkout(int position) {
@@ -50,7 +56,7 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
 
             @Override
             public void doInBackground() throws Exception {
-                workouts =  WorkoutSQLite.newInstance(getContext()).getAll();
+                workouts =  WorkoutSQLite.newInstance(getContext()).getAll(getSearchText());
             }
 
             @Override
@@ -70,27 +76,24 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
     }
 
     private void updateContentViews() {
-        getView().updateWorkoutList();
+        getView().updateRecycler();
         updateVisibilityOfViews();
     }
 
     private void updateVisibilityOfViews() {
         if (getWorkouts().isEmpty()) {
-            getView().hideWorkouts();
+            getView().hideRecycler();
             getView().showEmptyView();
         } else {
-            getView().showWorkouts();
+            getView().showRecycler();
             getView().hideEmptyView();
         }
     }
 
 
     public interface View extends BasePresenter.View{
-        void updateWorkoutList();
         void startNewWorkoutActivity();
         void startWorkoutDetailsActivity(long workoutId);
-        void hideWorkouts();
-        void showWorkouts();
     }
 
 }

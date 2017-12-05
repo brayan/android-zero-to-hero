@@ -9,7 +9,7 @@ import br.com.sailboat.canoe.recycler.RecyclerItem;
 public class ExerciseDetailsViewModel {
 
     private long exerciseId = EntityHelper.NO_ID;
-    private final List<RecyclerItem> exerciseDetails = new ArrayList<>();
+    private final List<RecyclerItem> recyclerItemList = new ArrayList<>();
 
     public long getExerciseId() {
         return exerciseId;
@@ -19,7 +19,7 @@ public class ExerciseDetailsViewModel {
         this.exerciseId = exerciseId;
     }
 
-    public List<RecyclerItem> getExerciseDetails() {
-        return exerciseDetails;
+    public List<RecyclerItem> getRecyclerItemList() {
+        return recyclerItemList;
     }
 }

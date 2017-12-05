@@ -47,7 +47,8 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
         updateContentViews();
     }
 
-    public void onClickAddExercises() {
+    @Override
+    public void onClickFab() {
         ArrayList array = (ArrayList) viewModel.getExercises();
         getView().startExercisesChooserActivity(array);
     }
@@ -141,15 +142,15 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
     private void updateContentViews() {
         updateToolbarTitle();
         updateVisibilityOfViews();
-        getView().updateExercises();
+        getView().updateRecycler();
     }
 
     private void updateVisibilityOfViews() {
         if (getExercises().isEmpty()) {
-            getView().hideExercises();
+            getView().hideRecycler();
             getView().showEmptyView();
         } else {
-            getView().showExercises();
+            getView().showRecycler();
             getView().hideEmptyView();
         }
     }
@@ -210,15 +211,15 @@ public class InsertWorkoutPresenter extends BasePresenter<InsertWorkoutPresenter
         viewModel.setName(workout.getName());
     }
 
+    public void onItemDismiss() {
+        updateContentViews();
+    }
+
 
     public interface View extends BasePresenter.View {
         void startExercisesChooserActivity(ArrayList<Exercise> exercises);
         String getTextFromWorkoutName();
         void setWorkoutName(String name);
-        void setTitle(String title);
-        void updateExercises();
-        void hideExercises();
-        void showExercises();
     }
 
 }

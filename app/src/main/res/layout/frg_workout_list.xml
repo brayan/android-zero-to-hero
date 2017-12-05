@@ -4,8 +4,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
+    <include layout="@layout/appbar_scroll" />
+
     <include layout="@layout/ept_view" />
 
     <include layout="@layout/recycler" />
+
+    <include layout="@layout/fab" />
 
 </android.support.design.widget.CoordinatorLayout>

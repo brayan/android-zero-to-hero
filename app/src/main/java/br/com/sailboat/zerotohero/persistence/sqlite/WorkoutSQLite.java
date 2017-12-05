@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.com.sailboat.canoe.base.BaseSQLite;
 import br.com.sailboat.canoe.exception.EntityNotFoundException;
+import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.model.sqlite.Workout;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
 
@@ -52,9 +53,14 @@ public class WorkoutSQLite extends BaseSQLite {
         throw new EntityNotFoundException();
     }
 
-    public List<Workout> getAll() throws Exception {
+    public List<Workout> getAll(String search) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT Workout.* FROM Workout ");
+
+        if (StringHelper.isNotEmpty(search)) {
+            sb.append(" WHERE Workout.name LIKE '%" + search + "%'" );
+        }
+
         sb.append(" ORDER BY Workout.name COLLATE NOCASE ");
 
         return getWorkoutList(sb);
@@ -120,4 +126,17 @@ public class WorkoutSQLite extends BaseSQLite {
 
         return workout;
     }
+
+    public boolean hasWorkoutAdded() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" SELECT Workout.* FROM Workout ");
+
+        Cursor cursor = performQuery(sb.toString());
+        boolean hasWorkout = cursor.moveToNext();
+        cursor.close();
+
+        return hasWorkout;
+
+    }
+
 }

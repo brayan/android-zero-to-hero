@@ -2,21 +2,20 @@ package br.com.sailboat.zerotohero.view.workout.details;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.com.sailboat.canoe.base.BasePresenter;
 import br.com.sailboat.canoe.helper.AsyncHelper;
-import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.canoe.recycler.RecyclerItem;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.interactor.LoadWorkoutDetails;
 import br.com.sailboat.zerotohero.model.sqlite.Exercise;
-import br.com.sailboat.zerotohero.model.sqlite.Workout;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
-import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutExerciseSQLite;
 import br.com.sailboat.zerotohero.persistence.sqlite.WorkoutSQLite;
-import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 
-public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresenter.View> implements ExercisesListAdapter.Callback {
+public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresenter.View> {
 
     private WorkoutDetailsViewModel viewModel = new WorkoutDetailsViewModel();
 
@@ -37,10 +36,11 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
 
     @Override
     protected void onResumeAfterRestart() {
-        updateContentViews();
+        view.updateRecycler();
     }
 
-    public void onClickEditWorkout() {
+    @Override
+    public void onClickFab() {
         long workoutId = viewModel.getWorkoutId();
         getView().startEditWorkoutActivity(workoutId);
     }
@@ -72,9 +72,8 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
         });
     }
 
-    @Override
     public void onClickExercise(int position) {
-        Exercise exercise = getExercises().get(position);
+        Exercise exercise = (Exercise) getRecyclerItemList().get(position);
         getView().startExerciseDetailsActivity(exercise.getId());
     }
 
@@ -86,21 +85,17 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
 
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
-            Workout workout;
-            List<Exercise> exercises;
+            List<RecyclerItem> recyclerItemList = new ArrayList<>();
 
             @Override
             public void doInBackground() throws Exception {
-                long workoutId = viewModel.getWorkoutId();
-
-                workout = WorkoutSQLite.newInstance(getContext()).getWorkoutById(workoutId);
-                exercises = ExerciseSQLite.newInstance(getContext()).getFromWorkout(workoutId);
+                recyclerItemList = LoadWorkoutDetails.loadWorkoutDetails(getContext(), viewModel.getWorkoutId());
             }
 
             @Override
             public void onSuccess() {
                 updateViewModel();
-                updateContentViews();
+                view.updateRecycler();
             }
 
             @Override
@@ -110,33 +105,19 @@ public class WorkoutDetailsPresenter extends BasePresenter<WorkoutDetailsPresent
             }
 
             private void updateViewModel() {
-                viewModel.setWorkout(workout);
-                viewModel.getExerciseList().clear();
-                viewModel.getExerciseList().addAll(exercises);
+                viewModel.getRecyclerItemList().clear();
+                viewModel.getRecyclerItemList().addAll(recyclerItemList);
             }
 
         });
     }
 
-    private void updateContentViews() {
-        updateTitle();
-        getView().updateExerciseList();
-    }
-
-    private void updateTitle() {
-        getView().setSubtitle(viewModel.getExerciseList().size() + " " + getString(R.string.exercises));
-        getView().setTitle(viewModel.getWorkout().getName());
-    }
-
-    public List<Exercise> getExercises() {
-        return viewModel.getExerciseList();
+    public List<RecyclerItem> getRecyclerItemList() {
+        return viewModel.getRecyclerItemList();
     }
 
 
     public interface View extends BasePresenter.View {
-        void updateExerciseList();
-        void setTitle(String title);
-        void setSubtitle(String subtitle);
         void startEditWorkoutActivity(long workoutId);
         void showDialogDeleteWorkout();
         void startExerciseDetailsActivity(long exerciseId);

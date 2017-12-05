@@ -60,23 +60,33 @@
 
                 </android.support.v7.widget.CardView>
 
-                <FrameLayout
+                <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="100dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"
+                    app:cardCornerRadius="2dp">
 
-                    <android.support.v7.widget.RecyclerView
-                        android:nestedScrollingEnabled="false"
-                        android:id="@+id/recycler"
-                        android:paddingBottom="100dp"
-                        android:clipToPadding="false"
+                    <FrameLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@android:color/transparent"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                        android:layout_height="wrap_content">
 
-                    <include layout="@layout/ept_view"/>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/recycler"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:clipToPadding="false"
+                            android:nestedScrollingEnabled="false"
+                            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-                </FrameLayout>
+                        <include layout="@layout/ept_view"/>
+
+                    </FrameLayout>
+
+                </android.support.v7.widget.CardView>
 
             </LinearLayout>
 

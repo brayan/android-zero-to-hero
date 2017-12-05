@@ -1,5 +1,7 @@
 package br.com.sailboat.zerotohero.view.exercise.list;
 
+import android.os.AsyncTask;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,11 +14,9 @@ import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
 public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.View> implements ExercisesListAdapter.Callback {
 
     private ExerciseListViewModel viewModel = new ExerciseListViewModel();
-    private int limit = 0;
 
     public ExerciseListPresenter(ExerciseListPresenter.View view) {
         super(view);
-        setLimit(50);
     }
 
     @Override
@@ -39,8 +39,14 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
         getView().startExerciseDetailsActivity(exercise.getId());
     }
 
-    public void onClickNewExercise() {
+    @Override
+    public void onClickFab() {
         getView().startNewExerciseActivity();
+    }
+
+    @Override
+    protected void onQueryTextChange() {
+        loadExercises();
     }
 
     @Override
@@ -48,23 +54,19 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
         return viewModel.getExercises();
     }
 
-    public void onLoadMoreExercises(int currentPage) {
-        // TODO
-
-        // TOTAL: 1000 EXERCISES;
-        // INITIAL LOAD: 50;
-        // CURRENT PAGE: 1;
+    @Override
+    public void onItemDismiss() {
     }
 
     private void loadExercises() {
 
-        AsyncHelper.execute(new AsyncHelper.Callback() {
+        AsyncHelper.execute(AsyncTask.THREAD_POOL_EXECUTOR, new AsyncHelper.Callback() {
 
             List<Exercise> exercises = new ArrayList<>();
 
             @Override
             public void doInBackground() throws Exception {
-                exercises = ExerciseSQLite.newInstance(getContext()).getAll(null);
+                exercises = ExerciseSQLite.newInstance(getContext()).getAll(getSearchText());
             }
 
             @Override
@@ -90,29 +92,20 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
 
     private void updateVisibilityOfViews() {
         if (viewModel.getExercises().isEmpty()) {
-            getView().hideExercises();
+            getView().hideRecycler();
             getView().showEmptyView();
         } else {
-            getView().showExercises();
+            getView().showRecycler();
             getView().hideEmptyView();
         }
     }
 
-    public int getLimit() {
-        return limit;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
 
 
     public interface View extends BasePresenter.View {
         void startExerciseDetailsActivity(long exerciseId);
         void startNewExerciseActivity();
         void updateExercises();
-        void showExercises();
-        void hideExercises();
     }
 
 

@@ -54,6 +54,7 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
     public void onItemDismiss(int position) {
         callback.getExercises().remove(position);
         notifyItemRemoved(position);
+        callback.onItemDismiss();
     }
 
     private View inflateLayout(ViewGroup parent, int layoutId) {
@@ -63,6 +64,7 @@ public class ExercisesListAdapter extends RecyclerView.Adapter<ExerciseViewHolde
 
     public interface Callback extends ExerciseViewHolder.Callback {
         List<Exercise> getExercises();
+        void onItemDismiss();
     }
 
 

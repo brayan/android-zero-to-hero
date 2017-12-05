@@ -3,29 +3,23 @@ package br.com.sailboat.zerotohero.view.workout.details;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 import br.com.sailboat.canoe.base.BaseFragment;
 import br.com.sailboat.canoe.dialog.TwoOptionsDialog;
+import br.com.sailboat.canoe.recycler.RecyclerItem;
 import br.com.sailboat.zerotohero.R;
 import br.com.sailboat.zerotohero.helper.ExtrasHelper;
-import br.com.sailboat.zerotohero.view.adapter.ExercisesListAdapter;
+import br.com.sailboat.zerotohero.view.adapter.WorkoutDetailsAdapter;
 import br.com.sailboat.zerotohero.view.exercise.details.ExerciseDetailsActivity;
 import br.com.sailboat.zerotohero.view.workout.insert.InsertWorkoutActivity;
 
-public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsPresenter.View {
-
-    private Toolbar toolbar;
-    private RecyclerView recycler;
-    private FloatingActionButton fab;
+public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter> implements WorkoutDetailsPresenter.View, WorkoutDetailsAdapter.Callback {
 
 
     public static WorkoutDetailsFragment newInstance(long workoutId) {
@@ -41,6 +35,11 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     @Override
     protected int getLayoutId() {
         return R.layout.frg_workout_details;
+    }
+
+    @Override
+    protected WorkoutDetailsPresenter newPresenterInstance() {
+        return new WorkoutDetailsPresenter(this);
     }
 
     @Override
@@ -62,30 +61,25 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     }
 
     @Override
-    protected WorkoutDetailsPresenter newPresenterInstance() {
-        return new WorkoutDetailsPresenter(this);
+    protected void onInitToolbar() {
+        toolbar.setTitle(R.string.workout_details);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
     }
 
     @Override
-    protected void initViews() {
-        initToolbar();
-        initRecyclerView();
-        initFab();
+    protected void onInitRecycler() {
+        recycler.setAdapter(new WorkoutDetailsAdapter(this));
     }
 
     @Override
-    public void updateExerciseList() {
-        recycler.getAdapter().notifyDataSetChanged();
-    }
-
-    @Override
-    public void setTitle(String title) {
-        toolbar.setTitle(title);
-    }
-
-    @Override
-    public void setSubtitle(String subtitle) {
-        toolbar.setSubtitle(subtitle);
+    protected void onInitFab() {
+        fab.setImageResource(R.drawable.ic_edit_white_24dp);
     }
 
     @Override
@@ -96,7 +90,7 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
     @Override
     public void showDialogDeleteWorkout() {
         TwoOptionsDialog dialog = new TwoOptionsDialog();
-        dialog.setMessage(getString(R.string.delete_workout));
+        dialog.setMessage(getString(R.string.are_you_sure));
         dialog.setPositiveMsg(getString(R.string.delete));
         dialog.setPositiveCallback(new TwoOptionsDialog.PositiveCallback() {
             @Override
@@ -123,34 +117,14 @@ public class WorkoutDetailsFragment extends BaseFragment<WorkoutDetailsPresenter
         getActivity().finish();
     }
 
-    private void initToolbar() {
-        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
-        appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
+    @Override
+    public void onClickExercise(int position) {
+        presenter.onClickExercise(position);
     }
 
-    private void initRecyclerView() {
-        recycler = (RecyclerView) getView().findViewById(R.id.recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recycler.setAdapter(new ExercisesListAdapter(getPresenter()));
-    }
-
-    private void initFab() {
-        fab = (FloatingActionButton) getView().findViewById(R.id.fab);
-        fab.setImageResource(R.drawable.ic_edit_white_24dp);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getPresenter().onClickEditWorkout();
-            }
-        });
+    @Override
+    public List<RecyclerItem> getRecyclerItemList() {
+        return presenter.getRecyclerItemList();
     }
 
 }

@@ -1,19 +1,23 @@
 package br.com.sailboat.zerotohero.view.workout.list;
 
 import android.content.Intent;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import br.com.sailboat.canoe.base.BaseFragment;
+import br.com.sailboat.canoe.helper.ScrollHelper;
+import br.com.sailboat.canoe.view.about.AboutActivity;
 import br.com.sailboat.zerotohero.R;
+import br.com.sailboat.zerotohero.helper.ExtrasHelper;
+import br.com.sailboat.zerotohero.helper.AboutHelper;
 import br.com.sailboat.zerotohero.view.adapter.WorkoutListAdapter;
+import br.com.sailboat.zerotohero.view.exercise.list.ExerciseListActivity;
 import br.com.sailboat.zerotohero.view.workout.details.WorkoutDetailsActivity;
 import br.com.sailboat.zerotohero.view.workout.insert.InsertWorkoutActivity;
 
 public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> implements WorkoutListPresenter.View, WorkoutListAdapter.Callback {
-
-    private RecyclerView recycler;
 
     @Override
     protected int getLayoutId() {
@@ -26,24 +30,69 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     @Override
-    protected void postActivityResult(int requestCode, Intent data) {
-        getPresenter().postActivityResult();
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (ExtrasHelper.wasStartedFromMenu(getActivity().getIntent())) {
+            inflater.inflate(R.menu.menu_search, menu);
+        } else {
+            inflater.inflate(R.menu.menu_workout_list, menu);
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_exercises: {
+                ExerciseListActivity.startFromMenu(this);
+                return true;
+            }
+            case R.id.menu_about: {
+                AboutActivity.start(getActivity(), AboutHelper.getAbout(getActivity()));
+                return true;
+            }
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
+        }
     }
 
     @Override
     protected void initEmptyViewMessages() {
-        setEmptyViewMessage1("No workouts");
-        setEmptyViewMessage2("Create a new workout plan by tapping the + button");
+        setEmptyViewMessage1(getString(R.string.no_workouts_found));
+        setEmptyViewMessage2(getString(R.string.ept_click_to_add));
     }
 
     @Override
-    protected void initViews() {
-        initRecyclerView();
+    protected void onInitToolbar() {
+
+        if (ExtrasHelper.wasStartedFromMenu(getActivity().getIntent())) {
+            toolbar.setTitle(R.string.tab_workouts);
+            toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getActivity().onBackPressed();
+                }
+            });
+        } else {
+            toolbar.setTitle(R.string.app_name);
+        }
+
     }
 
     @Override
-    public void updateWorkoutList() {
-        recycler.getAdapter().notifyDataSetChanged();
+    protected void onInitRecycler() {
+        recycler.setAdapter(new WorkoutListAdapter(getPresenter().getWorkouts(), this));
+    }
+
+    @Override
+    protected void onInitFab() {
+        ScrollHelper.hideFabWhenScrolling(recycler, fab);
+    }
+
+    @Override
+    protected void postActivityResult(int requestCode, Intent data) {
+        getPresenter().postActivityResult();
     }
 
     @Override
@@ -57,29 +106,8 @@ public class WorkoutListFragment extends BaseFragment<WorkoutListPresenter> impl
     }
 
     @Override
-    public void hideWorkouts() {
-        recycler.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showWorkouts() {
-        recycler.setVisibility(View.VISIBLE);
-    }
-
-    @Override
     public void onClickWorkout(int position) {
         getPresenter().onClickWorkout(position);
-    }
-
-    public void onClickFab() {
-        getPresenter().onClickNewWorkout();
-    }
-
-    private void initRecyclerView() {
-        recycler = (RecyclerView) getView().findViewById(R.id.recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        WorkoutListAdapter adapter = new WorkoutListAdapter(getPresenter().getWorkouts(), this);
-        recycler.setAdapter(adapter);
     }
 
 }

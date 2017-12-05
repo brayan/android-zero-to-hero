@@ -11,12 +11,21 @@ import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 
 public class ExtrasHelper {
 
+    private static final String STARTED_FROM_MENU = "STARTED_FROM_MENU";
     private static final String WORKOUT_ID = "WORKOUT_ID";
     private static final String EXERCISE_ID = "EXERCISE_ID";
     private static final String EXERCISE_VIEW = "EXERCISE_VIEW";
     private static final String LIST_EXERCISE = "LIST_EXERCISE";
     private static final String LIST_EXERCISE_VIEW = "LIST_EXERCISE_VIEW";
     private static final String DELETE_EXERCISE = "DELETE_EXERCISE";
+
+    public static void putStartedFromMenu(boolean started, Intent intent) {
+        intent.putExtra(STARTED_FROM_MENU, started);
+    }
+
+    public static boolean wasStartedFromMenu(Intent intent) {
+        return intent != null && intent.getBooleanExtra(STARTED_FROM_MENU, false);
+    }
 
     public static void putExerciseId(long exerciseId, Bundle bundle) {
         bundle.putLong(EXERCISE_ID, exerciseId);

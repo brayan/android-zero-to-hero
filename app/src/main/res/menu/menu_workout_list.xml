@@ -11,8 +11,8 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_workouts"
-        android:title="@string/tab_workouts"
+        android:id="@+id/menu_exercises"
+        android:title="@string/tab_exercises"
         app:showAsAction="never"/>
 
     <item

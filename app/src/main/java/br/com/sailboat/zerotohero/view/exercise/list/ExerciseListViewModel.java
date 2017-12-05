@@ -16,4 +16,5 @@ public class ExerciseListViewModel {
     public List<Exercise> getExercises() {
         return exercises;
     }
+
 }

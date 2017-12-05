@@ -6,4 +6,5 @@ public class ViewType {
     public static final int LABEL = 1;
     public static final int LABEL_VALUE = 2;
     public static final int EXERCISE_HISTORY = 3;
+    public static final int EXERCISE = 4;
 }

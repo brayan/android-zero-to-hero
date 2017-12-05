@@ -79,7 +79,7 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
 
     @Override
     public List<RecyclerItem> getExerciseDetails() {
-        return viewModel.getExerciseDetails();
+        return viewModel.getRecyclerItemList();
     }
 
     private void updateContentViews() {
@@ -104,8 +104,8 @@ public class ExerciseDetailsPresenter extends BasePresenter<ExerciseDetailsPrese
 
             @Override
             public void onSuccess() {
-                getViewModel().getExerciseDetails().clear();
-                getViewModel().getExerciseDetails().addAll(exerciseDetails);
+                getViewModel().getRecyclerItemList().clear();
+                getViewModel().getRecyclerItemList().addAll(exerciseDetails);
                 updateContentViews();
             }
 

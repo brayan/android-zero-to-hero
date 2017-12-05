@@ -11,10 +11,12 @@ import br.com.sailboat.zerotohero.helper.RequestCodeHelper;
 
 public class WorkoutDetailsActivity extends BaseActivitySingleFragment<WorkoutDetailsFragment> {
 
+
     public static void start(Fragment fragment, long workoutId) {
         Intent starter = getStartIntent(fragment.getActivity(), workoutId);
         fragment.startActivityForResult(starter, RequestCodeHelper.WORKOUT_DETAILS);
     }
+
 
     @NonNull
     private static Intent getStartIntent(Context context, long workoutId) {

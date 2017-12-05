@@ -3,11 +3,6 @@ package br.com.sailboat.zerotohero.view.exercise.selector;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -22,9 +17,6 @@ import br.com.sailboat.zerotohero.view.adapter.ExerciseSelectorAdapter;
 
 public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPresenter> implements ExerciseSelectorPresenter.View, ExerciseSelectorAdapter.Callback {
 
-    private Toolbar toolbar;
-    private RecyclerView recycler;
-    private FloatingActionButton fab;
 
     public static ExerciseSelectorFragment newInstance(List<Exercise> exercises) {
         Bundle args = new Bundle();
@@ -33,6 +25,7 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     protected int getLayoutId() {
@@ -51,25 +44,25 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
     }
 
     @Override
-    protected void initViews() {
-        initToolbar();
-        initRecyclerView();
-        initFab();
+    protected void onInitToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+        toolbar.setTitle(R.string.app_name);
     }
 
     @Override
-    public void updateExerciseList() {
-        recycler.getAdapter().notifyDataSetChanged();
+    protected void onInitRecycler() {
+        recycler.setAdapter(new ExerciseSelectorAdapter(this));
     }
 
     @Override
-    public void setTitle(String title) {
-        toolbar.setTitle(title);
-    }
-
-    @Override
-    public void updateExerciseView(int position) {
-        recycler.getAdapter().notifyItemChanged(position);
+    protected void onInitFab() {
+        fab.setImageResource(R.drawable.ic_check_white_24dp);
     }
 
     @Override
@@ -78,16 +71,6 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
         ExtrasHelper.putExercises(exercises, data);
         getActivity().setResult(Activity.RESULT_OK, data);
         getActivity().finish();
-    }
-
-    @Override
-    public void hideRecycler() {
-        recycler.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showRecycler() {
-        recycler.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -103,39 +86,6 @@ public class ExerciseSelectorFragment extends BaseFragment<ExerciseSelectorPrese
     @Override
     public boolean isExerciseSelected(Exercise exercise) {
         return getPresenter().isExerciseSelected(exercise);
-    }
-
-    private void initToolbar() {
-        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
-        appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-        toolbar.setTitle(R.string.app_name);
-    }
-
-    private void initRecyclerView() {
-        recycler = (RecyclerView) getView().findViewById(R.id.recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        ExerciseSelectorAdapter adapter = new ExerciseSelectorAdapter(this);
-        recycler.setAdapter(adapter);
-    }
-
-    private void initFab() {
-        fab = (FloatingActionButton) getView().findViewById(R.id.fab);
-        fab.setImageResource(R.drawable.ic_check_white_24dp);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getPresenter().onClickFabSave();
-            }
-        });
     }
 
 }

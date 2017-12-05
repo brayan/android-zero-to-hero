@@ -1,8 +1,6 @@
 package br.com.sailboat.zerotohero.view.exercise.insert;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +14,6 @@ import br.com.sailboat.zerotohero.helper.ExtrasHelper;
 
 public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter> implements InsertExercisePresenter.View {
 
-    private Toolbar toolbar;
     private EditText etName;
     private EditText etWeight;
     private EditText etSets;
@@ -33,6 +30,7 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
         return fragment;
     }
 
+
     @Override
     protected int getLayoutId() {
         return R.layout.frg_insert_exercise;
@@ -41,12 +39,6 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     @Override
     protected InsertExercisePresenter newPresenterInstance() {
         return new InsertExercisePresenter(this);
-    }
-
-    @Override
-    protected void initViews() {
-        initToolbar();
-        initEditTexts();
     }
 
     @Override
@@ -65,6 +57,22 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
                 return super.onOptionsItemSelected(item);
             }
         }
+    }
+
+    @Override
+    protected void onInitToolbar() {
+        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+    }
+
+    @Override
+    protected void initViews() {
+        initEditTexts();
     }
 
     @Override
@@ -126,20 +134,6 @@ public class InsertExerciseFragment extends BaseFragment<InsertExercisePresenter
     @Override
     public void showKeyboard() {
         UIHelper.openKeyboard(getActivity(), etName);
-    }
-
-    private void initToolbar() {
-        toolbar = (Toolbar) getView().findViewById(R.id.toolbar);
-        AppCompatActivity appCompatActivity = ((AppCompatActivity) getActivity());
-        appCompatActivity.setSupportActionBar(toolbar);
-        appCompatActivity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
     }
 
     private void initEditTexts() {

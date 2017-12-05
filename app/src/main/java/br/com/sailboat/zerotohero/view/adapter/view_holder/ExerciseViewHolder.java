@@ -46,7 +46,7 @@ public class ExerciseViewHolder extends BaseViewHolder {
             tvName.setText(exercise.getName());
             ExerciseHistory lastHistory = ExerciseHistorySQLite.newInstance(itemView.getContext()).getMostRecentExerciseHistory(exercise.getId());
             tvWeight.setText(String.valueOf(DecimalHelper.formatValue(lastHistory.getWeight(), 1)));
-            tvSets.setText(String.valueOf(lastHistory.getSets()) + " sets ");
+            tvSets.setText(String.valueOf(lastHistory.getSets()) + " sets");
             tvReps.setText(String.valueOf(lastHistory.getReps()) + " reps");
 
         } catch (EntityNotFoundException e) {

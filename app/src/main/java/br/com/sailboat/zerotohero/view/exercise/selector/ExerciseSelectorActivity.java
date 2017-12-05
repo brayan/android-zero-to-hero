@@ -12,11 +12,13 @@ import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 
 public class ExerciseSelectorActivity extends BaseActivitySingleFragment<ExerciseSelectorFragment> {
 
+
     public static void start(Fragment fragment, List<Exercise> exercises) {
         Intent starter = new Intent(fragment.getActivity(), ExerciseSelectorActivity.class);
         ExtrasHelper.putExercises(exercises, starter);
         fragment.startActivityForResult(starter, RequestCodeHelper.EXERCISE_SELECTOR);
     }
+
 
     @Override
     protected ExerciseSelectorFragment newFragmentInstance() {
