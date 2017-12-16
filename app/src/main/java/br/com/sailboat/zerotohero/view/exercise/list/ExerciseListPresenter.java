@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.sailboat.canoe.base.BasePresenter;
+import br.com.sailboat.canoe.filter.Filter;
 import br.com.sailboat.canoe.helper.AsyncHelper;
 import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.persistence.sqlite.ExerciseSQLite;
@@ -17,6 +18,7 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
 
     public ExerciseListPresenter(ExerciseListPresenter.View view) {
         super(view);
+        viewModel.setFilter(new Filter());
     }
 
     @Override
@@ -46,6 +48,7 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
 
     @Override
     protected void onQueryTextChange() {
+        viewModel.getFilter().setSearchText(getSearchText());
         loadExercises();
     }
 
@@ -66,7 +69,7 @@ public class ExerciseListPresenter extends BasePresenter<ExerciseListPresenter.V
 
             @Override
             public void doInBackground() throws Exception {
-                exercises = ExerciseSQLite.newInstance(getContext()).getAll(getSearchText());
+                exercises = ExerciseSQLite.newInstance(getContext()).getAll(viewModel.getFilter());
             }
 
             @Override

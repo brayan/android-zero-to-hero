@@ -33,6 +33,7 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
 
     @Override
     protected void onQueryTextChange() {
+        viewModel.getFilter().setSearchText(getSearchText());
         loadWorkouts();
     }
 
@@ -56,7 +57,7 @@ public class WorkoutListPresenter extends BasePresenter<WorkoutListPresenter.Vie
 
             @Override
             public void doInBackground() throws Exception {
-                workouts =  WorkoutSQLite.newInstance(getContext()).getAll(getSearchText());
+                workouts =  WorkoutSQLite.newInstance(getContext()).getAll(viewModel.getFilter());
             }
 
             @Override

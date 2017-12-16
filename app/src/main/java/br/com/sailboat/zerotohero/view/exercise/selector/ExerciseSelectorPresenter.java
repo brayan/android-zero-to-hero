@@ -30,13 +30,18 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
 
     @Override
     protected void onResumeFirstSession() {
-        String searchText = getSearchText();
-        loadExercises(searchText);
+        loadExercises();
     }
 
     @Override
     protected void onResumeAfterRestart() {
         updateContentViews();
+    }
+
+    @Override
+    protected void onQueryTextChange() {
+        viewModel.getFilter().setSearchText(getSearchText());
+        loadExercises();
     }
 
     @Override
@@ -71,12 +76,7 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
         return new ArrayList<>(selectedExercises.values());
     }
 
-    @Override
-    protected void onQueryTextChange() {
-        loadExercises(getSearchText());
-    }
-
-    private void loadExercises(final String searchText) {
+    private void loadExercises() {
 
         AsyncHelper.execute(new AsyncHelper.Callback() {
 
@@ -84,7 +84,7 @@ public class ExerciseSelectorPresenter extends BasePresenter<ExerciseSelectorPre
 
             @Override
             public void doInBackground() throws Exception {
-                exercises = ExerciseSQLite.newInstance(getContext()).getAll(searchText);
+                exercises = ExerciseSQLite.newInstance(getContext()).getAll(viewModel.getFilter());
             }
 
             @Override

@@ -88,7 +88,7 @@ public class ExerciseHistorySQLite extends BaseSQLite {
     public void deleteFromExercise(long exerciseId) throws Exception {
         String query = "DELETE FROM ExerciseHistory WHERE ExerciseHistory.exerciseId = ?";
         SQLiteStatement statement = compileStatement(query);
-        statement.bindLong(1, id);
+        statement.bindLong(1, exerciseId);
 
         delete(statement);
     }

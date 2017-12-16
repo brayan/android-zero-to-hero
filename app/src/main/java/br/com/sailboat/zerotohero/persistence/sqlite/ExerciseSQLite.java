@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.com.sailboat.canoe.base.BaseSQLite;
 import br.com.sailboat.canoe.exception.EntityNotFoundException;
+import br.com.sailboat.canoe.filter.Filter;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.model.sqlite.Exercise;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
@@ -54,17 +55,17 @@ public class ExerciseSQLite extends BaseSQLite {
         throw new EntityNotFoundException();
     }
 
-    public List<Exercise> getAll(String search) throws Exception {
+    public List<Exercise> getAll(Filter filter) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT Exercise.* FROM Exercise ");
 
-        if (StringHelper.isNotEmpty(search)) {
-            sb.append(" WHERE Exercise.name LIKE '%" + search + "%'" );
+        if (filter != null && StringHelper.isNotEmpty(filter.getSearchText())) {
+            sb.append(" WHERE Exercise.name LIKE ? " );
         }
 
         sb.append(" ORDER BY Exercise.name COLLATE NOCASE ");
 
-        return getExerciseList(sb.toString());
+        return getExerciseList(sb.toString(), filter);
     }
 
     public List<Exercise> getFromWorkout(long workoutId) throws Exception {
@@ -75,7 +76,7 @@ public class ExerciseSQLite extends BaseSQLite {
         sb.append(" WHERE WorkoutExercise.workoutId = " + workoutId);
         sb.append(" ORDER BY WorkoutExercise.position ");
 
-        return getExerciseList(sb.toString());
+        return getExerciseList(sb.toString(), null);
     }
 
     public long save(Exercise exercise) throws Exception {
@@ -111,20 +112,8 @@ public class ExerciseSQLite extends BaseSQLite {
         delete(statement);
     }
 
-    public boolean hasExerciseAdded() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(" SELECT Exercise.* FROM Exercise ");
-
-        Cursor cursor = performQuery(sb.toString());
-        boolean hasExercise = cursor.moveToNext();
-        cursor.close();
-
-        return hasExercise;
-
-    }
-
-    private List<Exercise> getExerciseList(String query) {
-        Cursor cursor = performQuery(query);
+    private List<Exercise> getExerciseList(String query, Filter filter) {
+        Cursor cursor = performQuery(query, filter);
         List<Exercise> exercises = new ArrayList<>();
 
         while (cursor.moveToNext()) {

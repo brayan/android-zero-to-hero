@@ -11,6 +11,7 @@ import java.util.List;
 
 import br.com.sailboat.canoe.base.BaseSQLite;
 import br.com.sailboat.canoe.exception.EntityNotFoundException;
+import br.com.sailboat.canoe.filter.Filter;
 import br.com.sailboat.canoe.helper.StringHelper;
 import br.com.sailboat.zerotohero.model.sqlite.Workout;
 import br.com.sailboat.zerotohero.persistence.DatabaseOpenHelper;
@@ -53,17 +54,17 @@ public class WorkoutSQLite extends BaseSQLite {
         throw new EntityNotFoundException();
     }
 
-    public List<Workout> getAll(String search) throws Exception {
+    public List<Workout> getAll(Filter filter) throws Exception {
         StringBuilder sb = new StringBuilder();
         sb.append(" SELECT Workout.* FROM Workout ");
 
-        if (StringHelper.isNotEmpty(search)) {
-            sb.append(" WHERE Workout.name LIKE '%" + search + "%'" );
+        if (filter != null && StringHelper.isNotEmpty(filter.getSearchText())) {
+            sb.append(" WHERE Workout.name LIKE ? ");
         }
 
         sb.append(" ORDER BY Workout.name COLLATE NOCASE ");
 
-        return getWorkoutList(sb);
+        return getWorkoutList(sb, filter);
     }
 
     public long save(Workout workout) throws Exception {
@@ -104,8 +105,8 @@ public class WorkoutSQLite extends BaseSQLite {
         delete(statement);
     }
 
-    private List<Workout> getWorkoutList(StringBuilder query) {
-        Cursor cursor = performQuery(query.toString());
+    private List<Workout> getWorkoutList(StringBuilder query, Filter filter) {
+        Cursor cursor = performQuery(query.toString(), filter);
         List<Workout> workouts = new ArrayList<>();
 
         while (cursor.moveToNext()) {
