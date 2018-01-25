@@ -16,7 +16,7 @@
     <string name="exeption_exercise_weight">É necessário inserir o peso do treino</string>
     <string name="exeption_exercise_sets">É necessário inserir o número de sets</string>
     <string name="exeption_exercise_reps">É necessário inserir o número de repetições</string>
-    <string name="exeption_selected_exercises">É necessário adicionar pelo menos 1 exercício</string>
+    <string name="exeption_selected_exercises">É necessário adicionar pelo menos um exercício</string>
     <string name="edit_workout">Editar Treino</string>
     <string name="edit_exercise">Editar Exercício</string>
     <string name="new_exercise">Novo Exercício</string>
