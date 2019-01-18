@@ -17,7 +17,7 @@
         android:ellipsize="end"
         android:gravity="end"
         android:paddingRight="16dp"
-        android:textColor="@color/default_date"
+        android:textColor="@color/default_background"
         android:textSize="@dimen/text_size_xxsmall"
         android:textStyle="bold"
         tools:text="25/04/2017"/>
