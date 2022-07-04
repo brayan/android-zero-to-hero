@@ -11,4 +11,8 @@ class ExerciseRepositoryImpl : ExerciseRepository {
             name = "Kettlebell Swings"
         )
     }
+
+    override suspend fun deleteExercise(id: Long) {
+        // TODO: delete exercise
+    }
 }
