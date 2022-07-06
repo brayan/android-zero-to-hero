@@ -15,4 +15,8 @@ class ExerciseRepositoryImpl : ExerciseRepository {
     override suspend fun deleteExercise(id: Long) {
         // TODO: delete exercise
     }
+
+    override suspend fun save(exercise: Exercise) {
+        // TODO: save exercise
+    }
 }
