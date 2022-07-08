@@ -12,6 +12,15 @@ class ExerciseRepositoryImpl : ExerciseRepository {
         )
     }
 
+    override suspend fun getExercises(): List<Exercise> {
+        return listOf(
+            Exercise(
+                id = 42L,
+                name = "Kettlebell Swings"
+            )
+        )
+    }
+
     override suspend fun deleteExercise(id: Long) {
         // TODO: delete exercise
     }
