@@ -31,8 +31,29 @@ kotlin {
                 implementation(MockK.core)
             }
         }
-        val androidMain by getting
-        val androidTest by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(Coroutines.core)
+                implementation(Coroutines.android)
+                implementation(Lifecycle.viewModel)
+                implementation(Lifecycle.runtime)
+                implementation(Lifecycle.liveData)
+                implementation(Koin.android)
+                implementation(AndroidX.appcompat)
+                implementation(AndroidX.recyclerview)
+                implementation(AndroidX.constraintLayout)
+                implementation(AndroidX.materialDesign)
+            }
+        }
+        val androidTest by getting {
+            dependencies {
+                implementation(Junit.junit)
+                implementation(MockK.core)
+                implementation(Kotlin.test)
+                implementation(Coroutines.test)
+                implementation(Lifecycle.test)
+            }
+        }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
