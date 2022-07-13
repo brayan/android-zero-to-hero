@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.presentation
+package br.com.sailboat.zerotohero.android.feature.exercise.list.presentation.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import br.com.sailboat.zerotohero.domain.model.Exercise

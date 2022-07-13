@@ -1,4 +1,4 @@
-package br.com.sailboat.zerotohero.base
+package br.com.sailboat.zerotohero.android.base
 
 import androidx.lifecycle.ViewModel
 

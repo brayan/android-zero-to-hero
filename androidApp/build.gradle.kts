@@ -21,7 +21,23 @@ android {
 
 dependencies {
     implementation(project(":shared"))
-    implementation("com.google.android.material:material:1.4.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.0")
+
+    implementation(Coroutines.core)
+    implementation(Coroutines.android)
+    implementation(Coroutines.test)
+    implementation(Lifecycle.viewModel)
+    implementation(Lifecycle.runtime)
+    implementation(Lifecycle.liveData)
+    implementation(Koin.android)
+    implementation(AndroidX.appcompat)
+    implementation(AndroidX.recyclerview)
+    implementation(AndroidX.constraintLayout)
+    implementation(AndroidX.materialDesign)
+    implementation(Junit.junit)
+
+    testImplementation(Junit.junit)
+    testImplementation(MockK.core)
+    testImplementation(Kotlin.test)
+    testImplementation(Coroutines.test)
+    testImplementation(Lifecycle.test)
 }
