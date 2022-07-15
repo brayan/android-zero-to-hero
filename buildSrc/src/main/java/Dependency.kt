@@ -97,6 +97,27 @@ object AndroidXTest {
     const val orchestrator = "androidx.test:orchestrator:${Version.test}"
 }
 
+object Compose {
+    object Version {
+        const val compiler = "1.2.0"
+        const val compose = "1.1.1"
+        const val runtimeKtx = "2.5.0"
+        const val activity = "1.5.0"
+    }
+
+    const val ui = "androidx.compose.ui:ui:${Version.compose}"
+    const val uiTooling = "androidx.compose.ui:ui-tooling:${Version.compose}"
+    const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview:${Version.compose}"
+    const val foundation = "androidx.compose.foundation:foundation:${Version.compose}"
+    const val material = "androidx.compose.material:material:${Version.compose}"
+    const val materialIconsCore = "androidx.compose.material:material-icons-core:${Version.compose}"
+    const val materialIconsExtended = "androidx.compose.material:material-icons-extended:${Version.compose}"
+    const val runtimeLiveData = "androidx.compose.runtime:runtime-livedata:${Version.compose}"
+    const val lifecycleRuntimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:${Version.runtimeKtx}"
+    const val uiTest = "androidx.compose.ui:ui-test-junit4:${Version.compose}"
+    const val activity = "androidx.activity:activity-compose:${Version.activity}"
+}
+
 object MockK {
     object Version {
         const val mockk = "1.12.0"

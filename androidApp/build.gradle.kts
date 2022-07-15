@@ -17,6 +17,15 @@ android {
             isMinifyEnabled = false
         }
     }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Compose.Version.compiler
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -34,6 +43,16 @@ dependencies {
     implementation(AndroidX.constraintLayout)
     implementation(AndroidX.materialDesign)
     implementation(Junit.junit)
+    implementation(Compose.ui)
+    implementation(Compose.uiTooling)
+    implementation(Compose.uiToolingPreview)
+    implementation(Compose.lifecycleRuntimeKtx)
+    implementation(Compose.activity)
+    implementation(Compose.foundation)
+    implementation(Compose.material)
+    implementation(Compose.materialIconsCore)
+    implementation(Compose.materialIconsExtended)
+    implementation(Compose.runtimeLiveData)
 
     testImplementation(Junit.junit)
     testImplementation(MockK.core)
