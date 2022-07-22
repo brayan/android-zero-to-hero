@@ -12,8 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import br.com.sailboat.zerotohero.Greeting
-import br.com.sailboat.zerotohero.android.composable.ExerciseItem
+import br.com.sailboat.zerotohero.android.composable.ExerciseItemComposable
 import br.com.sailboat.zerotohero.android.theme.MyComposeAppTheme
+import br.com.sailboat.zerotohero.android.uimodel.ExerciseUi
 
 fun greet(): String {
     return Greeting().greeting()
@@ -23,6 +24,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val exerciseUi = ExerciseUi(id = 42L, name = "Kettlebell Swings", sets = 1, repetitions = 60)
+
         setContent {
             Scaffold(
                 topBar = {
@@ -34,11 +38,8 @@ class MainActivity : ComponentActivity() {
                     }
                 }
             ) {
-                ExerciseItem(
-                    name = "Kettlebell Swings",
-                    sets = 1,
-                    repetitions = 60,
-                )
+                ExerciseItemComposable(exerciseUi) {
+                }
             }
         }
     }
@@ -52,11 +53,9 @@ fun Greeting(name: String) {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
+    val exerciseUi = ExerciseUi(id = 42L, name = "Kettlebell Swings", sets = 1, repetitions = 60)
     MyComposeAppTheme {
-        ExerciseItem(
-            name = "Kettlebell Swings",
-            sets = 1,
-            repetitions = 60,
-        )
+        ExerciseItemComposable(exerciseUi) {
+        }
     }
 }
